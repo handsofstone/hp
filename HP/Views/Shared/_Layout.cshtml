@@ -30,18 +30,31 @@
                         <li>@Html.ActionLink("Team", "Team", "Home")</li>
                         <li>@Html.ActionLink("Standings", "Standings", "Pool")</li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="navbar-form">
+                            <div class="form-group">
+                                <select class="form-control" id="sel1">
+                                    <option>New Life</option>
+                                    <option>CHL</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse navbar-right">
+
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - handsofstone.ca</p>
-            </footer>
-        </div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - handsofstone.ca</p>
+        </footer>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

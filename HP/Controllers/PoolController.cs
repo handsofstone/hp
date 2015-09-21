@@ -44,7 +44,6 @@ namespace HP.Controllers
 
             }
             return View(model);
-            return View();
         }
 
         public ActionResult Team()
