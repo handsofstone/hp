@@ -1,6 +1,8 @@
 ﻿@model HP.Models.LoginViewModel
 
-<div class="navbar navbar-inverse navbar-fixed-top">
+
+
+<div id = "login" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
@@ -12,7 +14,7 @@
             @Html.ActionLink("handsofstone", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "navbar-brand" })
         </div>
         <div class="navbar-collapse collapse">
-            @Html.ValidationSummary("", new { @class = "text-danger" })
+            @Html.ValidationSummary("", new { @class = "navbar text-danger" })
             @if (Request.IsAuthenticated)
             {
                 using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-form navbar-right" }))
@@ -24,29 +26,30 @@
                     {
                         name = claim.Value;
                     }
-                            <span class="glyphicon glyphicon-user grey" aria-hidden="true"></span>
-                            @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
-                                <button type="submit" class="btn btn-success" title="Sign Out">
-                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                                </button>
+                    <span class="glyphicon glyphicon-user grey" aria-hidden="true"></span>
+                    @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    <button type="submit" class="btn btn-success" title="Sign Out">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                    </button>
                 }
             }
             else
             {
-                using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", @class = "navbar-form navbar-right" }))
+                using (Ajax.BeginForm("Login", "Account", new AjaxOptions { HttpMethod = "POST", Url = Url.Action("Login", "Account"),
+                    UpdateTargetId = "login" }, new { id = "login", @class = "navbar-form navbar-right" }))
                 {
                     @Html.AntiForgeryToken()
-                        <div class="form-group">
-                            @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control" })
-                        </div>
-                        <button type="submit" class="btn btn-success" title="Sign In">
-                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                        </button>
-                    }
+                    <div class="form-group">
+                        @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control" })
+                    </div>
+                    <button type="submit" class="btn btn-success" title="Sign In">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    </button>
                 }
-            </div>
+            }
         </div>
     </div>
+</div>

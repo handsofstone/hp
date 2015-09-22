@@ -204,8 +204,8 @@
       <DependentUpon>201509192251178_InitialDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
-    <Compile Include="Models\NLPool.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Pool.cs" />
     <Compile Include="Models\Pool_Standing.cs" />
@@ -221,7 +221,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\PoolViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -232,6 +232,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Pool\Standings.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

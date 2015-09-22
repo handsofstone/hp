@@ -31,5 +31,15 @@ namespace HP.Models
             userIdentity.AddClaim(new Claim("Name", Name != null ? Name : " "));
             return userIdentity;
         }
+
+        public ICollection<Pool> GetPools()
+        {
+            ICollection<Pool> pools = new SortedSet<Pool>();
+
+            foreach (Team team in Teams)
+                pools.Add(team.Pool);
+
+            return pools;
+        }
     }
 }

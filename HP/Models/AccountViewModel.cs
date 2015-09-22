@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.Web.Mvc;
 
 namespace HP.Models
 {
@@ -38,7 +38,7 @@ namespace HP.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -53,4 +53,12 @@ namespace HP.Models
         public string Name { get; set; }
     }
 
+    public class MenuViewModel
+    {
+        public IList<SelectListItem> Pools { get; set; }
+        public string SelectedPoolId { get; set; }
+
+        public IList<Team> Teams { get; set; }
+        public Team SelectedTeam { get; set; }
+    }
 }

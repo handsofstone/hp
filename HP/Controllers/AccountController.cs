@@ -67,7 +67,7 @@ namespace HP.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new LoginViewModel());
         }
 
         // POST: /Account/Login
@@ -95,7 +95,8 @@ namespace HP.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View();
+                    //return RedirectToAction("Index", "Home");
+                    return PartialView("_LoginPartial");
             }
         }
 
@@ -113,6 +114,36 @@ namespace HP.Controllers
         public ActionResult Register()
         {
             return View();
+        }
+
+        // GET: /Account/Menu
+        [AllowAnonymous]
+        public ActionResult Menu(string returnUrl)
+        {
+            var model = new MenuViewModel();
+
+            if (!ModelState.IsValid)
+            {
+                var user = UserManager.FindById(User.Identity.GetUserId());
+
+                foreach (var pool in user.GetPools())
+                    model.Pools.Add(new SelectListItem() { Text = pool.Name, Value = pool.Id.ToString() });
+            }
+            //ViewBag.ReturnUrl = returnUrl;
+            return View();
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> Menu(MenuViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView(model);
+            }
+            return PartialView(model);
         }
 
         [HttpPost]
@@ -156,17 +187,6 @@ namespace HP.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
-
-        public bool IsValid(string _username, string _password)
-        {
-            using (var db = new NLPool())
-            {
-                // bool? isValid = db.IsValidUser(_username, _password).FirstOrDefault();
-
-                // return isValid.HasValue && (bool)isValid ? true : false;
-                return true;
-            }
         }
 
         public ActionResult Manage()
