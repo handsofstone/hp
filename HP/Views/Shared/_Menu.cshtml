@@ -1,4 +1,33 @@
 ﻿@model HP.Models.MenuViewModel
+<script>
+    $(document).ready(function () {
+        //Dropdownlist Selectedchange event
+        $("#SelectedPoolId").change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SetPool")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#SelectedPoolId").val() },
+                // here we are get value of selected country and passing same value
+                //as input to json method GetStates.
+
+                success: function (teams) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+
+                    $.each(teams, function (i, state) {
+                        $("#teams").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        // here we are adding option for States
+                    });
+                },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+    });
+</script>
 
 <div class="navbar navbar-default navbar-static-top">
     <div class="container">
@@ -15,26 +44,43 @@
                 <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = "active" })</li>
                 @if (Request.IsAuthenticated)
                 {
-                    <li>@Html.ActionLink("Team", "Team", "Home")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            @Html.DisplayNameFor(model => Model.SelectedTeam) <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" id="teams">
+                            @*<li>@Html.ActionLink("Joel", "Team", "Home")</li>
+                                <li>@Html.ActionLink("Watson", "Team", "Home")</li>
+                                <li>@Html.ActionLink("Dave", "Team", "Home")</li>*@
+                            @foreach (HP.Models.Team t in Model.Teams)
+                                {
+                                <li>@Html.ActionLink(t.Name,"Team","Home")</li>
+                            }
+                        </ul>
+                    </li>
+                    @*<li>@Html.ActionLink("Team", "Team", "Home")</li>*@
                     <li>@Html.ActionLink("Standings", "Standings", "Pool")</li>
                 }
             </ul>
             @if (Request.IsAuthenticated)
             {
+
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="navbar-form">
-                        <div class="form-group">
-                            @if (Model.Pools.Count > 0)
-                            {
-                                @Html.LabelFor(model => Model.SelectedPoolId);
+                    @if (Model.ShowPool)
+                    {
+                        <li class="navbar-form">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => Model.SelectedPoolId)
+                            </div>
+                            <div class="form-group">
                                 @Html.DropDownListFor(model => Model.SelectedPoolId, Model.Pools, new { @class = "form-control" })
-                            }
-                            @*<select class="form-control" id="sel1">
-                                    <option>New Life</option>
-                                    <option>CHL</option>
-                                </select>*@
-                        </div>
-                    </li>
+                                @*<select class="form-control" id="sel1">
+                                        <option>New Life</option>
+                                        <option>CHL</option>
+                                    </select>*@
+                            </div>
+                        </li>
+                    }
                 </ul>
             }
         </div>

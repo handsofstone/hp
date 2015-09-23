@@ -78,6 +78,8 @@ namespace HP.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //return PartialView("_Login", model);
+                //return PartialView();
                 return View("Error");
             }
 
@@ -97,6 +99,7 @@ namespace HP.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     //return RedirectToAction("Index", "Home");
                     //return View("_LoginPartial");
+                    //return PartialView("_Login",model);
                     return View("Error");
             }
         }

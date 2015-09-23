@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -42,7 +43,6 @@ namespace HP.Models
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Pool_Standing> Pool_Standing { get; set; }
         public virtual DbSet<Pool> Pools { get; set; }
-        // public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
@@ -128,8 +128,12 @@ namespace HP.Models
                 .HasMany(e => e.Team_Season_Player_Interval)
                 .WithRequired(e => e.Team)
                 .WillCascadeOnDelete(false);
+        }
 
-
+        public IList<Team> TeamsByPoolID(int PoolId)
+        {
+            var query = Teams.Where(t => t.Pool_Id == PoolId);
+            return query.ToList<Team>();
         }
     }
 }

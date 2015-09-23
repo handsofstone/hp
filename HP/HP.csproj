@@ -209,6 +209,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
+    <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Pool.cs" />
     <Compile Include="Models\Pool_Standing.cs" />

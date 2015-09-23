@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace HP.Models
@@ -51,16 +52,5 @@ namespace HP.Models
 
         [Display(Name = "Name")]
         public string Name { get; set; }
-    }
-
-    public class MenuViewModel
-    {
-        [Display(Name = "Pool")]
-        public string SelectedPoolId { get; set; }
-        public IList<SelectListItem> Pools { get; set; }
-
-        [Display(Name = "Team")]
-        public IList<Team> Teams { get; set; }
-        public Team SelectedTeam { get; set; }
     }
 }

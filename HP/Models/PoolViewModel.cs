@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace HP.Models
 {
@@ -14,9 +15,8 @@ namespace HP.Models
 
     public class StandingsViewModel
     {
-        public User User { get; set; }
-        public ICollection<Team> Teams { get; set; }
-        public List<Season> Seasons { get; set; }
+        public int SelectedPoolID { get; set; }
+        public IList<SelectListItem> Seasons { get; set; }
         public List<Standing> Standings { get; set; }
     }
 }

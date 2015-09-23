@@ -13,8 +13,8 @@
 </head>
 <body>
     <div id="wrap">
-        @*Html.Partial("_Login", new HP.Models.LoginViewModel())*@
-        @{Html.RenderAction("Login", "Account");}
+        @Html.Partial("_Login", new HP.Models.LoginViewModel())
+        @*@{Html.RenderAction("Login", "Account");}*@
         @{Html.RenderAction("Index", "Menu");}
 
 

@@ -35,20 +35,18 @@ namespace HP.Controllers
         // GET: Menu
         public PartialViewResult Index()
         {
-            var model = new MenuViewModel() { Pools = new List<SelectListItem>(), Teams = new List<Team>() };
+            MenuViewModel model = null;
 
             if (ModelState.IsValid)
             {
                 if (User.Identity.GetUserId() != null)
                 {
                     var user = UserManager.FindById(User.Identity.GetUserId());
-
-                    foreach (var pool in user.GetPools())
-                        model.Pools.Add(new SelectListItem() { Text = pool.Name, Value = pool.Id.ToString() });
+                    model = new MenuViewModel(user);
                 }
             }
 
-            return PartialView("_Menu", model);
+            return PartialView("_Menu", model ?? new MenuViewModel());
         }
 
         [HttpPost]
@@ -60,5 +58,7 @@ namespace HP.Controllers
             }
             return PartialView(model);
         }
+
+
     }
 }

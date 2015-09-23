@@ -38,9 +38,6 @@ namespace HP.Controllers
                 
                 var user = UserManager.FindById(User.Identity.GetUserId());
 
-                model.User = user;
-                model.Teams = user.Teams;
-
 
             }
             return View(model);
