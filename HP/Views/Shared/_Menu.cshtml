@@ -13,21 +13,30 @@
         <div class="collapse navbar-collapse main-nav">
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = "active" })</li>
-                <li>@Html.ActionLink("Team", "Team", "Home")</li>
-                <li>@Html.ActionLink("Standings", "Standings", "Pool")</li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Team", "Team", "Home")</li>
+                    <li>@Html.ActionLink("Standings", "Standings", "Pool")</li>
+                }
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="navbar-form">
-                    <div class="form-group">
-                        @Html.LabelFor(model => Model.SelectedPoolId);
-                        @Html.DropDownListFor(model => Model.SelectedPoolId, Model.Pools)
-                        @*<select class="form-control" id="sel1">
-                            <option>New Life</option>
-                            <option>CHL</option>
-                        </select>*@
-                    </div>
-                </li>
-            </ul>
+            @if (Request.IsAuthenticated)
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="navbar-form">
+                        <div class="form-group">
+                            @if (Model.Pools.Count > 0)
+                            {
+                                @Html.LabelFor(model => Model.SelectedPoolId);
+                                @Html.DropDownListFor(model => Model.SelectedPoolId, Model.Pools, new { @class = "form-control" })
+                            }
+                            @*<select class="form-control" id="sel1">
+                                    <option>New Life</option>
+                                    <option>CHL</option>
+                                </select>*@
+                        </div>
+                    </li>
+                </ul>
+            }
         </div>
     </div>
 </div>

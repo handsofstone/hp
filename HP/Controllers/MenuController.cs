@@ -35,7 +35,7 @@ namespace HP.Controllers
         // GET: Menu
         public PartialViewResult Index()
         {
-            var model = new MenuViewModel();
+            var model = new MenuViewModel() { Pools = new List<SelectListItem>(), Teams = new List<Team>() };
 
             if (ModelState.IsValid)
             {

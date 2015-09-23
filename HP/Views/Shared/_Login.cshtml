@@ -32,7 +32,7 @@
             }
             else
             {
-                using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", @class = "navbar-form" }))
+                using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "loginForm", @class = "navbar-form" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="form-group">
