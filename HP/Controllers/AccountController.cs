@@ -64,10 +64,10 @@ namespace HP.Controllers
 
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public PartialViewResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View(new LoginViewModel());
+            return PartialView("_Login", new LoginViewModel());
         }
 
         // POST: /Account/Login
@@ -78,7 +78,7 @@ namespace HP.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Error");
             }
 
             // This doesn't count login failures towards account lockout
@@ -96,7 +96,8 @@ namespace HP.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     //return RedirectToAction("Index", "Home");
-                    return PartialView("_LoginPartial");
+                    //return View("_LoginPartial");
+                    return View("Error");
             }
         }
 
@@ -111,39 +112,10 @@ namespace HP.Controllers
 
         }
 
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
-        }
-
-        // GET: /Account/Menu
-        [AllowAnonymous]
-        public ActionResult Menu(string returnUrl)
-        {
-            var model = new MenuViewModel();
-
-            if (!ModelState.IsValid)
-            {
-                var user = UserManager.FindById(User.Identity.GetUserId());
-
-                foreach (var pool in user.GetPools())
-                    model.Pools.Add(new SelectListItem() { Text = pool.Name, Value = pool.Id.ToString() });
-            }
-            //ViewBag.ReturnUrl = returnUrl;
-            return View();
-
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> Menu(MenuViewModel model, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
-                return PartialView(model);
-            }
-            return PartialView(model);
         }
 
         [HttpPost]
@@ -155,7 +127,7 @@ namespace HP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new User { UserName = model.Email, Email = model.Email };
+                    var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name};
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {

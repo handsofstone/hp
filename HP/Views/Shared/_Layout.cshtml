@@ -1,5 +1,4 @@
-﻿@model HP.Models.BaseViewModel
-
+﻿
 <!DOCTYPE html>
 
 <html>
@@ -9,20 +8,20 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+
 </head>
 <body>
     <div id="wrap">
-        @Html.Partial("_LoginPartial");
+        @*Html.Partial("_Login", new HP.Models.LoginViewModel())*@
+        @{Html.RenderAction("Login", "Account");}
+        @{Html.RenderAction("Index", "Menu");}
 
-
-        @Html.Partial("_MenuPartial");
 
     </div>
 
     <div class="container body-content">
+        
         @RenderBody()
         <hr />
         <footer>
@@ -30,6 +29,10 @@
         </footer>
     </div>
 
-
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

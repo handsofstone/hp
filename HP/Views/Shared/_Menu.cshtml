@@ -1,4 +1,4 @@
-﻿@model HP.Models.LoginViewModel
+﻿@model HP.Models.MenuViewModel
 
 <div class="navbar navbar-default navbar-static-top">
     <div class="container">
@@ -19,10 +19,12 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="navbar-form">
                     <div class="form-group">
-                        <select class="form-control" id="sel1">
+                        @Html.LabelFor(model => Model.SelectedPoolId);
+                        @Html.DropDownListFor(model => Model.SelectedPoolId, Model.Pools)
+                        @*<select class="form-control" id="sel1">
                             <option>New Life</option>
                             <option>CHL</option>
-                        </select>
+                        </select>*@
                     </div>
                 </li>
             </ul>

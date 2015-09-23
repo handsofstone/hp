@@ -55,9 +55,11 @@ namespace HP.Models
 
     public class MenuViewModel
     {
-        public IList<SelectListItem> Pools { get; set; }
+        [Display(Name = "Pool")]
         public string SelectedPoolId { get; set; }
+        public IList<SelectListItem> Pools { get; set; }
 
+        [Display(Name = "Team")]
         public IList<Team> Teams { get; set; }
         public Team SelectedTeam { get; set; }
     }
