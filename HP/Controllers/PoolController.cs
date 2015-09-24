@@ -29,15 +29,19 @@ namespace HP.Controllers
             return View();
         }
 
-        public ActionResult Standings()
+        public ActionResult Standings(int PoolId)
         {
             var model = new StandingsViewModel();
 
             if (ModelState.IsValid)
             {
-                
-                var user = UserManager.FindById(User.Identity.GetUserId());
+                using (var context = new ApplicationDbContext())
+                {
+                   // model.Seasons = context.Pools.Where(p => p.Id == PoolId).FirstOrDefault<Pool>().Seasons.ToList<Season>();
 
+                    model.Seasons = new SelectList(context.Pools.Where(p => p.Id == PoolId).FirstOrDefault<Pool>().Seasons,"Id","Name").ToList();
+                    var user = UserManager.FindById(User.Identity.GetUserId());
+                }
 
             }
             return View(model);

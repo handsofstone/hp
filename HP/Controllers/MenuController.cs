@@ -13,12 +13,12 @@ namespace HP.Controllers
     public class MenuController : Controller
     {
         private ApplicationUserManager _userManager;
-        public MenuController() {}
+        public MenuController() { }
 
         public MenuController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
-        }        
+        }
 
         public ApplicationUserManager UserManager
         {
@@ -59,6 +59,15 @@ namespace HP.Controllers
             return PartialView(model);
         }
 
+        public JsonResult GetTeams(string id)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var teams = context.TeamsByPoolID(Int32.Parse(id));
+
+                return Json(new SelectList(teams, "Id", "Name"), JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 }

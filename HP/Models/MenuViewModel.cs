@@ -17,9 +17,9 @@ namespace HP.Models
 
         public MenuViewModel(User user)
         {
-            Pools = new List<SelectListItem>();
-            foreach (var pool in user.GetPools())
-                Pools.Add(new SelectListItem() { Text = pool.Name, Value = pool.Id.ToString() });
+            Pools = new SelectList(user.GetPools(),"Id","Name").ToList();
+            //foreach (var pool in user.GetPools())
+            //    Pools.Add(new SelectListItem() { Text = pool.Name, Value = pool.Id.ToString() });
             SelectedPoolId = Int32.Parse(Pools.First().Value);
             Teams = new ApplicationDbContext().TeamsByPoolID(SelectedPoolId);
         }

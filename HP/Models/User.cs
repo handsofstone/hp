@@ -34,7 +34,7 @@ namespace HP.Models
 
         public ICollection<Pool> GetPools()
         {
-            ICollection<Pool> pools = new SortedSet<Pool>();
+            ICollection<Pool> pools = new List<Pool>();
 
             foreach (Team team in Teams)
                 pools.Add(team.Pool);

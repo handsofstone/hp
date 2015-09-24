@@ -3,21 +3,15 @@
     $(document).ready(function () {
         //Dropdownlist Selectedchange event
         $("#SelectedPoolId").change(function () {
+            $('#teams').empty();
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("SetPool")', // we are calling json method
+                url: '@Url.Action("GetTeams")', // we are calling json method
                 dataType: 'json',
                 data: { id: $("#SelectedPoolId").val() },
-                // here we are get value of selected country and passing same value
-                //as input to json method GetStates.
-
                 success: function (teams) {
-                    // states contains the JSON formatted list
-                    // of states passed from the controller
-
-                    $.each(teams, function (i, state) {
-                        $("#teams").append('<option value="' + state.Value + '">' + state.Text + '</option>');
-                        // here we are adding option for States
+                    $.each(teams, function (i, team) {
+                        $("#teams").append('<li><a href="/Team/Index/'+team.Value+'">'+ team.Text + '</a></li>');
                     });
                 },
             error: function (ex) {
@@ -49,17 +43,14 @@
                             @Html.DisplayNameFor(model => Model.SelectedTeam) <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" id="teams">
-                            @*<li>@Html.ActionLink("Joel", "Team", "Home")</li>
-                                <li>@Html.ActionLink("Watson", "Team", "Home")</li>
-                                <li>@Html.ActionLink("Dave", "Team", "Home")</li>*@
                             @foreach (HP.Models.Team t in Model.Teams)
                                 {
-                                <li>@Html.ActionLink(t.Name,"Team","Home")</li>
+                                <li>@Html.ActionLink(t.Name,"Index","Team", new { id = t.Id }, null)</li>
                             }
                         </ul>
                     </li>
                     @*<li>@Html.ActionLink("Team", "Team", "Home")</li>*@
-                    <li>@Html.ActionLink("Standings", "Standings", "Pool")</li>
+                    <li>@Html.ActionLink("Standings", "Standings", "Pool", new { id = Model.SelectedPoolId }, null)</li>
                 }
             </ul>
             @if (Request.IsAuthenticated)
@@ -74,10 +65,6 @@
                             </div>
                             <div class="form-group">
                                 @Html.DropDownListFor(model => Model.SelectedPoolId, Model.Pools, new { @class = "form-control" })
-                                @*<select class="form-control" id="sel1">
-                                        <option>New Life</option>
-                                        <option>CHL</option>
-                                    </select>*@
                             </div>
                         </li>
                     }
