@@ -29,7 +29,7 @@ namespace HP.Controllers
             return View();
         }
 
-        public ActionResult Standings(int PoolId)
+        public ActionResult Standings(int id)
         {
             var model = new StandingsViewModel();
 
@@ -39,7 +39,7 @@ namespace HP.Controllers
                 {
                    // model.Seasons = context.Pools.Where(p => p.Id == PoolId).FirstOrDefault<Pool>().Seasons.ToList<Season>();
 
-                    model.Seasons = new SelectList(context.Pools.Where(p => p.Id == PoolId).FirstOrDefault<Pool>().Seasons,"Id","Name").ToList();
+                    model.Seasons = new SelectList(context.Pools.Where(p => p.Id == id).FirstOrDefault<Pool>().Seasons,"Id","Name").ToList();
                     var user = UserManager.FindById(User.Identity.GetUserId());
                 }
 
