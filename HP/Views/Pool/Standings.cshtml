@@ -6,24 +6,25 @@
 }
 <h2>Standings</h2>
 <div class="form-group">
-    <label for="sel1">Season:</label>
-    <select class="form-control" id="sel1">
-        <option>2014</option>
-        <option>2013</option>
-        <option>2012</option>
-        <option>2011</option>
-    </select>
+    @Html.LabelFor(model=>Model.SelectedSeasonId)
+    @Html.DropDownListFor(model => Model.SelectedSeasonId, Model.Seasons, new { @class = "form-control" })
 </div>
 
-<table>
+<table class="table table-bordered">
     <thead>
         <tr>
             <td>Rank</td>
             <td>Name</td>
             <td>Gain</td>
-            <td>Total</td>
+            <td>Total</td>            
         </tr>
     </thead>
+    <tbody>
+    @foreach (HP.Models.Team t in Model.Teams)
+    {
+        <tr>@Html.ActionLink(t.Name, "Index", "Team", new { id = t.Id }, null)</tr>
+    }
+    </tbody>
 </table>
 
 
