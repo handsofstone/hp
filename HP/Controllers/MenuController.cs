@@ -60,7 +60,7 @@ namespace HP.Controllers
         }
 
         public JsonResult GetTeams(string id)
-        {
+        {            
             using (var context = new ApplicationDbContext())
             {
                 var teams = context.TeamsByPoolID(Int32.Parse(id));

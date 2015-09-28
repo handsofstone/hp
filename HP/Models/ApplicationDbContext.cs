@@ -41,7 +41,7 @@ namespace HP.Models
         // Custom DbSets
         public virtual DbSet<Interval> Intervals { get; set; }
         public virtual DbSet<Player> Players { get; set; }
-        public virtual DbSet<Pool_Standing> Pool_Standing { get; set; }
+        public virtual DbSet<Standing> Standings { get; set; }
         public virtual DbSet<Pool> Pools { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
@@ -89,7 +89,7 @@ namespace HP.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Pool>()
-                .HasMany(e => e.Pool_Standing)
+                .HasMany(e => e.Standings)
                 .WithRequired(e => e.Pool)
                 .WillCascadeOnDelete(false);
 
@@ -110,7 +110,7 @@ namespace HP.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Season>()
-                .HasMany(e => e.Pool_Standing)
+                .HasMany(e => e.Standings)
                 .WithRequired(e => e.Season)
                 .WillCascadeOnDelete(false);
 
@@ -119,10 +119,14 @@ namespace HP.Models
                 .WithRequired(e => e.Season)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Team>()
-                .HasMany(e => e.Pool_Standing)
-                .WithRequired(e => e.Team)
+            modelBuilder.Entity<Standing>()
+                .HasRequired(e => e.Team)
+                .WithMany()
                 .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Team>()
+            //    .HasMany(e => e.Standings)
+            //    .WithRequired(e => e.Team)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Team>()
                 .HasMany(e => e.Team_Season_Player_Interval)
