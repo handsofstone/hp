@@ -12,7 +12,7 @@ namespace HP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Pool()
         {
-            Pool_Standing = new HashSet<Pool_Standing>();
+            Standings = new HashSet<Standing>();
             Teams = new HashSet<Team>();
             Seasons = new HashSet<Season>();
         }
@@ -23,7 +23,7 @@ namespace HP.Models
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pool_Standing> Pool_Standing { get; set; }
+        public virtual ICollection<Standing> Standings { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Team> Teams { get; set; }

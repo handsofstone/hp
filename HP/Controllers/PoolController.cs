@@ -40,7 +40,8 @@ namespace HP.Controllers
                    // model.Seasons = context.Pools.Where(p => p.Id == PoolId).FirstOrDefault<Pool>().Seasons.ToList<Season>();
 
                     model.Seasons = new SelectList(context.Pools.Where(p => p.Id == id).FirstOrDefault<Pool>().Seasons,"Id","Name").ToList();
-                    var user = UserManager.FindById(User.Identity.GetUserId());
+                    model.Standings = context.Standings.Include("Team").Where(p => p.PoolId == id).ToList();
+                    //var user = UserManager.FindById(User.Identity.GetUserId());
                 }
 
             }

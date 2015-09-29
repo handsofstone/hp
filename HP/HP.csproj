@@ -206,13 +206,29 @@
     <Compile Include="Migrations\201509192251178_InitialDb.Designer.cs">
       <DependentUpon>201509192251178_InitialDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509281956161_RenamedStandingModel.cs" />
+    <Compile Include="Migrations\201509281956161_RenamedStandingModel.Designer.cs">
+      <DependentUpon>201509281956161_RenamedStandingModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509282001538_AddedGainToStanding.cs" />
+    <Compile Include="Migrations\201509282001538_AddedGainToStanding.Designer.cs">
+      <DependentUpon>201509282001538_AddedGainToStanding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509282104111_ChangedTeamRelationshipInStanding.cs" />
+    <Compile Include="Migrations\201509282104111_ChangedTeamRelationshipInStanding.Designer.cs">
+      <DependentUpon>201509282104111_ChangedTeamRelationshipInStanding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509282114092_RenameTeamIdInStanding.cs" />
+    <Compile Include="Migrations\201509282114092_RenameTeamIdInStanding.Designer.cs">
+      <DependentUpon>201509282114092_RenameTeamIdInStanding.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Pool.cs" />
-    <Compile Include="Models\Pool_Standing.cs" />
+    <Compile Include="Models\Standing.cs" />
     <Compile Include="Models\Season.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\Team_Season_Player_Interval.cs" />
@@ -256,6 +272,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201509192251178_InitialDb.resx">
       <DependentUpon>201509192251178_InitialDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509281956161_RenamedStandingModel.resx">
+      <DependentUpon>201509281956161_RenamedStandingModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509282001538_AddedGainToStanding.resx">
+      <DependentUpon>201509282001538_AddedGainToStanding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509282104111_ChangedTeamRelationshipInStanding.resx">
+      <DependentUpon>201509282104111_ChangedTeamRelationshipInStanding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509282114092_RenameTeamIdInStanding.resx">
+      <DependentUpon>201509282114092_RenameTeamIdInStanding.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

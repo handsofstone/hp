@@ -30,7 +30,7 @@ namespace HP.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "nlpool.Pool_Standing",
+                "nlpool.Standing",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -191,7 +191,7 @@ namespace HP.Migrations
             DropForeignKey("nlpool.UserRole", "RoleId", "nlpool.Role");
             DropForeignKey("nlpool.Team_Season_Player_Interval", "IntervalId", "nlpool.Interval");
             DropForeignKey("nlpool.Team_Season_Player_Interval", "SeasonId", "nlpool.Season");
-            DropForeignKey("nlpool.Pool_Standing", "SeasonId", "nlpool.Season");
+            DropForeignKey("nlpool.Standing", "SeasonId", "nlpool.Season");
             DropForeignKey("nlpool.Team", "Pool_Id", "nlpool.Pool");
             DropForeignKey("nlpool.Team", "User_Id", "nlpool.User");
             DropForeignKey("nlpool.UserRole", "UserId", "nlpool.User");
@@ -199,10 +199,10 @@ namespace HP.Migrations
             DropForeignKey("nlpool.UserClaim", "UserId", "nlpool.User");
             DropForeignKey("nlpool.Team_Season_Player_Interval", "TeamId", "nlpool.Team");
             DropForeignKey("nlpool.Team_Season_Player_Interval", "PlayerId", "nlpool.Player");
-            DropForeignKey("nlpool.Pool_Standing", "TeamId", "nlpool.Team");
+            DropForeignKey("nlpool.Standing", "TeamId", "nlpool.Team");
             DropForeignKey("nlpool.PoolSeason", "Seasons_Id", "nlpool.Season");
             DropForeignKey("nlpool.PoolSeason", "Pools_Id", "nlpool.Pool");
-            DropForeignKey("nlpool.Pool_Standing", "PoolId", "nlpool.Pool");
+            DropForeignKey("nlpool.Standing", "PoolId", "nlpool.Pool");
             DropForeignKey("nlpool.Interval", "SeasonId", "nlpool.Season");
             DropIndex("nlpool.PoolSeason", new[] { "Seasons_Id" });
             DropIndex("nlpool.PoolSeason", new[] { "Pools_Id" });
@@ -218,9 +218,9 @@ namespace HP.Migrations
             DropIndex("nlpool.Team_Season_Player_Interval", new[] { "TeamId" });
             DropIndex("nlpool.Team", new[] { "User_Id" });
             DropIndex("nlpool.Team", new[] { "Pool_Id" });
-            DropIndex("nlpool.Pool_Standing", new[] { "PoolId" });
-            DropIndex("nlpool.Pool_Standing", new[] { "SeasonId" });
-            DropIndex("nlpool.Pool_Standing", new[] { "TeamId" });
+            DropIndex("nlpool.Standing", new[] { "PoolId" });
+            DropIndex("nlpool.Standing", new[] { "SeasonId" });
+            DropIndex("nlpool.Standing", new[] { "TeamId" });
             DropIndex("nlpool.Interval", new[] { "SeasonId" });
             DropTable("nlpool.PoolSeason");
             DropTable("nlpool.Role");
@@ -232,7 +232,7 @@ namespace HP.Migrations
             DropTable("nlpool.Team_Season_Player_Interval");
             DropTable("nlpool.Team");
             DropTable("nlpool.Pool");
-            DropTable("nlpool.Pool_Standing");
+            DropTable("nlpool.Standing");
             DropTable("nlpool.Season");
             DropTable("nlpool.Interval");
         }
