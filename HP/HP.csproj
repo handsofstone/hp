@@ -202,6 +202,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Migrations\201509192251178_InitialDb.cs" />
     <Compile Include="Migrations\201509192251178_InitialDb.Designer.cs">
       <DependentUpon>201509192251178_InitialDb.cs</DependentUpon>
@@ -254,6 +255,7 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Account\Error.cshtml" />
+    <Content Include="Views\Team\Roster.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
