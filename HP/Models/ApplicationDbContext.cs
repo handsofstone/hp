@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Security.Claims;
@@ -84,6 +86,8 @@ namespace HP.Models
                 .WithRequired(e => e.Player)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Configurations.Add(new PlayerMap());
+
             modelBuilder.Entity<Pool>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
@@ -139,5 +143,7 @@ namespace HP.Models
             var query = Teams.Where(t => t.Pool_Id == PoolId);
             return query.ToList<Team>();
         }
+
+
     }
 }

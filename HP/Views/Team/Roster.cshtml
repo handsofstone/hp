@@ -3,36 +3,152 @@
     ViewBag.Title = "Roster";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript">
+    function moveDualList(srcList, destList, moveAll) {
 
-<h2>Roster</h2>
+        // PREVENT KEEPERS FROM BEING REMOVED IN OFFLINE DRAFTS
+        var keepers = false;
+        if (srcList.id == "roster") {
+            var pText = srcList.options[srcList.selectedIndex].innerHTML;
+            if (pText.indexOf("[K]") > -1) {
+                keepers = true;
+            }
+        }
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <td>#</td>
-            <td>Name</td>
-            <td>POS</td>
-            <td>Points</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>19</td>
-            <td>Nicklas Backstrom</td>
-            <td>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        C <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>C</li>
-                    </ul>
-                </div>
-            </td>            
-            <td>0</td>
-        </tr>
-    </tbody>
-</table>
-<button type="button" class="btn btn-default" aria-label="Left Align">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
-</button>
+        // Do nothing if nothing is selected
+        if ((srcList.selectedIndex == -1) && (moveAll == false)) {
+            return;
+        } else if (keepers) {
+            return;
+        } else {
+            copySelected(srcList, destList);
+            //sortSelect(destList);
+        }
+    }
+
+    function deleteOption(object, index) {
+        object.options[index] = null;
+    }
+
+    function addOption(object, text, value) {
+        var defaultSelected = true;
+        var selected = true;
+        var optionName = new Option(text, value, defaultSelected, selected)
+        object.options[object.length] = optionName;
+    }
+
+    function copySelected(fromObject, toObject) {
+        for (var i = 0, l = fromObject.options.length; i < l; i++) {
+            if (fromObject.options[i].selected)
+                addOption(toObject, fromObject.options[i].text, fromObject.options[i].value);
+        }
+        for (var i = fromObject.options.length - 1; i > -1; i--) {
+            if (fromObject.options[i].selected)
+                deleteOption(fromObject, i);
+        }
+    }
+
+</script>
+<div id="addPlayerModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Player(s)</h4>
+            </div>
+            <div class="modal-body">
+                <table celpadding=2 cellspacing=1 border=0 class="table">
+                    @*<form name="frmOfflineDraft" id="frmOfflineDraft" action="http://games.espn.go.com/fhl/offlinedraft?leagueId=54034&teamId=1" method="post">*@
+                    <tr>
+                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
+                        <td>&nbsp;</td>
+                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                            <select id="availPlayers" name="availPlayers" class="select" multiple="multiple" size="25" style="width:250px;">
+                                <option value="3129">Abbott, Spencer, Tor F</option>
+                                <option value="943">Abdelkader, Justin, Det F</option>
+                                <option value="1860">Abney, Cameron, Edm F</option>
+                                <option value="3066">Acton, Will, Edm F</option>
+                                <option value="1536">Adam, Luke, NYR F</option>
+                                <option value="1">Adams, Craig, Pit F</option>
+                                <option value="2">Adams, Kevyn, FA F</option>
+                                <option value="3">Aebischer, David, Wpg G</option>
+                                <option value="3214">Agostino, Ken, Cgy F</option>
+                                <option value="3163">Agozzino, Andrew, Col F</option>
+                                <option value="1508">Ahnelov, Jonas, FA D</option>
+                            </select>
+                        </td>
+                        <td style="vertical-align: middle">
+                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                        </td>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody"><input type="hidden" name="teamId" value="1" /><select id="roster" name="roster" class="select" size="25" multiple="multiple" style="width:250px;"></select><input id="playerIds" type="hidden" name="playerIds" value="" /></td>
+                    </tr>
+                    @*</form>*@
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+        <li class="navbar-form">
+            <div class="form-group">
+                Interval
+            </div>
+            <div class="form-group">
+                <select class="form-control">
+                    <option>Week 1</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-success" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Submit
+                </button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
+                </button>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Roster</div>
+
+    <table class="table table-bordered" data-toggle="table" style="width:auto" >
+        <thead>
+            <tr>
+                <td></td>
+                <td>#</td>
+                <td>Name</td>
+                <td>POS</td>
+                <td>Points</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox" checked data-toggle="toggle" data-on="Active" data-off="Bench" data-size="mini"></td>
+                <td>19</td>
+                <td>Nicklas Backstrom</td>
+                <td>
+                    <select>
+                        <option>C</option>
+                    </select>
+                </td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
