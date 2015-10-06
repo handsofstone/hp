@@ -227,6 +227,18 @@
     <Compile Include="Migrations\201509282114092_RenameTeamIdInStanding.Designer.cs">
       <DependentUpon>201509282114092_RenameTeamIdInStanding.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510060622468_AddNHLPlayerTable.cs" />
+    <Compile Include="Migrations\201510060622468_AddNHLPlayerTable.Designer.cs">
+      <DependentUpon>201510060622468_AddNHLPlayerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510060629470_RenameColumnPlayer_NumberInTableNHLPlayer.cs" />
+    <Compile Include="Migrations\201510060629470_RenameColumnPlayer_NumberInTableNHLPlayer.Designer.cs">
+      <DependentUpon>201510060629470_RenameColumnPlayer_NumberInTableNHLPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510060632104_AddTSNNameToNHLPlayer.cs" />
+    <Compile Include="Migrations\201510060632104_AddTSNNameToNHLPlayer.Designer.cs">
+      <DependentUpon>201510060632104_AddTSNNameToNHLPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -237,6 +249,7 @@
     <Compile Include="Models\Standing.cs" />
     <Compile Include="Models\Season.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\TeamViewModel.cs" />
     <Compile Include="Models\Team_Season_Player_Interval.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Startup.cs" />
@@ -291,6 +304,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509282114092_RenameTeamIdInStanding.resx">
       <DependentUpon>201509282114092_RenameTeamIdInStanding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510060622468_AddNHLPlayerTable.resx">
+      <DependentUpon>201510060622468_AddNHLPlayerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510060629470_RenameColumnPlayer_NumberInTableNHLPlayer.resx">
+      <DependentUpon>201510060629470_RenameColumnPlayer_NumberInTableNHLPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510060632104_AddTSNNameToNHLPlayer.resx">
+      <DependentUpon>201510060632104_AddTSNNameToNHLPlayer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

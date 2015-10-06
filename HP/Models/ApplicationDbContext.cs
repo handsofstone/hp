@@ -42,12 +42,23 @@ namespace HP.Models
 
         // Custom DbSets
         public virtual DbSet<Interval> Intervals { get; set; }
-        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<NHLPlayer> Players { get; set; }
         public virtual DbSet<Standing> Standings { get; set; }
         public virtual DbSet<Pool> Pools { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
+
+        public IList<NHLPlayer> PlayersByPoolID(int PoolId)
+        {
+            var query = TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers);
+            return query.ToList<NHLPlayer>();
+        }
+        public IList<NHLPlayer> AvailablePlayers(int PoolId)
+        {
+            return Players.Where(p=>p.Active).Except(PlayersByPoolID(PoolId)).ToList();
+            //return this.Players.Except<NHLPlayer>(PlayersByPoolID(PoolId));
+        }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
@@ -136,6 +147,11 @@ namespace HP.Models
                 .HasMany(e => e.Team_Season_Player_Interval)
                 .WithRequired(e => e.Team)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Team>()
+                .HasMany(e => e.RosterPlayers)
+                .WithMany()
+                .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
         }
 
         public IList<Team> TeamsByPoolID(int PoolId)

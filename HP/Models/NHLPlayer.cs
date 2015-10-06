@@ -19,6 +19,8 @@ namespace HP.Models
         [Required]
         public string FirstName { get; set; }
 
+        public string TSNName { get; set; }
+
         public string NHLTeam { get; set; }
 
         public int Number { get; set; }
@@ -34,15 +36,15 @@ namespace HP.Models
         {
             this.HasKey(t => t.Id);
             this.Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            this.Property(t => t.LastName).IsRequired().HasMaxLength(50);
-            this.Property(t => t.FirstName).IsRequired().HasMaxLength(50);
             this.ToTable("dbo.NHL_PLAYER");
             this.Property(t => t.Id).HasColumnName("ID");
-            this.Property(t => t.LastName).HasColumnName("LAST_NAME");
-            this.Property(t => t.FirstName).HasColumnName("FIRST_NAME");
-            this.Property(t => t.NHLTeam).HasColumnName("TEAM");
+            this.Property(t => t.LastName).HasColumnName("LAST_NAME").IsRequired().HasMaxLength(50);
+            this.Property(t => t.FirstName).HasColumnName("FIRST_NAME").IsRequired().HasMaxLength(50);
+            this.Property(t => t.NHLTeam).HasColumnName("TEAM").HasMaxLength(50);
+            this.Property(t => t.Number).HasColumnName("PLAYER_NUMBER");
+            this.Property(t => t.TSNName).HasColumnName("TSN_NAME");
             this.Property(t => t.EligiblePositionString).HasColumnName("ELIGIBLE_POSITION");
-            this.Property(t => t.EligiblePositionString).HasColumnName("ACTIVE");
+            this.Property(t => t.Active).HasColumnName("ACTIVE");
 
 
         }
