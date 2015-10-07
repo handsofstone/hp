@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
@@ -48,17 +49,6 @@ namespace HP.Models
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
-
-        public IList<NHLPlayer> PlayersByPoolID(int PoolId)
-        {
-            var query = TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers);
-            return query.ToList<NHLPlayer>();
-        }
-        public IList<NHLPlayer> AvailablePlayers(int PoolId)
-        {
-            return Players.Where(p=>p.Active).Except(PlayersByPoolID(PoolId)).ToList();
-            //return this.Players.Except<NHLPlayer>(PlayersByPoolID(PoolId));
-        }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
@@ -160,6 +150,20 @@ namespace HP.Models
             return query.ToList<Team>();
         }
 
+        public IList<NHLPlayer> PlayersByPoolID(int PoolId)
+        {
+            var query = TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers);
+            return query.ToList<NHLPlayer>();
+        }
+        public IList<NHLPlayer> AvailablePlayers(int PoolId)
+        {
+            return Players.Where(p => p.Active).ToList().Except(PlayersByPoolID(PoolId)).ToList();
+        }
+
+        public IList<Interval> IntervalsByPoolSeason(int poolId, int seasonId)
+        {
+            return Intervals.Where(i => i.PoolId == poolId && i.SeasonId == seasonId).ToList();
+        }
 
     }
 }

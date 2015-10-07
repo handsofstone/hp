@@ -1,4 +1,5 @@
-﻿
+﻿@model HP.Models.RosterViewModel
+
 @{
     ViewBag.Title = "Roster";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +7,6 @@
 <script type="text/javascript">
     function moveDualList(srcList, destList, moveAll) {
 
-        // PREVENT KEEPERS FROM BEING REMOVED IN OFFLINE DRAFTS
         var keepers = false;
         if (srcList.id == "roster") {
             var pText = srcList.options[srcList.selectedIndex].innerHTML;
@@ -47,55 +47,92 @@
                 deleteOption(fromObject, i);
         }
     }
+    function populatePlayerIds() {
+        playerIds = "";
+        submittedPlayerIds = document.getElementById("roster");
+        numberOfPlayers = submittedPlayerIds.length;
+        var comma = '';
+        for (var i = 0; i <= numberOfPlayers - 1; i++) {
+            playerIds = playerIds + comma + submittedPlayerIds[i].value;
+            comma = ',';
+        }
+        document.getElementById("playerIds").value = playerIds;
+    }
+
+    function selectAll() {
+
+        objList = document.getElementById('roster');
+
+        for (x = 0; x < objList.options.length; x++) {
+            objList.options[x].selected = true;
+        }
+
+        document.getElementById('frmAddPlayers').submit();
+
+    }
+
+    $(document).ready(function () {
+        //Dropdownlist Selectedchange event
+        $("#SelectedIntervalId").change(function () {
+            $('#IntervalRoster').empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetIntervalRoster")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#SelectedIntervalId").val() },
+                success: function (teams) {
+                    $.each(teams, function (i, team) {
+                        $("#teams").append('<li><a href="/Team/Roster/'+team.Value+'">'+ team.Text + '</a></li>');
+                    });
+                },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+    });
 
 </script>
 <div id="addPlayerModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add Player(s)</h4>
-            </div>
-            <div class="modal-body">
-                <table celpadding=2 cellspacing=1 border=0 class="table">
-                    @*<form name="frmOfflineDraft" id="frmOfflineDraft" action="http://games.espn.go.com/fhl/offlinedraft?leagueId=54034&teamId=1" method="post">*@
-                    <tr>
-                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
-                        <td>&nbsp;</td>
-                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
-                    </tr>
-                    <tr>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                            <select id="availPlayers" name="availPlayers" class="select" multiple="multiple" size="25" style="width:250px;">
-                                <option value="3129">Abbott, Spencer, Tor F</option>
-                                <option value="943">Abdelkader, Justin, Det F</option>
-                                <option value="1860">Abney, Cameron, Edm F</option>
-                                <option value="3066">Acton, Will, Edm F</option>
-                                <option value="1536">Adam, Luke, NYR F</option>
-                                <option value="1">Adams, Craig, Pit F</option>
-                                <option value="2">Adams, Kevyn, FA F</option>
-                                <option value="3">Aebischer, David, Wpg G</option>
-                                <option value="3214">Agostino, Ken, Cgy F</option>
-                                <option value="3163">Agozzino, Andrew, Col F</option>
-                                <option value="1508">Ahnelov, Jonas, FA D</option>
-                            </select>
-                        </td>
-                        <td style="vertical-align: middle">
-                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
-                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
-                        </td>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody"><input type="hidden" name="teamId" value="1" /><select id="roster" name="roster" class="select" size="25" multiple="multiple" style="width:250px;"></select><input id="playerIds" type="hidden" name="playerIds" value="" /></td>
-                    </tr>
-                    @*</form>*@
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            @using (Html.BeginForm("SaveRoster", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id="frmAddPlayers" }))
+            {
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Player(s)</h4>
+                </div>
+                <div class="modal-body">
+                    <table celpadding=2 cellspacing=1 border=0 class="table">
+                        <tr>
+                            <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
+                            <td>&nbsp;</td>
+                            <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                                @Html.DropDownListFor(model => model.RosterPlayers, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                            </td>
+                            <td style="vertical-align: middle">
+                                <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                                <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                            </td>
+                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                @Html.Hidden("teamId",Model.TeamId)                                
+                                @Html.DropDownListFor(model => model.RosterPlayers, Model.RosterPlayers, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                                @Html.Hidden("playerIds")                                
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -104,12 +141,10 @@
     <ul class="nav navbar-nav">
         <li class="navbar-form">
             <div class="form-group">
-                Interval
+                @Html.DisplayNameFor(model=>model.SelectedIntervalId)                
             </div>
             <div class="form-group">
-                <select class="form-control">
-                    <option>Week 1</option>
-                </select>
+                @Html.DropDownListFor(model=>model.SelectedIntervalId, Model.Intervals,new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-success" aria-label="Left Align">
@@ -127,28 +162,38 @@
 <div class="panel panel-default">
     <div class="panel-heading">Roster</div>
 
-    <table class="table table-bordered" data-toggle="table" style="width:auto" >
+    <table class="table table-bordered" data-toggle="table" style="width:auto">
         <thead>
             <tr>
-                <td></td>
-                <td>#</td>
-                <td>Name</td>
-                <td>POS</td>
-                <td>Points</td>
+                <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Active)</td>
+                <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Number)</td>
+                <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Name)</td>
+                <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Position)</td>
+                <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Points)</td>
             </tr>
         </thead>
         <tbody>
+            @foreach(HP.Models.PlayerInterval pi in Model.PlayerIntervals)
+            { 
             <tr>
-                <td><input type="checkbox" checked data-toggle="toggle" data-on="Active" data-off="Bench" data-size="mini"></td>
-                <td>19</td>
-                <td>Nicklas Backstrom</td>
-                <td>
-                    <select>
-                        <option>C</option>
-                    </select>
+                <td>@Html.CheckBox("active",pi.Active,
+                   new Dictionary<string, Object> {
+                       { "data-toggle", "toggle" },
+                       { "data-on", "Active" },
+                       { "data-off", "Bench" }, 
+                       { "data-size", "mini" } })
+                <input type="checkbox" checked >
                 </td>
-                <td>0</td>
+                <td>@Html.DisplayFor(p=>pi.Number.ToString())</td>
+                <td>@Html.DisplayFor(p=>pi.Name)</td>
+                <td>@Html.DropDownListFor(p=>pi.Position,new SelectList(pi.EligiblePositions,pi.EligiblePositions.First()))
+                    @*<select>
+                        <option>C</option>
+                    </select>*@
+                </td>
+                <td>@Html.DisplayFor(p=>pi.Points.ToString())</td>
             </tr>
+            }
         </tbody>
     </table>
 </div>

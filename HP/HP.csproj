@@ -239,12 +239,21 @@
     <Compile Include="Migrations\201510060632104_AddTSNNameToNHLPlayer.Designer.cs">
       <DependentUpon>201510060632104_AddTSNNameToNHLPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510062002353_UpdateIntervalDateTypes.cs" />
+    <Compile Include="Migrations\201510062002353_UpdateIntervalDateTypes.Designer.cs">
+      <DependentUpon>201510062002353_UpdateIntervalDateTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510062010356_AddPoolIdToInterval.cs" />
+    <Compile Include="Migrations\201510062010356_AddPoolIdToInterval.Designer.cs">
+      <DependentUpon>201510062010356_AddPoolIdToInterval.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\NHLPlayer.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerInterval.cs" />
     <Compile Include="Models\Pool.cs" />
     <Compile Include="Models\Standing.cs" />
     <Compile Include="Models\Season.cs" />
@@ -313,6 +322,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510060632104_AddTSNNameToNHLPlayer.resx">
       <DependentUpon>201510060632104_AddTSNNameToNHLPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510062002353_UpdateIntervalDateTypes.resx">
+      <DependentUpon>201510062002353_UpdateIntervalDateTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510062010356_AddPoolIdToInterval.resx">
+      <DependentUpon>201510062010356_AddPoolIdToInterval.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

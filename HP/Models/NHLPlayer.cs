@@ -28,6 +28,15 @@ namespace HP.Models
         public string EligiblePositionString { get; set; }
 
         public bool Active { get; set; }
+
+        public string FullName
+        {
+            get { return FirstName + " " + LastName;  }
+        }
+        public string LexicalName
+        {
+            get { return LastName + ", " + FirstName; }
+        }
     }
 
     public class PlayerMap : EntityTypeConfiguration<NHLPlayer>

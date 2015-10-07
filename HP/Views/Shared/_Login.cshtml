@@ -11,7 +11,7 @@
             </button>
             @Html.ActionLink("handsofstone", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "navbar-brand" })
         </div>
-        <div class="navbar-collapse collapse navbar-right">            
+        <div class="navbar-collapse collapse navbar-right">
             @if (Request.IsAuthenticated)
             {
                 using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-form" }))
@@ -36,11 +36,14 @@
                 {
                     @Html.AntiForgeryToken()
                     <div class="form-group">
-                        @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control" })                        
+                        @*<i class="glyphicon glyphicon-envelope " style="color:white"></i>*@
+                        @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control" })
                     </div>
                     <div class="form-group">
+                        @*<i class="glyphicon glyphicon-lock " style="color:white"></i>*@
                         @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control" })
                     </div>
+
                     <button type="submit" class="btn btn-success" title="Sign In">
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
                     </button>
