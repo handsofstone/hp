@@ -7,13 +7,13 @@ namespace HP.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedGainToStanding : IMigrationMetadata
+    public sealed partial class AddedRosterPlayersChanged : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedGainToStanding));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedRosterPlayersChanged));
         
         string IMigrationMetadata.Id
         {
-            get { return "201509282001538_AddedGainToStanding"; }
+            get { return "201510082247391_AddedRosterPlayersChanged"; }
         }
         
         string IMigrationMetadata.Source

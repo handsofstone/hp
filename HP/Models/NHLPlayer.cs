@@ -37,6 +37,7 @@ namespace HP.Models
         {
             get { return LastName + ", " + FirstName; }
         }
+        public virtual ICollection<RosterPlayer> RosterPlayers { get; set; }
     }
 
     public class PlayerMap : EntityTypeConfiguration<NHLPlayer>

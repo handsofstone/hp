@@ -137,18 +137,20 @@
     </div>
 </div>
 
+@using (Html.BeginForm("SubmitRoster", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
 <div class="navbar navbar-default">
     <ul class="nav navbar-nav">
         <li class="navbar-form">
             <div class="form-group">
-                @Html.DisplayNameFor(model=>model.SelectedIntervalId)                
+                @Html.DisplayNameFor(model => model.SelectedIntervalId)                
             </div>
             <div class="form-group">
-                @Html.DropDownListFor(model=>model.SelectedIntervalId, Model.Intervals,new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-success" aria-label="Left Align">
-                    <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Submit
+                <button type="submit" class="btn btn-success" aria-label="Left Align">
+                    <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                 </button>
             </div>
             <div class="form-group">
@@ -161,7 +163,6 @@
 </div>
 <div class="panel panel-default">
     <div class="panel-heading">Roster</div>
-
     <table class="table table-bordered" data-toggle="table" style="width:auto">
         <thead>
             <tr>
@@ -173,26 +174,27 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(HP.Models.PlayerInterval pi in Model.PlayerIntervals)
-            { 
+            @foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)
+            {
             <tr>
-                <td>@Html.CheckBox("active",pi.Active,
-                   new Dictionary<string, Object> {
+                <td>@Html.CheckBox("active", pi.Active,
+    new Dictionary<string, Object> {
                        { "data-toggle", "toggle" },
                        { "data-on", "Active" },
-                       { "data-off", "Bench" }, 
+                       { "data-off", "Bench" },
                        { "data-size", "mini" } })
                 </td>
                 @{ var name = pi.Name;
                     var num = pi.Number.ToString();
                     var pts = pi.Points.ToString();}
-                <td>@Html.DisplayFor(p=>num)</td>
-                <td>@Html.DisplayFor(p=>name)</td>
-                <td>@Html.DropDownListFor(p=>pi.Position,new SelectList(pi.EligiblePositions,pi.EligiblePositions.First()))                    
+                <td>@Html.DisplayFor(p => num)</td>
+                <td>@Html.DisplayFor(p => name)</td>
+                <td>@Html.DropDownListFor(p => pi.Position, new SelectList(pi.EligiblePositions, pi.EligiblePositions.First()))                    
                 </td>
-                <td>@Html.DisplayFor(p=>pts)</td>
+                <td>@Html.DisplayFor(p => pts)</td>
             </tr>
-            }
+                    }
         </tbody>
     </table>
 </div>
+                    }

@@ -60,6 +60,21 @@ namespace HP.Controllers
 
         }
 
+        public ActionResult SubmitRoster(FormCollection formCollection)
+        {
+            SavePositions();
+            SaveLineup();
+            return RedirectToAction("Roster");
+        }
+        public void SavePositions()
+        {
+
+        }
+
+        public void SaveLineup()
+        {
+
+        }
         public IList<SelectListItem> AvailablePlayers(int poolId)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())

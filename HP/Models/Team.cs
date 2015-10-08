@@ -32,17 +32,7 @@ namespace HP.Models
         [StringLength(128)]
         public string User_Id { get; set; }
 
-        public virtual ICollection<RosterPlayer> RosterPlayers { get; set; }
-
-        public virtual ICollection<NHLPlayer> Players {
-            get
-            {
-                using (var context = new ApplicationDbContext())
-                {
-                    //return context.RosterPlayers.Where(rp => rp.TeamId == Id).ToList();
-                }
-                return null;
-            }
-        }        
+        public virtual ICollection<RosterPlayer> RosterPlayers { get; set; }        
+             
     }
 }

@@ -143,30 +143,18 @@ namespace HP.Models
             //    .HasMany(e => e.RosterPlayers)
             //    .WithMany()
             //    .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
-
-            modelBuilder.Entity<RosterPlayer>().HasKey(e => new { e.PlayerId, e.TeamId });
-            modelBuilder.Entity<RosterPlayer>()
-                .HasRequired(e => e.Player)
-                .WithMany()
-                .HasForeignKey(e => e.PlayerId);
-
-            modelBuilder.Entity<RosterPlayer>()
-                .HasRequired(t => t.Team)
-                .WithMany(t=>t.RosterPlayers)
-                .HasForeignKey(t => t.TeamId);
+            modelBuilder.Configurations.Add(new RosterPlayerMap());
+            
         }
 
         public IList<Team> TeamsByPoolID(int PoolId)
         {
-            var query = Teams.Where(t => t.Pool_Id == PoolId);
-            return query.ToList<Team>();
+            return Teams.Where(t => t.Pool_Id == PoolId).ToList<Team>();
         }
 
         public IList<NHLPlayer> PlayersByPoolID(int PoolId)
         {
-            //var query = TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers);
-            //return query.ToList<NHLPlayer>();
-            return null;
+            return TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers).Select(p=>p.Player).ToList<NHLPlayer>();            
         }
         public IList<NHLPlayer> AvailablePlayers(int PoolId)
         {
