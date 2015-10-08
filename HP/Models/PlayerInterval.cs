@@ -21,12 +21,21 @@ namespace HP.Models
         [Display(Name="")]
         public bool Active { get; set; }
 
-        public PlayerInterval (NHLPlayer player)
+        public PlayerInterval (NHLPlayer player, String position = null)
         {
             Number = player.Number;
             Name = player.FullName;
-            Position = player.EligiblePositionString.First().ToString();
+            Position = position ?? player.EligiblePositionString.First().ToString();
             EligiblePositions = player.EligiblePositionString;
+            Points = 0;
+            Active = false;
+        }
+        public PlayerInterval(RosterPlayer player)
+        {
+            Number = player.Player.Number;
+            Name = player.Player.FullName;
+            Position = player.Position ?? player.Player.EligiblePositionString.First().ToString();
+            EligiblePositions = player.Player.EligiblePositionString;
             Points = 0;
             Active = false;
         }

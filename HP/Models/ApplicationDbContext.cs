@@ -49,6 +49,7 @@ namespace HP.Models
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<RosterPlayer> RosterPlayers { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
@@ -138,10 +139,21 @@ namespace HP.Models
                 .WithRequired(e => e.Team)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Team>()
-                .HasMany(e => e.RosterPlayers)
+            //modelBuilder.Entity<Team>()
+            //    .HasMany(e => e.RosterPlayers)
+            //    .WithMany()
+            //    .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
+
+            modelBuilder.Entity<RosterPlayer>().HasKey(e => new { e.PlayerId, e.TeamId });
+            modelBuilder.Entity<RosterPlayer>()
+                .HasRequired(e => e.Player)
                 .WithMany()
-                .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
+                .HasForeignKey(e => e.PlayerId);
+
+            modelBuilder.Entity<RosterPlayer>()
+                .HasRequired(t => t.Team)
+                .WithMany(t=>t.RosterPlayers)
+                .HasForeignKey(t => t.TeamId);
         }
 
         public IList<Team> TeamsByPoolID(int PoolId)
@@ -152,8 +164,9 @@ namespace HP.Models
 
         public IList<NHLPlayer> PlayersByPoolID(int PoolId)
         {
-            var query = TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers);
-            return query.ToList<NHLPlayer>();
+            //var query = TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers);
+            //return query.ToList<NHLPlayer>();
+            return null;
         }
         public IList<NHLPlayer> AvailablePlayers(int PoolId)
         {

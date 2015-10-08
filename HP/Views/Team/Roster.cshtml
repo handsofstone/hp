@@ -182,16 +182,15 @@
                        { "data-on", "Active" },
                        { "data-off", "Bench" }, 
                        { "data-size", "mini" } })
-                <input type="checkbox" checked >
                 </td>
-                <td>@Html.DisplayFor(p=>pi.Number.ToString())</td>
-                <td>@Html.DisplayFor(p=>pi.Name)</td>
-                <td>@Html.DropDownListFor(p=>pi.Position,new SelectList(pi.EligiblePositions,pi.EligiblePositions.First()))
-                    @*<select>
-                        <option>C</option>
-                    </select>*@
+                @{ var name = pi.Name;
+                    var num = pi.Number.ToString();
+                    var pts = pi.Points.ToString();}
+                <td>@Html.DisplayFor(p=>num)</td>
+                <td>@Html.DisplayFor(p=>name)</td>
+                <td>@Html.DropDownListFor(p=>pi.Position,new SelectList(pi.EligiblePositions,pi.EligiblePositions.First()))                    
                 </td>
-                <td>@Html.DisplayFor(p=>pi.Points.ToString())</td>
+                <td>@Html.DisplayFor(p=>pts)</td>
             </tr>
             }
         </tbody>

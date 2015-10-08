@@ -22,10 +22,11 @@ namespace HP.Controllers
             {
                 var team = context.Teams.Find(id);
                 model.TeamId = id;
-                model.RosterPlayers = new SelectList(team.RosterPlayers, "Id", "LexicalName").ToList();
+                model.RosterPlayers = new SelectList(team.RosterPlayers.Select(p=>p.Player).ToList(), "Id", "LexicalName").ToList();
                 model.AvailablePlayers = AvailablePlayers(team.Pool_Id);
                 model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.Pool_Id, 1),"Id","Name").ToList();
                 model.PlayerIntervals = team.RosterPlayers.Select(p => new PlayerInterval(p)).ToList();
+                //model.PlayerIntervals = team.RosterPlayers.Select(p => new PlayerInterval(p)).ToList();
 
             }
             return View(model);
@@ -41,14 +42,15 @@ namespace HP.Controllers
                     var playerIds = formCollection["playerIds"].Split(',').ToList().Select(int.Parse).ToList();
 
                     var team = context.Teams.Find(teamId);
-                    var players = context.Players.Where(p => playerIds.Contains(p.Id)).ToList();                                      
-                    var deletedPlayers = team.RosterPlayers.Except(players).ToList();
-                    var addedPlayers = players.Except(team.RosterPlayers).ToList();
-                    deletedPlayers.ForEach(p => team.RosterPlayers.Remove(p));
-                    foreach (NHLPlayer p in addedPlayers)
-                    {
-                        team.RosterPlayers.Add(p);
-                    }
+                    var players = context.Players.Where(p => playerIds.Contains(p.Id)).ToList();
+                    //var deletedPlayers = team.RosterPlayers.Except(p=>p.Player)
+                    //var deletedPlayers = team.RosterPlayers.Except(players).ToList();
+                    //var addedPlayers = players.Except(team.RosterPlayers).ToList();
+                    //deletedPlayers.ForEach(p => team.RosterPlayers.Remove(p));
+                    //foreach (NHLPlayer p in addedPlayers)
+                    //{
+                    //    team.RosterPlayers.Add(p);
+                    //}
                     context.SaveChanges();
 
                     return RedirectToAction("Roster", new { id = teamId });

@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201510062010356_AddPoolIdToInterval.Designer.cs">
       <DependentUpon>201510062010356_AddPoolIdToInterval.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510070700130_AddRosterPlayerEntitiy.cs" />
+    <Compile Include="Migrations\201510070700130_AddRosterPlayerEntitiy.Designer.cs">
+      <DependentUpon>201510070700130_AddRosterPlayerEntitiy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -255,6 +259,7 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerInterval.cs" />
     <Compile Include="Models\Pool.cs" />
+    <Compile Include="Models\RosterPlayer.cs" />
     <Compile Include="Models\Standing.cs" />
     <Compile Include="Models\Season.cs" />
     <Compile Include="Models\Team.cs" />
@@ -328,6 +333,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510062010356_AddPoolIdToInterval.resx">
       <DependentUpon>201510062010356_AddPoolIdToInterval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510070700130_AddRosterPlayerEntitiy.resx">
+      <DependentUpon>201510070700130_AddRosterPlayerEntitiy.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
