@@ -35,7 +35,7 @@ namespace HP.Models
         }
         public string LexicalName
         {
-            get { return LastName + ", " + FirstName; }
+            get { return LastName + ", " + FirstName + " "+ NHLTeam; }
         }
         public virtual ICollection<RosterPlayer> RosterPlayers { get; set; }
     }

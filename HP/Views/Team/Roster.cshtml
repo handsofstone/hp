@@ -177,28 +177,30 @@
             <tbody>
                 @foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)
                 {
-                    <tr>
-                        <td>
-                            @Html.CheckBox("active", pi.Active,
-    new Dictionary<string, Object> {
+
+                    var lid = pi.LineupPlayerId;
+                    var pid = pi.PlayerId;
+                    var name = pi.Name;
+                    var num = pi.Number.ToString();
+                    var pts = pi.Points.ToString();
+                    var pos = pi.Position.First();
+                    Dictionary<string, Object> toggleDic = new Dictionary<string, Object> {
                        { "data-toggle", "toggle" },
                        { "data-on", "Active" },
                        { "data-off", "Bench" },
-                       { "data-size", "mini" } })
+                       { "data-size", "mini" } };
+                    <tr>
+                        <td>
+                            @Html.CheckBox("active", pi.Active, toggleDic)
+                            @Html.HiddenFor(p => lid)
                         </td>
-                            @{ 
-                                var pid = pi.Id;
-                                var name = pi.Name;
-                                var num = pi.Number.ToString();
-                                var pts = pi.Points.ToString();
-                            }
                         <td>@Html.DisplayFor(p => num)</td>
                         <td>
                             @Html.DisplayFor(p => name)
                             @Html.HiddenFor(p => pid)
                         </td>
                         <td>
-                            @Html.DropDownListFor(p => pi.Position, new SelectList(pi.EligiblePositions, pi.Position ?? pi.EligiblePositions.First().ToString()))
+                            @Html.DropDownListFor(p => pi.Position, new SelectList(pi.EligiblePositions, pos))
                             @Html.DisplayFor(p=>pi.Position)
                         </td>
                         <td>@Html.DisplayFor(p => pts)</td>

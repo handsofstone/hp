@@ -8,7 +8,7 @@ namespace HP.Models
 {
     public class PlayerInterval
     {
-        [Display(Name="#")]
+        [Display(Name = "#")]
         public int Number { get; set; }
         [Display(Name = "Name")]
         public string Name { get; set; }
@@ -18,13 +18,15 @@ namespace HP.Models
         public string Position { get; set; }
         [Display(Name = "Points")]
         public int Points { get; set; }
-        [Display(Name="")]
+        [Display(Name = "")]
         public bool Active { get; set; }
-        public int Id { get; set; }
+        public int PlayerId { get; set; }
+        public int? LineupPlayerId { get; set; }
 
-        public PlayerInterval (NHLPlayer player, String position = null)
+        public PlayerInterval(NHLPlayer player, String position = null)
         {
-            Id = player.Id;
+            LineupPlayerId = null;
+            PlayerId = player.Id;
             Number = player.Number;
             Name = player.FullName;
             Position = position ?? player.EligiblePositionString.First().ToString();
@@ -34,13 +36,43 @@ namespace HP.Models
         }
         public PlayerInterval(RosterPlayer player)
         {
-            Id = player.PlayerId;
+            LineupPlayerId = null;
+            PlayerId = player.PlayerId;
             Number = player.Player.Number;
             Name = player.Player.FullName;
             Position = player.Position ?? player.Player.EligiblePositionString.First().ToString();
             EligiblePositions = player.Player.EligiblePositionString;
             Points = 0;
             Active = false;
+        }
+        public PlayerInterval(LineupPlayer player)
+        {
+            LineupPlayerId = null;
+            PlayerId = player.PlayerId;
+            Number = player.Player.Number;
+            Name = player.Player.FullName;
+            Position = player.Position;
+            EligiblePositions = player.Player.EligiblePositionString;
+            Points = player.Points;
+            Active = player.Active;
+        }
+    }
+    public class PlayerIntervalComparer : IComparer<PlayerInterval>
+    {
+        public int Compare(PlayerInterval x, PlayerInterval y)
+        {
+            var result = x.Active.CompareTo(y.Active);
+            if (result == 0)
+                result = PositionCompare(x.Position,y.Position);
+            if (result == 0)
+                result = x.Points.CompareTo(y.Points);
+            return result;
+        }
+
+        private int PositionCompare(string x, string y)
+        {
+            List<string> order = new List<string>() { "C", "R", "L", "D", "G" };
+            return order.IndexOf(x).CompareTo(order.IndexOf(y));
         }
     }
 }

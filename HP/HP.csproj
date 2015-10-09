@@ -211,13 +211,18 @@
     <Compile Include="Migrations\201510082136381_InitialCreate.Designer.cs">
       <DependentUpon>201510082136381_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510082247391_AddedRosterPlayersChanged.cs" />
-    <Compile Include="Migrations\201510082247391_AddedRosterPlayersChanged.Designer.cs">
-      <DependentUpon>201510082247391_AddedRosterPlayersChanged.cs</DependentUpon>
+    <Compile Include="Migrations\201510092042000_AddedLineup.cs" />
+    <Compile Include="Migrations\201510092042000_AddedLineup.Designer.cs">
+      <DependentUpon>201510092042000_AddedLineup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510092050353_RenamedToLineupPlayer.cs" />
+    <Compile Include="Migrations\201510092050353_RenamedToLineupPlayer.Designer.cs">
+      <DependentUpon>201510092050353_RenamedToLineupPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
+    <Compile Include="Models\Lineup.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\NHLPlayer.cs" />
     <Compile Include="Models\Player.cs" />
@@ -271,8 +276,11 @@
     <EmbeddedResource Include="Migrations\201510082136381_InitialCreate.resx">
       <DependentUpon>201510082136381_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510082247391_AddedRosterPlayersChanged.resx">
-      <DependentUpon>201510082247391_AddedRosterPlayersChanged.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510092042000_AddedLineup.resx">
+      <DependentUpon>201510092042000_AddedLineup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510092050353_RenamedToLineupPlayer.resx">
+      <DependentUpon>201510092050353_RenamedToLineupPlayer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

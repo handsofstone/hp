@@ -50,6 +50,7 @@ namespace HP.Models
         public virtual DbSet<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<RosterPlayer> RosterPlayers { get; set; }
+        public virtual DbSet<LineupPlayer> LineupPlayers { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
@@ -144,7 +145,8 @@ namespace HP.Models
             //    .WithMany()
             //    .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
             modelBuilder.Configurations.Add(new RosterPlayerMap());
-            
+            modelBuilder.Configurations.Add(new LineupPlayerMap());
+
         }
 
         public IList<Team> TeamsByPoolID(int PoolId)
