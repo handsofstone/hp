@@ -20,9 +20,11 @@ namespace HP.Models
         public int Points { get; set; }
         [Display(Name="")]
         public bool Active { get; set; }
+        public int Id { get; set; }
 
         public PlayerInterval (NHLPlayer player, String position = null)
         {
+            Id = player.Id;
             Number = player.Number;
             Name = player.FullName;
             Position = position ?? player.EligiblePositionString.First().ToString();
@@ -32,6 +34,7 @@ namespace HP.Models
         }
         public PlayerInterval(RosterPlayer player)
         {
+            Id = player.PlayerId;
             Number = player.Player.Number;
             Name = player.Player.FullName;
             Position = player.Position ?? player.Player.EligiblePositionString.First().ToString();

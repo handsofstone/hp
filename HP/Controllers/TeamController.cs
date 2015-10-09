@@ -22,9 +22,9 @@ namespace HP.Controllers
             {
                 var team = context.Teams.Find(id);
                 model.TeamId = id;
-                model.RosterPlayers = new SelectList(team.RosterPlayers.Select(p=>p.Player).ToList(), "Id", "LexicalName").ToList();
+                model.RosterPlayers = new SelectList(team.RosterPlayers.Select(p => p.Player).ToList(), "Id", "LexicalName").ToList();
                 model.AvailablePlayers = AvailablePlayers(team.Pool_Id);
-                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.Pool_Id, 1),"Id","Name").ToList();
+                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.Pool_Id, 1), "Id", "Name").ToList();
                 model.PlayerIntervals = team.RosterPlayers.Select(p => new PlayerInterval(p)).ToList();
                 //model.PlayerIntervals = team.RosterPlayers.Select(p => new PlayerInterval(p)).ToList();
 
@@ -62,13 +62,26 @@ namespace HP.Controllers
 
         public ActionResult SubmitRoster(FormCollection formCollection)
         {
-            SavePositions();
-            SaveLineup();
-            return RedirectToAction("Roster");
-        }
-        public void SavePositions()
-        {
+            var teamId = int.Parse(formCollection["TeamId"]);
+            var keys = formCollection["pid"].Split(',').Select(int.Parse);
+            var values = formCollection["pi.position"].Split(',');
 
+            Dictionary<int, string> positions = keys.Zip(values, (k, v) => new { Key = k, Value = v })
+                     .ToDictionary(x => x.Key, x => x.Value); 
+            SavePositions(teamId, positions);
+            SaveLineup();
+            return RedirectToAction("Roster", new { id = teamId });
+        }
+        public void SavePositions(int teamId, Dictionary<int,string> positions)
+        {
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                foreach (KeyValuePair<int, string> entry in positions)
+                {
+                    context.RosterPlayers.Find(teamId, entry.Key).Position = entry.Value;
+                }
+                context.SaveChanges();
+            }
         }
 
         public void SaveLineup()

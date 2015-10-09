@@ -10,9 +10,8 @@ namespace HP.Models
     [Table("nlpool.RosterPlayer")]
     public class RosterPlayer
     {
-        public int PlayerId { get; set; }
         public int TeamId { get; set; }
-
+        public int PlayerId { get; set; }    
         public virtual Team Team { get;  set; }
         public virtual NHLPlayer Player { get; set; }
         public string Position { get; set; }
@@ -28,7 +27,7 @@ namespace HP.Models
                 .WithMany(t => t.RosterPlayers)
                 .HasForeignKey<int>(t => t.TeamId);
             this.HasRequired<NHLPlayer>(t => t.Player)
-                .WithMany()
+                .WithMany(t => t.RosterPlayers)
                 .HasForeignKey<int>(t => t.PlayerId);            
 
         }
