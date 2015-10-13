@@ -47,7 +47,7 @@ namespace HP.Models
         }
         public PlayerInterval(LineupPlayer player)
         {
-            LineupPlayerId = null;
+            LineupPlayerId = player.Id;
             PlayerId = player.PlayerId;
             Number = player.Player.Number;
             Name = player.Player.FullName;
@@ -61,7 +61,7 @@ namespace HP.Models
     {
         public int Compare(PlayerInterval x, PlayerInterval y)
         {
-            var result = x.Active.CompareTo(y.Active);
+            var result = y.Active.CompareTo(x.Active);
             if (result == 0)
                 result = PositionCompare(x.Position,y.Position);
             if (result == 0)
