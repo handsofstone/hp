@@ -71,6 +71,43 @@
 
     }
 
+    function getPlayerInfoFromRow(i, e) {
+        var player = new Object();
+        player.active = $('#pi_Active', e).is(':checked');
+        player.lid = $('#lid', e).val();
+        player.pid = $('#pid', e).val();        
+        player.position = $('#pi_Position', e).val()
+        return player;
+    }
+
+    function getLineup() {
+        return $('#lineup tbody tr').map(function (i, e) {
+            var player = new Object();
+            player.active = $('#pi_Active', e).is(':checked');
+            player.lid = $('#lid', e).val();
+            player.pid = $('#pid', e).val();
+            player.position = $('#pi_Position', e).val()
+            return player;
+        });
+    }
+
+    function submitLineup() {
+        var intId = $('#SelectedIntervalId').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SubmitLineup")', // we are calling json method
+            dataType: 'json',
+            data: { intervalId: $('#SelectedIntervalId').val(), players: JSON.stringify(getLineup().toArray()) },
+            success: function () {
+                { alert('success');}
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+    }
+
     $(document).ready(function () {
         //Dropdownlist Selectedchange event
         $("#SelectedIntervalId").change(function () {
@@ -150,7 +187,7 @@
                     @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success" aria-label="Left Align">
+                    <button type="button" class="btn btn-success" aria-label="Left Align" onclick="submitLineup()">
                         <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                     </button>
                 </div>
@@ -164,7 +201,7 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">Roster</div>
-        <table class="table table-bordered" data-toggle="table" style="width:auto">
+        <table id="lineup" class="table table-bordered" data-toggle="table" style="width:auto">
             <thead>
                 <tr>
                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Active)</td>
@@ -191,7 +228,7 @@
                        { "data-size", "mini" } };
                     <tr>
                         <td>
-                            @Html.CheckBox("active", pi.Active, toggleDic)
+                            @Html.CheckBoxFor(p => pi.Active, toggleDic)
                             @Html.HiddenFor(p => lid)
                         </td>
                         <td>@Html.DisplayFor(p => num)</td>

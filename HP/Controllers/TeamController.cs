@@ -107,6 +107,23 @@ namespace HP.Controllers
             }
 
         }
+
+        public ActionResult SubmitLineup(string intervalId, string players)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+
+                context.SaveChanges();
+            }
+            return null;
+        }
+
+
+        public void UpdateLineupPlayer(PlayerInterval player)
+        {
+
+        }
+
         public IList<SelectListItem> AvailablePlayers(int poolId)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
