@@ -155,6 +155,7 @@
         var num = player.Number;
         var pts = player.Points;
         var position = player.Position;
+        var team = player.Team;
         var eligiblePositions = player.EligiblePositions;
         var checked = ''
         if (active) {
@@ -168,7 +169,7 @@
                '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="' + playerId + '" />' +
                '</td><td>' + position +
                '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="position" name="position" type="hidden" value="' + position + '" />' +
-               '</td><td>' + pts + '</td></tr>';
+               '</td><td>' + team + '</td><td>' + pts + '</td></tr>';
     }
 
     $(document).ready(function () {
