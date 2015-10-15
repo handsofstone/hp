@@ -23,6 +23,8 @@ namespace HP.Models
         public int PlayerId { get; set; }
         public int? LineupPlayerId { get; set; }
 
+        public PlayerInterval() { }
+
         public PlayerInterval(NHLPlayer player, String position = null)
         {
             LineupPlayerId = null;

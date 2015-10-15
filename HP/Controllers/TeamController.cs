@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace HP.Controllers
@@ -72,50 +73,56 @@ namespace HP.Controllers
 
             Dictionary<int, string> positions = keys.Zip(values, (k, v) => new { Key = k, Value = v })
                      .ToDictionary(x => x.Key, x => x.Value);
-            SavePositions(teamId, positions);
-            SaveLineup(teamId, intId, formCollection["lid"].Split(','), formCollection["pid"].Split(','), formCollection["active"].Split(','),formCollection["pi.position"].Split(','));
+            //SavePositions(teamId, positions);
+            //SaveLineup(teamId, intId, formCollection["lid"].Split(','), formCollection["pid"].Split(','), formCollection["active"].Split(','),formCollection["pi.position"].Split(','));
             return RedirectToAction("Roster", new { id = teamId });
         }
-        public void SavePositions(int teamId, Dictionary<int, string> positions)
+        public void SavePositions(LineupModel model)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                foreach (KeyValuePair<int, string> entry in positions)
+                foreach (var player in model.Players)
                 {
-                    context.RosterPlayers.Find(teamId, entry.Key).Position = entry.Value;
+                    context.RosterPlayers.Find(model.TeamId, player.PlayerId).Position = player.Position;
                 }
                 context.SaveChanges();
             }
         }
 
-        public void SaveLineup(int teamId, int intervalId, string[] lineupIds, string[] playerIds, string[] actives, string[] positions)
+        public void SaveLineup(LineupModel model)
         {
             using (var context = new ApplicationDbContext())
             {
-                for (int i = 0; i < lineupIds.Count(); i++)
+                foreach (var player in model.Players)
                 {
-                    if (lineupIds[i] == String.Empty)
-                        context.LineupPlayers.Add(new LineupPlayer() { TeamId = teamId, IntervalId=intervalId, PlayerId = int.Parse(playerIds[i]), Active = bool.Parse(actives[i]), Position = positions[i]});
+                    if (player.LineupPlayerId == null)
+                        context.LineupPlayers.Add(new LineupPlayer()
+                        {
+                            TeamId = model.TeamId,
+                            IntervalId = model.IntervalId,
+                            PlayerId = player.PlayerId,
+                            Active = player.Active,
+                            Position = player.Position
+                        });
                     else
                     {
-                        var lp = context.LineupPlayers.Find(int.Parse(lineupIds[i]));
-                        lp.Active = bool.Parse(actives[i]);
-                    }
-
+                        var lineupPlayer = context.LineupPlayers.Find(player.LineupPlayerId);
+                        lineupPlayer.Active = player.Active;
+                    }                    
                 }
                 context.SaveChanges();
             }
-
         }
 
-        public ActionResult SubmitLineup(string intervalId, string players)
+        public ActionResult SubmitLineup(LineupModel model)
         {
             using (var context = new ApplicationDbContext())
             {
-
+                SavePositions(model);
+                SaveLineup(model);
                 context.SaveChanges();
             }
-            return null;
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -132,13 +139,6 @@ namespace HP.Controllers
                 return new SelectList(players, "Id", "LexicalName").ToList();
             }
         }
-        public IEnumerable<LineupPlayer> GetLineup(int teamId, int intervalId)
-        {
-            using (var context = new ApplicationDbContext())
-            {
-                return context.LineupPlayers.Where(p => (p.TeamId == teamId) && (p.IntervalId == intervalId));
-            }
-        }
 
         public IEnumerable<PlayerInterval> GetPlayerIntervals(int teamId, int intervalId)
         {
@@ -152,6 +152,13 @@ namespace HP.Controllers
                 }
                 return result.OrderBy(p => p, new PlayerIntervalComparer()).ToList();
             }
+        }
+
+        public JsonResult GetIntervalRoster(int teamId, int intervalId)
+        {
+            var playerIntervals = GetPlayerIntervals(teamId, intervalId);
+
+            return Json(playerIntervals, JsonRequestBehavior.AllowGet);
         }
     }
 }

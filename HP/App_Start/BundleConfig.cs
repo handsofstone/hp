@@ -30,8 +30,13 @@ namespace HP
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-toggle.less",
+                      "~/Content/DataTables/css/dataTables.bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/justified-nav.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                      "~/Scripts/DataTables/jquery.dataTables.js",
+                      "~/Scripts/DataTables/dataTables.bootstrap.js"));
         }
     }
 }

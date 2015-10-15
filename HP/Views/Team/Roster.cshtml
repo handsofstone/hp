@@ -71,34 +71,36 @@
 
     }
 
-    function getPlayerInfoFromRow(i, e) {
-        var player = new Object();
-        player.active = $('#pi_Active', e).is(':checked');
-        player.lid = $('#lid', e).val();
-        player.pid = $('#pid', e).val();        
-        player.position = $('#pi_Position', e).val()
-        return player;
-    }
-
     function getLineup() {
-        return $('#lineup tbody tr').map(function (i, e) {
+        return $('#lineupTable tbody tr').map(function (i, e) {
             var player = new Object();
-            player.active = $('#pi_Active', e).is(':checked');
-            player.lid = $('#lid', e).val();
-            player.pid = $('#pid', e).val();
-            player.position = $('#pi_Position', e).val()
+            player.Active = $('#active', e).is(':checked');
+            //player.LineupPlayerId = $('#lineupPlayerId').val() == "null" ? "" : $('#lineupPlayerId').val()
+            player.LineupPlayerId = $('#lineupPlayerId', e).val()
+            player.PlayerId = $('#playerId', e).val();
+            player.Position = $('#position', e).val()
             return player;
         });
     }
+    function LineupModel()
+    {
+        var model = new Object();
+        model.IntervalId = $('#SelectedIntervalId').val();
+        model.TeamId = $('#TeamId').val();
+        model.Players = getLineup().toArray();
+
+        return model;
+    }
 
     function submitLineup() {
-        var intId = $('#SelectedIntervalId').val();
+        var lm = LineupModel();
 
         $.ajax({
+            contentType: 'application/json, charset=utf-8',
             type: 'POST',
             url: '@Url.Action("SubmitLineup")', // we are calling json method
             dataType: 'json',
-            data: { intervalId: $('#SelectedIntervalId').val(), players: JSON.stringify(getLineup().toArray()) },
+            data: JSON.stringify({model: lm}),
             success: function () {
                 { alert('success');}
             },
@@ -107,8 +109,33 @@
             }
         });
     }
+    function rowForLineup(player)
+    {
+        var active = player.Active;
+        var lineupPlayerId = player.LineupPlayerId;
+        var playerId = player.PlayerId;
+        var name = player.Name;
+        var num = player.Number;
+        var pts = player.Points;
+        var position = player.Position;
+        var eligiblePositions = player.EligiblePositions;
+        var checked = ''
+        if (active) {
+            checked = 'checked="checked"';
+        }
+
+        return '<tr><td>'+
+               '<input '+checked+' data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." id="active" name="active" type="checkbox" value="true" /><input name="active" type="hidden" value="false" />' +
+               '<input data-val="true" data-val-number="The field Nullable`1 must be a number." id="lineupPlayerId" name="lineupPlayerId" type="hidden" value="' + lineupPlayerId + '" />' +
+               '</td><td>'+num+'</td><td>'+ name +
+               '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="' + playerId + '" />' +
+               '</td><td>' + position +
+               '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="position" name="position" type="hidden" value="' + position + '" />' +
+               '</td><td>'+pts+'</td></tr>';
+    }
 
     $(document).ready(function () {
+        $('#active').bootstrapToggle();
         //Dropdownlist Selectedchange event
         $("#SelectedIntervalId").change(function () {
             $('#IntervalRoster').empty();
@@ -116,11 +143,14 @@
                 type: 'POST',
                 url: '@Url.Action("GetIntervalRoster")', // we are calling json method
                 dataType: 'json',
-                data: { id: $("#SelectedIntervalId").val() },
-                success: function (teams) {
-                    $.each(teams, function (i, team) {
-                        $("#teams").append('<li><a href="/Team/Roster/' + team.Value + '">' + team.Text + '</a></li>');
+                data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
+                success: function (players) {
+                    $('#lineup').empty();
+
+                    $.each(players, function (i, player) {
+                        $("#lineup").append(rowForLineup(player));
                     });
+                    $('[id=active]').bootstrapToggle();
                 },
                 error: function (ex) {
                     alert('Failed to retrieve states.' + ex);
@@ -137,38 +167,38 @@
         <div class="modal-content">
             @using (Html.BeginForm("SaveRoster", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
             {
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Player(s)</h4>
-                </div>
-                <div class="modal-body">
-                    <table celpadding=2 cellspacing=1 border=0 class="table">
-                        <tr>
-                            <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
-                            <td>&nbsp;</td>
-                            <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
-                        </tr>
-                        <tr>
-                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                                <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                                @Html.DropDownListFor(model => model.RosterPlayers, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                            </td>
-                            <td style="vertical-align: middle">
-                                <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
-                                <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
-                            </td>
-                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                                @Html.Hidden("teamId", Model.TeamId)
-                                @Html.DropDownListFor(model => model.RosterPlayers, Model.RosterPlayers, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                                @Html.Hidden("playerIds")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Player(s)</h4>
+            </div>
+            <div class="modal-body">
+                <table celpadding=2 cellspacing=1 border=0 class="table">
+                    <tr>
+                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
+                        <td>&nbsp;</td>
+                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                            @Html.DropDownListFor(model => model.RosterPlayers, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                        </td>
+                        <td style="vertical-align: middle">
+                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                        </td>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                            @Html.Hidden("teamId", Model.TeamId)
+                            @Html.DropDownListFor(model => model.RosterPlayers, Model.RosterPlayers, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                            @Html.Hidden("playerIds")
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
             }
         </div>
     </div>
@@ -176,7 +206,7 @@
 
 @using (Html.BeginForm("SubmitRoster", "Team", FormMethod.Post))
 {
-    @Html.HiddenFor(p => Model.TeamId, new {@id="tid" })
+    @Html.HiddenFor(p => Model.TeamId, new { @id = "TeamId" })
     <div class="navbar navbar-default">
         <ul class="nav navbar-nav">
             <li class="navbar-form">
@@ -201,7 +231,7 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">Roster</div>
-        <table id="lineup" class="table table-bordered" data-toggle="table" style="width:auto">
+        <table id="lineupTable" class="table table-bordered" data-toggle="table" style="width:auto">
             <thead>
                 <tr>
                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Active)</td>
@@ -211,16 +241,17 @@
                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Points)</td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="lineup">
                 @foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)
                 {
 
-                    var lid = pi.LineupPlayerId;
-                    var pid = pi.PlayerId;
+                    var active = pi.Active;
+                    var lineupPlayerId = pi.LineupPlayerId;
+                    var playerId = pi.PlayerId;
                     var name = pi.Name;
                     var num = pi.Number.ToString();
                     var pts = pi.Points.ToString();
-                    var pos = pi.Position.First();
+                    var position = pi.Position.First();
                     Dictionary<string, Object> toggleDic = new Dictionary<string, Object> {
                        { "data-toggle", "toggle" },
                        { "data-on", "Active" },
@@ -228,21 +259,22 @@
                        { "data-size", "mini" } };
                     <tr>
                         <td>
-                            @Html.CheckBoxFor(p => pi.Active, toggleDic)
-                            @Html.HiddenFor(p => lid)
+                            @Html.CheckBoxFor(p => active, toggleDic)
+                            @Html.HiddenFor(p => lineupPlayerId)
                         </td>
                         <td>@Html.DisplayFor(p => num)</td>
                         <td>
                             @Html.DisplayFor(p => name)
-                            @Html.HiddenFor(p => pid)
+                            @Html.HiddenFor(p => playerId)
                         </td>
                         <td>
-                            @Html.DropDownListFor(p => pi.Position, new SelectList(pi.EligiblePositions, pos))
-                            @Html.DisplayFor(p=>pi.Position)
+                            @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
+                            @Html.DisplayFor(p => pi.Position)
+                            @Html.HiddenFor(p => position)                            
                         </td>
                         <td>@Html.DisplayFor(p => pts)</td>
                     </tr>
-                  }
+                }
             </tbody>
         </table>
     </div>
