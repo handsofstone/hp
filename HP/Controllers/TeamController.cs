@@ -28,7 +28,7 @@ namespace HP.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult SaveRoster(FormCollection formCollection)
+        public ActionResult AddPlayers(FormCollection formCollection)
         {
             if (ModelState.IsValid)
             {
@@ -36,8 +36,6 @@ namespace HP.Controllers
                 {
                     var teamId = int.Parse(formCollection["teamId"]);
                     var playerIds = formCollection["playerIds"].Split(',').ToList().Select(int.Parse).ToList();
-
-
                     var team = context.Teams.Find(teamId);
                     var currPlayerIds = team.RosterPlayers.Select(p => p.PlayerId).ToList();
                     var players = context.RosterPlayers.Where(p => (p.TeamId == teamId) && (playerIds.Contains(p.PlayerId)));
@@ -56,22 +54,12 @@ namespace HP.Controllers
             return View();
         }
 
-        public ActionResult SubmitRoster(FormCollection formCollection)
+        public ActionResult SaveRoster(SaveRosterViewModel model)
         {
-            var lids = formCollection["lid"].Split(',');
-            var actives = formCollection["active"].Split(',').Select(bool.Parse);
-            var teamId = int.Parse(formCollection["TeamId"]);
-            var keys = formCollection["pid"].Split(',').Select(int.Parse);
-            var values = formCollection["pi.position"].Split(',');
-            var intId = int.Parse(formCollection["SelectedIntervalId"]);
-
-            Dictionary<int, string> positions = keys.Zip(values, (k, v) => new { Key = k, Value = v })
-                     .ToDictionary(x => x.Key, x => x.Value);
-            //SavePositions(teamId, positions);
-            //SaveLineup(teamId, intId, formCollection["lid"].Split(','), formCollection["pid"].Split(','), formCollection["active"].Split(','),formCollection["pi.position"].Split(','));
-            return RedirectToAction("Roster", new { id = teamId });
+            SavePositions(model);
+            return Json(true);
         }
-        public void SavePositions(LineupModel model)
+        public void SavePositions(SaveRosterViewModel model)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
@@ -102,7 +90,7 @@ namespace HP.Controllers
                     {
                         var lineupPlayer = context.LineupPlayers.Find(player.LineupPlayerId);
                         lineupPlayer.Active = player.Active;
-                    }                    
+                    }
                 }
                 context.SaveChanges();
             }
@@ -110,19 +98,8 @@ namespace HP.Controllers
 
         public ActionResult SubmitLineup(LineupModel model)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                SavePositions(model);
-                SaveLineup(model);
-                context.SaveChanges();
-            }
+            SaveLineup(model);
             return Json(true, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public void UpdateLineupPlayer(PlayerInterval player)
-        {
-
         }
 
         public IList<SelectListItem> AvailablePlayers(int poolId)

@@ -366,13 +366,17 @@
     <Compile Include="Migrations\201510092050353_RenamedToLineupPlayer.Designer.cs">
       <DependentUpon>201510092050353_RenamedToLineupPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510152113310_addNHLTeamTable.cs" />
+    <Compile Include="Migrations\201510152113310_addNHLTeamTable.Designer.cs">
+      <DependentUpon>201510152113310_addNHLTeamTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
     <Compile Include="Models\LineupPlayer.cs" />
     <Compile Include="Models\LineupModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
-    <Compile Include="Models\NHLPlayer.cs" />
+    <Compile Include="Models\NHLModels.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerInterval.cs" />
     <Compile Include="Models\Pool.cs" />
@@ -429,6 +433,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510092050353_RenamedToLineupPlayer.resx">
       <DependentUpon>201510092050353_RenamedToLineupPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510152113310_addNHLTeamTable.resx">
+      <DependentUpon>201510152113310_addNHLTeamTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

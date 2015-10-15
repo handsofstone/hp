@@ -14,8 +14,10 @@ namespace HP.Models
         public string Name { get; set; }
         [Display(Name = "Eligible Positions")]
         public string EligiblePositions { get; set; }
-        [Display(Name = "Positon")]
+        [Display(Name = "Positon")]        
         public string Position { get; set; }
+        [Display(Name= "Team")]
+        public string Team { get; set; }
         [Display(Name = "Points")]
         public int Points { get; set; }
         [Display(Name = "")]
@@ -33,6 +35,7 @@ namespace HP.Models
             Name = player.FullName;
             Position = position ?? player.EligiblePositionString.First().ToString();
             EligiblePositions = player.EligiblePositionString;
+            Team = player.NHLTeamCode;
             Points = 0;
             Active = false;
         }
@@ -44,6 +47,7 @@ namespace HP.Models
             Name = player.Player.FullName;
             Position = player.Position ?? player.Player.EligiblePositionString.First().ToString();
             EligiblePositions = player.Player.EligiblePositionString;
+            Team = player.Player.NHLTeamCode;
             Points = 0;
             Active = false;
         }
@@ -55,6 +59,7 @@ namespace HP.Models
             Name = player.Player.FullName;
             Position = player.Position;
             EligiblePositions = player.Player.EligiblePositionString;
+            Team = player.Player.NHLTeamCode;
             Points = player.Points;
             Active = player.Active;
         }

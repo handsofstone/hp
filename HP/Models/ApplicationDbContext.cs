@@ -146,6 +146,7 @@ namespace HP.Models
             //    .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
             modelBuilder.Configurations.Add(new RosterPlayerMap());
             modelBuilder.Configurations.Add(new LineupPlayerMap());
+            modelBuilder.Configurations.Add(new NHLTeamMap());
 
         }
 

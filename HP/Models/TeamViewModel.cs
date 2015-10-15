@@ -18,4 +18,39 @@ namespace HP.Models
         public int SelectedIntervalId { get; set; }
         public IList<PlayerInterval> PlayerIntervals { get; set; }
     }
+    public class AddPlayersViewModel
+    {
+        public int TeamId { get; set; }
+        public List<int> PlayerIds { get; set; }
+    }
+
+    public class RosterPlayerViewModel
+    {
+        public int PlayerId { get; set; }
+        public string Position { get; set; }
+    }
+    
+    public class LineupPlayerViewModel
+    {
+        public int? LineupPlayerId { get; set; }
+        public int PlayerId { get; set; }
+        public bool Active { get; set; }
+        public string Position { get; set; }
+        public LineupPlayerViewModel() { }
+    }
+
+    public class SaveRosterViewModel
+    {
+        public int TeamId { get; set; }
+        public List<RosterPlayerViewModel> Players { get; set; }
+        public SaveRosterViewModel() { }
+    }
+
+    public class SaveLineupViewModel
+    {
+        public int IntervalId { get; set; }
+        public int TeamId { get; set; }
+        public List<LineupPlayerViewModel> Players { get; set; }
+        public SaveLineupViewModel() { }
+    }
 }

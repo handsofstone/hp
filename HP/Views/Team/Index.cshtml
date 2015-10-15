@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
+    // Javascript for Add Players
     function moveDualList(srcList, destList, moveAll) {
 
         var keepers = false;
@@ -70,7 +71,9 @@
         document.getElementById('frmAddPlayers').submit();
 
     }
-
+</script>
+<script type="text/javascript">
+    // Java script for Lineup and Rosters
     function getLineup() {
         return $('#lineupTable tbody tr').map(function (i, e) {
             var player = new Object();
@@ -82,8 +85,8 @@
             return player;
         });
     }
-    function LineupModel()
-    {
+
+    function LineupModel() {
         var model = new Object();
         model.IntervalId = $('#SelectedIntervalId').val();
         model.TeamId = $('#TeamId').val();
@@ -100,23 +103,7 @@
             type: 'POST',
             url: '@Url.Action("SubmitLineup")', // we are calling json method
             dataType: 'json',
-            data: JSON.stringify({model: lm}),
-            success: function () {
-                { alert('success');}
-            },
-            error: function (ex) {
-                alert('Failed to retrieve states.' + ex);
-            }
-        });
-    }
-
-    function saveRoster() {
-        $.ajax({
-            contentType: 'application/json, charset=utf-8',
-            type: 'POST',
-            url: '@Url.Action("SubmitLineup")', // we are calling json method
-            dataType: 'json',
-            data: {},
+            data: JSON.stringify({ model: lm }),
             success: function () {
                 { alert('success'); }
             },
@@ -125,8 +112,42 @@
             }
         });
     }
-    function rowForLineup(player)
+
+    function getRosterPlayers()
     {
+        return $('#rosterTable tbody tr').map(function (i, e) {
+            var player = new Object();
+            player.PlayerId = $('#playerId', e).val();
+            player.Position = $('#position', e).val()
+            return player;
+        });
+    }
+    function SaveRosterViewModel()
+    {
+        var model = Object();
+        model.TeamId = $('#TeamId').val();
+        model.Players = getRosterPlayers().toArray();
+        return model;
+    }
+
+    function saveRoster() {
+        
+        $.ajax({
+            contentType: 'application/json, charset=utf-8',
+            type: 'POST',
+            url: '@Url.Action("SaveRoster")', // we are calling json method
+            dataType: 'json',
+            data: JSON.stringify({model: SaveRosterViewModel()}),
+            success: function () {
+                { alert('success'); }
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+    }
+
+    function rowForLineup(player) {
         var active = player.Active;
         var lineupPlayerId = player.LineupPlayerId;
         var playerId = player.PlayerId;
@@ -140,18 +161,18 @@
             checked = 'checked="checked"';
         }
 
-        return '<tr><td>'+
-               '<input '+checked+' data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." id="active" name="active" type="checkbox" value="true" /><input name="active" type="hidden" value="false" />' +
+        return '<tr><td>' +
+               '<input ' + checked + ' data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." id="active" name="active" type="checkbox" value="true" /><input name="active" type="hidden" value="false" />' +
                '<input data-val="true" data-val-number="The field Nullable`1 must be a number." id="lineupPlayerId" name="lineupPlayerId" type="hidden" value="' + lineupPlayerId + '" />' +
-               '</td><td>'+num+'</td><td>'+ name +
+               '</td><td>' + num + '</td><td>' + name +
                '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="' + playerId + '" />' +
                '</td><td>' + position +
                '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="position" name="position" type="hidden" value="' + position + '" />' +
-               '</td><td>'+pts+'</td></tr>';
+               '</td><td>' + pts + '</td></tr>';
     }
 
     $(document).ready(function () {
-        $('#active').bootstrapToggle();
+
         //Dropdownlist Selectedchange event
         $("#SelectedIntervalId").change(function () {
             $('#IntervalRoster').empty();
@@ -178,96 +199,103 @@
 
 </script>
 <style>
+    .panel.with-nav-tabs .panel-heading {
+        padding: 5px 5px 0 5px;
+    }
 
-.panel.with-nav-tabs .panel-heading{
-    padding: 5px 5px 0 5px;
-}
-.panel.with-nav-tabs .nav-tabs{
-	border-bottom: none;
-}
-.panel.with-nav-tabs .nav-justified{
-	margin-bottom: -1px;
-}
+    .panel.with-nav-tabs .nav-tabs {
+        border-bottom: none;
+    }
 
-/********************************************************************/
-/*** PANEL PRIMARY ***/
-.with-nav-tabs.panel-primary .nav-tabs > li > a,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-    color: #fff;
-}
-.with-nav-tabs.panel-primary .nav-tabs > .open > a,
-.with-nav-tabs.panel-primary .nav-tabs > .open > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > .open > a:focus,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-	color: #fff;
-	background-color: #3071a9;
-	border-color: transparent;
-}
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a,
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
-	color: #428bca;
-	background-color: #fff;
-	border-color: #428bca;
-	border-bottom-color: transparent;
-}
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
-    background-color: #428bca;
-    border-color: #3071a9;
-}
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a {
-    color: #fff;   
-}
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-    background-color: #3071a9;
-}
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-    background-color: #4a9fe9;
-}
+    .panel.with-nav-tabs .nav-justified {
+        margin-bottom: -1px;
+    }
+
+    /********************************************************************/
+    /*** PANEL PRIMARY ***/
+    .with-nav-tabs.panel-primary .nav-tabs > li > a,
+    .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
+    .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
+        color: #fff;
+    }
+
+        .with-nav-tabs.panel-primary .nav-tabs > .open > a,
+        .with-nav-tabs.panel-primary .nav-tabs > .open > a:hover,
+        .with-nav-tabs.panel-primary .nav-tabs > .open > a:focus,
+        .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
+        .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
+            color: #fff;
+            background-color: #3071a9;
+            border-color: transparent;
+        }
+
+    .with-nav-tabs.panel-primary .nav-tabs > li.active > a,
+    .with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
+    .with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
+        color: #428bca;
+        background-color: #fff;
+        border-color: #428bca;
+        border-bottom-color: transparent;
+    }
+
+    .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
+        background-color: #428bca;
+        border-color: #3071a9;
+    }
+
+        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a {
+            color: #fff;
+        }
+
+            .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+            .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #3071a9;
+            }
+
+        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+            background-color: #4a9fe9;
+        }
 </style>
 <div id="addPlayerModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
+        <!-- Add Players Modal content-->
         <div class="modal-content">
-            @using (Html.BeginForm("SaveRoster", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
+            @using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
             {
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add Player(s)</h4>
-            </div>
-            <div class="modal-body">
-                <table celpadding=2 cellspacing=1 border=0 class="table">
-                    <tr>
-                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
-                        <td>&nbsp;</td>
-                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
-                    </tr>
-                    <tr>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                        </td>
-                        <td style="vertical-align: middle">
-                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
-                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
-                        </td>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                            @Html.Hidden("teamId", Model.TeamId)
-                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                            @Html.Hidden("playerIds")
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Player(s)</h4>
+                </div>
+                <div class="modal-body">
+                    <table celpadding=2 cellspacing=1 border=0 class="table">
+                        <tr>
+                            <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
+                            <td>&nbsp;</td>
+                            <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                            </td>
+                            <td style="vertical-align: middle">
+                                <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                                <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                            </td>
+                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                @Html.Hidden("teamId", Model.TeamId)
+                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                                @Html.Hidden("playerIds")
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             }
         </div>
     </div>
@@ -299,12 +327,12 @@
                                     <button type="button" class="btn btn-success" aria-label="Left Align" onclick="submitLineup()">
                                         <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                                     </button>
-                                </div>                                
+                                </div>
                             </li>
                         </ul>
                     </div>
                     <div class="panel panel-default">
-                        <div class="panel-heading">Roster</div>
+                        <div class="panel-heading">Lineup</div>
                         <table id="lineupTable" class="table table-bordered" data-toggle="table" style="width:auto">
                             <thead>
                                 <tr>
@@ -312,25 +340,25 @@
                                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Number)</td>
                                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Name)</td>
                                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Position)</td>
+                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Team)</td>
                                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Points)</td>
                                 </tr>
                             </thead>
                             <tbody id="lineup">
                                 @foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)
-                {
-
-                    var active = pi.Active;
-                    var lineupPlayerId = pi.LineupPlayerId;
-                    var playerId = pi.PlayerId;
-                    var name = pi.Name;
-                    var num = pi.Number.ToString();
-                    var pts = pi.Points.ToString();
-                    var position = pi.Position.First();
-                    Dictionary<string, Object> toggleDic = new Dictionary<string, Object> {
-                       { "data-toggle", "toggle" },
-                       { "data-on", "Active" },
-                       { "data-off", "Bench" },
-                       { "data-size", "mini" } };
+                                {
+                                    var active = pi.Active;
+                                    var lineupPlayerId = pi.LineupPlayerId;
+                                    var playerId = pi.PlayerId;
+                                    var name = pi.Name;
+                                    var num = pi.Number.ToString();
+                                    var pts = pi.Points.ToString();
+                                    var position = pi.Position.First();
+                                    Dictionary<string, Object> toggleDic = new Dictionary<string, Object> {
+                                       { "data-toggle", "toggle" },
+                                       { "data-on", "Active" },
+                                       { "data-off", "Bench" },
+                                       { "data-size", "mini" } };
                                     <tr>
                                         <td>
                                             @Html.CheckBoxFor(p => active, toggleDic)
@@ -344,6 +372,9 @@
                                         <td>
                                             @Html.DisplayFor(p => pi.Position)
                                             @Html.HiddenFor(p => position)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(p => pi.Team)                                            
                                         </td>
                                         <td>@Html.DisplayFor(p => pts)</td>
                                     </tr>
@@ -360,7 +391,7 @@
                                     <button type="button" class="btn btn-success" aria-label="Left Align" onclick="saveRoster()">
                                         <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Save
                                     </button>
-                                </div>   
+                                </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
@@ -371,24 +402,24 @@
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">Roster</div>
-                        <table id="lineupTable" class="table table-bordered" data-toggle="table" style="width:auto">
+                        <table id="rosterTable" class="table table-bordered" data-toggle="table" style="width:auto">
                             <thead>
                                 <tr>
                                     <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
                                     <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Position)</td>
+                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
+                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
                                     <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
                                 </tr>
                             </thead>
                             <tbody id="lineup">
                                 @foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
-                {
-                    var lineupPlayerId = pi.LineupPlayerId;
-                    var playerId = pi.PlayerId;
-                    var name = pi.Name;
-                    var num = pi.Number.ToString();
-                    var pts = pi.Points.ToString();
-                    var position = pi.Position.First();
+                                {
+                                    var playerId = pi.PlayerId;
+                                    var name = pi.Name;
+                                    var num = pi.Number.ToString();
+                                    var pts = pi.Points.ToString();
+                                    var position = pi.Position;
                                     <tr>
                                         <td>@Html.DisplayFor(p => num)</td>
                                         <td>
@@ -398,6 +429,7 @@
                                         <td>
                                             @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
                                         </td>
+                                        <td>@Html.DisplayFor(p => pi.Team)</td>
                                         <td>@Html.DisplayFor(p => pts)</td>
                                     </tr>
                                 }
