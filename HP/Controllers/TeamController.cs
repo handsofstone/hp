@@ -11,23 +11,17 @@ namespace HP.Controllers
     public class TeamController : Controller
     {
         // GET: Team
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
-        }
-
-        public ActionResult Roster(int id)
-        {
-            var model = new RosterViewModel();
+            var model = new TeamViewModel();
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 var team = context.Teams.Find(id);
                 model.TeamId = id;
-                model.RosterPlayers = new SelectList(team.RosterPlayers.Select(p => p.Player).ToList(), "Id", "LexicalName").ToList();
+                model.RosterPlayersToAdd = new SelectList(team.RosterPlayers.Select(p => p.Player).ToList(), "Id", "LexicalName").ToList();
+                model.RosterPlayers = team.RosterPlayers.Select(p => new PlayerInterval(p)).OrderBy(p => p, new PlayerIntervalComparer()).ToList();
                 model.AvailablePlayers = AvailablePlayers(team.Pool_Id);
                 model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.Pool_Id, 1), "Id", "Name").ToList();
-                model.PlayerIntervals = team.RosterPlayers.Select(p => new PlayerInterval(p)).OrderBy(p => p, new PlayerIntervalComparer()).ToList();
-
                 model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.Pool_Id, 1).First().Id).ToList();
 
             }
@@ -56,7 +50,7 @@ namespace HP.Controllers
                     }
                     context.SaveChanges();
 
-                    return RedirectToAction("Roster", new { id = teamId });
+                    return RedirectToAction("Index", new { id = teamId });
                 }
             }
             return View();

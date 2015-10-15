@@ -11,7 +11,7 @@
                 data: { id: $("#SelectedPoolId").val() },
                 success: function (teams) {
                     $.each(teams, function (i, team) {
-                        $("#teams").append('<li><a href="/Team/Roster/'+team.Value+'">'+ team.Text + '</a></li>');
+                        $("#teams").append('<li><a href="/Team/Index/'+team.Value+'">'+ team.Text + '</a></li>');
                     });
                 },
             error: function (ex) {
@@ -45,7 +45,7 @@
                         <ul class="dropdown-menu" id="teams">
                             @foreach (HP.Models.Team t in Model.Teams)
                                 {
-                                <li>@Html.ActionLink(t.Name,"Roster","Team", new { id = t.Id }, null)</li>
+                                <li>@Html.ActionLink(t.Name,"Index","Team", new { id = t.Id }, null)</li>
                             }
                         </ul>
                     </li>

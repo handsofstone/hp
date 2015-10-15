@@ -404,7 +404,7 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Account\Error.cshtml" />
-    <Content Include="Views\Team\Roster.cshtml" />
+    <Content Include="Views\Team\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
