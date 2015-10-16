@@ -370,6 +370,18 @@
     <Compile Include="Migrations\201510152113310_addNHLTeamTable.Designer.cs">
       <DependentUpon>201510152113310_addNHLTeamTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510162209256_AddLineupPlayerTotalMapView.cs" />
+    <Compile Include="Migrations\201510162209256_AddLineupPlayerTotalMapView.Designer.cs">
+      <DependentUpon>201510162209256_AddLineupPlayerTotalMapView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510162240369_AddedJoinToLineupPlayerTotal.cs" />
+    <Compile Include="Migrations\201510162240369_AddedJoinToLineupPlayerTotal.Designer.cs">
+      <DependentUpon>201510162240369_AddedJoinToLineupPlayerTotal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510162244501_ChangedColumnsToNullable.cs" />
+    <Compile Include="Migrations\201510162244501_ChangedColumnsToNullable.Designer.cs">
+      <DependentUpon>201510162244501_ChangedColumnsToNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -436,6 +448,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510152113310_addNHLTeamTable.resx">
       <DependentUpon>201510152113310_addNHLTeamTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510162209256_AddLineupPlayerTotalMapView.resx">
+      <DependentUpon>201510162209256_AddLineupPlayerTotalMapView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510162240369_AddedJoinToLineupPlayerTotal.resx">
+      <DependentUpon>201510162240369_AddedJoinToLineupPlayerTotal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510162244501_ChangedColumnsToNullable.resx">
+      <DependentUpon>201510162244501_ChangedColumnsToNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

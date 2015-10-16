@@ -51,6 +51,7 @@ namespace HP.Models
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<RosterPlayer> RosterPlayers { get; set; }
         public virtual DbSet<LineupPlayer> LineupPlayers { get; set; }
+        public virtual DbSet<LineupPlayerTotal> LineupPlayerTotals { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
@@ -147,6 +148,7 @@ namespace HP.Models
             modelBuilder.Configurations.Add(new RosterPlayerMap());
             modelBuilder.Configurations.Add(new LineupPlayerMap());
             modelBuilder.Configurations.Add(new NHLTeamMap());
+            modelBuilder.Configurations.Add(new LineupPlayerTotalMap());
 
         }
 

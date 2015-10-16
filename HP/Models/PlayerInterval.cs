@@ -60,7 +60,7 @@ namespace HP.Models
             Position = player.Position;
             EligiblePositions = player.Player.EligiblePositionString;
             Team = player.Player.NHLTeamCode;
-            Points = player.Points;
+            Points = player.Total != null ? player.Total.Gain : 0;
             Active = player.Active;
         }
     }
