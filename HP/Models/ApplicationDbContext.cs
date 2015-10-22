@@ -72,8 +72,8 @@ namespace HP.Models
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Teams)
-                .WithOptional(e => e.User)
-                .HasForeignKey(e => e.User_Id);
+                .WithMany(e => e.Users)
+                .Map(m => m.ToTable("UserTeam", "nlpool").MapLeftKey("UserId").MapRightKey("TeamId"));
 
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "nlpool");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin", "nlpool");

@@ -27,7 +27,7 @@ namespace HP.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
-        public User User { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
         [StringLength(128)]
         public string User_Id { get; set; }

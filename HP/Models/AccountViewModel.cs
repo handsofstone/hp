@@ -41,6 +41,13 @@ namespace HP.Models
         [Display(Name = "Confirm password")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
+        [Display(Name = "Select Pool")]        
+        public string Pool { get; set; }
+
+        [Display(Name = "Select Team")]        
+        public string Team { get; set; }
     }
 
     public class ManageViewModel

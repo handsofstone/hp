@@ -31,7 +31,7 @@ namespace HP.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
+        
         public ApplicationSignInManager SignInManager
         {
             get

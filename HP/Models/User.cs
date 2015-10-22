@@ -28,7 +28,10 @@ namespace HP.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
 
             // Add custom user claims here            
-            userIdentity.AddClaim(new Claim("Name", Name != null ? Name : " "));
+            userIdentity.AddClaim(new Claim(ClaimTypes.Name, Name ?? " "));
+            //userIdentity.AddClaim(new Claim(ClaimTypes.UserData, Teams));
+            foreach (var role in Roles)
+                userIdentity.AddClaim(new Claim(ClaimTypes.Role, role.RoleId));
             return userIdentity;
         }
 

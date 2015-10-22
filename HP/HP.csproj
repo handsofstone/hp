@@ -382,6 +382,10 @@
     <Compile Include="Migrations\201510162244501_ChangedColumnsToNullable.Designer.cs">
       <DependentUpon>201510162244501_ChangedColumnsToNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510222136448_AddUserTeamTable.cs" />
+    <Compile Include="Migrations\201510222136448_AddUserTeamTable.Designer.cs">
+      <DependentUpon>201510222136448_AddUserTeamTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -457,6 +461,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510162244501_ChangedColumnsToNullable.resx">
       <DependentUpon>201510162244501_ChangedColumnsToNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510222136448_AddUserTeamTable.resx">
+      <DependentUpon>201510222136448_AddUserTeamTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
