@@ -7,13 +7,13 @@ namespace HP.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddUserTeamTable : IMigrationMetadata
+    public sealed partial class AddTeamSeasonStandingView : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddUserTeamTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddTeamSeasonStandingView));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510222136448_AddUserTeamTable"; }
+            get { return "201510170716151_AddTeamSeasonStandingView"; }
         }
         
         string IMigrationMetadata.Source

@@ -26,5 +26,13 @@ namespace HP.Models
         public virtual Team Team { get; set; }
 
         public virtual Season Season { get; set; }
+
+        public Standing() { }
+        public Standing(TeamSeasonStanding standing)
+        {
+            Team = standing.Team;
+            PointTotal = Convert.ToInt16(standing.Total);
+        }
+      
     }
 }

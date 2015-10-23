@@ -52,6 +52,7 @@ namespace HP.Models
         public virtual DbSet<RosterPlayer> RosterPlayers { get; set; }
         public virtual DbSet<LineupPlayer> LineupPlayers { get; set; }
         public virtual DbSet<LineupPlayerTotal> LineupPlayerTotals { get; set; }
+        public virtual DbSet<TeamSeasonStanding> TeamSeasonStanding { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
@@ -136,19 +137,25 @@ namespace HP.Models
             //    .WithRequired(e => e.Team)
             //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Team>()
-                .HasMany(e => e.Team_Season_Player_Interval)
-                .WithRequired(e => e.Team)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Team>()
+            //    .HasMany(e => e.Team_Season_Player_Interval)
+            //    .WithRequired(e => e.Team)
+            //    .WillCascadeOnDelete(false);
 
             //modelBuilder.Entity<Team>()
             //    .HasMany(e => e.RosterPlayers)
             //    .WithMany()
             //    .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
+            //modelBuilder.Entity<Team>()
+            //    .HasMany<TeamSeasonStanding>(e => e.Standings)
+            //    .WithRequired(e => e.Team)
+            //    .Map(m => m.ToTable("TeamSeasonStanding", "nlpool").MapKey("TeamId"));
+
             modelBuilder.Configurations.Add(new RosterPlayerMap());
             modelBuilder.Configurations.Add(new LineupPlayerMap());
             modelBuilder.Configurations.Add(new NHLTeamMap());
             modelBuilder.Configurations.Add(new LineupPlayerTotalMap());
+            modelBuilder.Configurations.Add(new TeamSeasonStandingMap());
 
         }
 

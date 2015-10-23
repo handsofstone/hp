@@ -10,10 +10,7 @@ namespace HP.Models
     public partial class Team
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Team()
-        {
-            Team_Season_Player_Interval = new HashSet<Team_Season_Player_Interval>();
-        }
+        public Team() { }
 
         public int Id { get; set; }
 
@@ -25,14 +22,14 @@ namespace HP.Models
 
         public virtual Pool Pool { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        public User User { get; set; }
 
         [StringLength(128)]
         public string User_Id { get; set; }
 
         public virtual ICollection<RosterPlayer> RosterPlayers { get; set; }        
+
+        public virtual ICollection<TeamSeasonStanding> Standings { get; set; }
              
     }
 }

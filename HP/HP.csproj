@@ -382,14 +382,13 @@
     <Compile Include="Migrations\201510162244501_ChangedColumnsToNullable.Designer.cs">
       <DependentUpon>201510162244501_ChangedColumnsToNullable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510222136448_AddUserTeamTable.cs" />
-    <Compile Include="Migrations\201510222136448_AddUserTeamTable.Designer.cs">
-      <DependentUpon>201510222136448_AddUserTeamTable.cs</DependentUpon>
+    <Compile Include="Migrations\201510170716151_AddTeamSeasonStandingView.cs" />
+    <Compile Include="Migrations\201510170716151_AddTeamSeasonStandingView.Designer.cs">
+      <DependentUpon>201510170716151_AddTeamSeasonStandingView.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
-    <Compile Include="Models\LineupPlayer.cs" />
     <Compile Include="Models\LineupModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\NHLModels.cs" />
@@ -462,8 +461,8 @@
     <EmbeddedResource Include="Migrations\201510162244501_ChangedColumnsToNullable.resx">
       <DependentUpon>201510162244501_ChangedColumnsToNullable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510222136448_AddUserTeamTable.resx">
-      <DependentUpon>201510222136448_AddUserTeamTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510170716151_AddTeamSeasonStandingView.resx">
+      <DependentUpon>201510170716151_AddTeamSeasonStandingView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
