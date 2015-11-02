@@ -17,6 +17,9 @@ namespace HP
             bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include(
                         "~/Scripts/jquery.unobtrusive*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                        "~/Scripts/jquery-ui-{version}.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -31,6 +34,7 @@ namespace HP
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-toggle.less",
                       "~/Content/DataTables/css/dataTables.bootstrap.css",
+                      "~/Content/jquery-ui.css",
                       "~/Content/site.css",
                       "~/Content/justified-nav.css"));
 

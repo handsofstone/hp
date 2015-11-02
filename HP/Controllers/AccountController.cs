@@ -31,7 +31,7 @@ namespace HP.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-        
+
         public ApplicationSignInManager SignInManager
         {
             get
@@ -130,7 +130,7 @@ namespace HP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name};
+                    var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -200,8 +200,8 @@ namespace HP.Controllers
                 {
 
                 }
-                
-                
+
+
             }
             return RedirectToAction("Index", "Home");
         }
@@ -223,5 +223,31 @@ namespace HP.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult AutoCompletePool(string term)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var result = (from p in db.Pools
+                              where p.Name.ToLower().Contains(term.ToLower())
+                              select new { p.Name, p.Id }).Distinct();
+                return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult AutoCompleteTeam(string term, int poolId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var result = (from p in db.Teams
+                              where p.Name.ToLower().Contains(term.ToLower()) && p.Pool_Id == poolId
+                              select new { p.Name }).Distinct();
+                return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+            }
+
+        }
     }
 }

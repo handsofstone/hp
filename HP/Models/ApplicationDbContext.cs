@@ -77,7 +77,7 @@ namespace HP.Models
             //    .Map(m => m.ToTable("UserTeam", "nlpool").MapLeftKey("UserId").MapRightKey("TeamId"));
             modelBuilder.Entity<User>()
             .HasMany(e => e.Teams)
-            .WithRequired(e => e.User)
+            .WithOptional(e => e.User)
             .HasForeignKey(e => e.User_Id);
             
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "nlpool");
