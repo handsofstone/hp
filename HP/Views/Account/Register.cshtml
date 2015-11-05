@@ -89,10 +89,16 @@
                     success: function (data) {
                         response($.map(data, function (item) {
                             $("#SelectedPoolId").val(item.Id);
-                            return { label: item.Name, value: item.Name };
-                        }))                        
+                        return { value: item.Name, id: item.Id };
+                        }))
                     }
                 })
+            },
+            select: function (event, ui) {
+                //log(ui.item ?
+                //    "Selected: " + ui.item.value + " aka " + ui.item.id :
+                //    "Nothing selected, input was " + this.value);
+                $("#SelectedTeam").show();
             }
         });
     })
@@ -107,7 +113,8 @@
                     data: { term: request.term, poolId: $("#SelectedPoolId").val() },
                     success: function (data) {
                         response($.map(data, function (item) {
-                            return { label: item.Name, value: item.Name };
+                            $("#SelectedTeamId").val(item.Id);
+                            return { value: item.Name, id: item.Id };
                         }))
 
                     }
@@ -148,29 +155,32 @@
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
-    <div class="container">
+    <div class="ui-widget">
         <div class="form-group">
             @Html.LabelFor(m => m.Pool, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.TextBoxFor(m => m.Pool, new { @class = "form-control", id = "SelectedPool" })
-                @Html.HiddenFor(m => m.Pool, new { id = "SelectedPoolId"})
+                @Html.HiddenFor(m => m.Pool, new { id = "SelectedPoolId" })
             </div>
         </div>
     </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Team, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Team, new { @class = "form-control", id = "SelectedTeam" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Team, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Team, new { @class = "form-control", id = "SelectedTeam" })
+            @Html.HiddenFor(m => m.Team, new { id = "SelectedTeamId" })
         </div>
+    </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />
         </div>
     </div>
-}<script>
-    $.cascadingAutocompletes(["#SelectedPool", "#SelectedTeam"]);
+}
+<script>
+    $("#SelectedTeam").hide();
+    //$.cascadingAutocompletes(["#SelectedPool", "#SelectedTeam"]);
 
 </script>
 
