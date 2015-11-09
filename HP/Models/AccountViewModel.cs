@@ -48,6 +48,8 @@ namespace HP.Models
 
         [Display(Name = "Select Team")]        
         public string Team { get; set; }
+
+        public int SelectedTeamId { get; set; }
     }
 
     public class ManageViewModel
