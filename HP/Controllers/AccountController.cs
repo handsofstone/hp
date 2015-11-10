@@ -89,6 +89,8 @@ namespace HP.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = await UserManager.FindAsync(model.Email, model.Password);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -236,7 +238,7 @@ namespace HP.Controllers
             {
                 var result = (from p in db.Pools
                               where p.Name.ToLower().Contains(term.ToLower())
-                              select new { value=p.Name, id=p.Id }).Distinct();
+                              select new { value = p.Name, id = p.Id }).Distinct();
                 return Json(result.ToList(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -249,7 +251,7 @@ namespace HP.Controllers
             {
                 var result = (from p in db.Teams
                               where p.Name.ToLower().Contains(term.ToLower()) && p.Pool_Id == poolId
-                              select new { value=p.Name, id=p.Id }).Distinct();
+                              select new { value = p.Name, id = p.Id }).Distinct();
                 return Json(result.ToList(), JsonRequestBehavior.AllowGet);
             }
 
