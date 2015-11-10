@@ -113,8 +113,7 @@
         });
     }
 
-    function getRosterPlayers()
-    {
+    function getRosterPlayers() {
         return $('#rosterTable tbody tr').map(function (i, e) {
             var player = new Object();
             player.PlayerId = $('#playerId', e).val();
@@ -122,8 +121,7 @@
             return player;
         });
     }
-    function SaveRosterViewModel()
-    {
+    function SaveRosterViewModel() {
         var model = Object();
         model.TeamId = $('#TeamId').val();
         model.Players = getRosterPlayers().toArray();
@@ -131,13 +129,13 @@
     }
 
     function saveRoster() {
-        
+
         $.ajax({
             contentType: 'application/json, charset=utf-8',
             type: 'POST',
             url: '@Url.Action("SaveRoster")', // we are calling json method
             dataType: 'json',
-            data: JSON.stringify({model: SaveRosterViewModel()}),
+            data: JSON.stringify({ model: SaveRosterViewModel() }),
             success: function () {
                 { alert('success'); }
             },
@@ -301,20 +299,21 @@
         </div>
     </div>
 </div>
-
 @using (Html.BeginForm("SubmitRoster", "Team", FormMethod.Post))
 {
     @Html.HiddenFor(p => Model.TeamId, new { @id = "TeamId" })
-    <div class="panel with-nav-tabs panel-primary">
-        <div class="panel-heading">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
-                <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
-            </ul>
-        </div>
-        <div class="panel-body">
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="tabLineup">
+
+<div class="panel with-nav-tabs panel-primary">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
+            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabLineup">
+
                     <div class="navbar navbar-default">
                         <ul class="nav navbar-nav">
                             <li class="navbar-form">
@@ -375,7 +374,7 @@
                                             @Html.HiddenFor(p => position)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(p => pi.Team)                                            
+                                            @Html.DisplayFor(p => pi.Team)
                                         </td>
                                         <td>@Html.DisplayFor(p => pts)</td>
                                     </tr>
@@ -383,8 +382,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="tabRoster">
+            </div>
+            <div class="tab-pane fade" id="tabRoster">
                     <div class="navbar navbar-default">
                         <ul class="nav navbar-nav">
                             <li class="navbar-form">
@@ -420,7 +419,7 @@
                                     var name = pi.Name;
                                     var num = pi.Number.ToString();
                                     var pts = pi.Points.ToString();
-                                    var position = pi.Position;
+                                    var position = pi.Position.First();
                                     <tr>
                                         <td>@Html.DisplayFor(p => num)</td>
                                         <td>
@@ -437,8 +436,10 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
+             </div>
         </div>
     </div>
+</div>
 }
+
+
