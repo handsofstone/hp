@@ -36,8 +36,8 @@ namespace HP
                       "~/Content/bootstrap2-toggle.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.css",
                       "~/Content/jquery-ui.css",
-                      "~/Content/themes/start/jquery-ui.start.css",
-                      "~/Content/themes/start/autocomplete.css",
+                      "~/Content/jquery-ui.start.css",
+                      "~/Content/autocomplete.css",
                       "~/Content/site.css",
                       "~/Content/justified-nav.css"));
 

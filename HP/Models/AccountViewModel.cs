@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace HP.Models
 {
@@ -39,18 +38,17 @@ namespace HP.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Select Pool")]        
+        [Display(Name = "Select Pool")]
         public string Pool { get; set; }
 
         [Required]
-        [Display(Name = "Select Team")]        
+        [Display(Name = "Select Team")]
         public string Team { get; set; }
 
-        [Required]    
         public int SelectedTeamId { get; set; }
     }
 
