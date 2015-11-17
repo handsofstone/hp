@@ -22,10 +22,11 @@ namespace HP.Models
 
         public virtual Pool Pool { get; set; }
 
-        public User User { get; set; }
+        //public User User { get; set; }
+        public virtual ICollection<UserTeam> Users { get; set; }
 
-        [StringLength(128)]
-        public string User_Id { get; set; }
+        //[StringLength(128)]
+        //public string User_Id { get; set; }
 
         public virtual ICollection<RosterPlayer> RosterPlayers { get; set; }        
 

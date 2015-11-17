@@ -15,12 +15,12 @@ namespace HP.Models
     {
         public User()
         {
-            Teams = new HashSet<Team>();
+            Teams = new HashSet<UserTeam>();
         }
 
         public string Name { get; set; }
 
-        public virtual ICollection<Team> Teams { get; set; }
+        public virtual ICollection<UserTeam> Teams { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -39,8 +39,8 @@ namespace HP.Models
         {
             ICollection<Pool> pools = new List<Pool>();
 
-            foreach (Team team in Teams)
-                pools.Add(team.Pool);
+            foreach (UserTeam team in Teams)
+                pools.Add(team.Team.Pool);
 
             return pools;
         }

@@ -18,10 +18,14 @@ namespace HP.Models
         public MenuViewModel(User user)
         {
             Pools = new SelectList(user.GetPools(),"Id","Name").ToList();
+            Teams = new List<Team>();
             //foreach (var pool in user.GetPools())
             //    Pools.Add(new SelectListItem() { Text = pool.Name, Value = pool.Id.ToString() });
-            SelectedPoolId = Int32.Parse(Pools.First().Value);
-            Teams = new ApplicationDbContext().TeamsByPoolID(SelectedPoolId);
+            if (Pools.Count != 0)
+            {
+                SelectedPoolId = Int32.Parse(Pools.First().Value);
+                Teams = new ApplicationDbContext().TeamsByPoolID(SelectedPoolId);
+            }
         }
 
         public bool ShowPool { get { return Pools != null && Pools.Count > 0; } }

@@ -53,6 +53,7 @@ namespace HP.Models
         public virtual DbSet<LineupPlayer> LineupPlayers { get; set; }
         public virtual DbSet<LineupPlayerTotal> LineupPlayerTotals { get; set; }
         public virtual DbSet<TeamSeasonStanding> TeamSeasonStanding { get; set; }
+        public virtual DbSet<UserTeam> UserTeams { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
@@ -75,10 +76,10 @@ namespace HP.Models
             //    .HasMany(e => e.Teams)
             //    .WithMany(e => e.Users)
             //    .Map(m => m.ToTable("UserTeam", "nlpool").MapLeftKey("UserId").MapRightKey("TeamId"));
-            modelBuilder.Entity<User>()
-            .HasMany(e => e.Teams)
-            .WithOptional(e => e.User)
-            .HasForeignKey(e => e.User_Id);
+            //modelBuilder.Entity<User>()
+            //.HasMany(e => e.Teams)
+            //.WithOptional(e => e.User)
+            //.HasForeignKey(e => e.User_Id);
             
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "nlpool");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin", "nlpool");
@@ -156,6 +157,7 @@ namespace HP.Models
             //    .Map(m => m.ToTable("TeamSeasonStanding", "nlpool").MapKey("TeamId"));
 
             modelBuilder.Configurations.Add(new RosterPlayerMap());
+            modelBuilder.Configurations.Add(new UserTeamMap());
             modelBuilder.Configurations.Add(new LineupPlayerMap());
             modelBuilder.Configurations.Add(new NHLTeamMap());
             modelBuilder.Configurations.Add(new LineupPlayerTotalMap());

@@ -133,14 +133,15 @@ namespace HP.Controllers
                 if (ModelState.IsValid)
                 {
                     var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name };
-                    using (var db = new ApplicationDbContext())
-                    {
-                        user.Teams.Add(db.Teams.Find(model.SelectedTeamId));
-                    }
                     var result = await UserManager.CreateAsync(user, model.Password);
+
                     if (result.Succeeded)
                     {
-
+                        using (var db = new ApplicationDbContext())
+                        {
+                            db.UserTeams.Add(new UserTeam() { UserId = user.Id, TeamId = model.SelectedTeamId });
+                            db.SaveChanges();
+                        }
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
