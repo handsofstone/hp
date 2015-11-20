@@ -45,6 +45,22 @@ namespace HP.Models
     }
     public class StandingRow
     {
+        [Display(Name = "Rank")]
+        public short Rank { get; set; }
+        [Display(Name = "Team Name")]
+        public string Name { get; set; }        
+        [Display(Name = "Gain")]
+        public short Gain { get; set; }
+        [Display(Name = "Total")]
+        public short Total { get; set; }
 
+        public StandingRow(Standing standing)
+        {
+            Rank = standing.Rank;
+            Name = standing.Team.Name;
+            Gain = standing.Gain;
+            Total = standing.PointTotal;
+
+        }
     }
 }
