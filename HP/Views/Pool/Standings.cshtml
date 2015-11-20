@@ -15,20 +15,20 @@
 <table class="table table-bordered" style="width:auto">
     <thead>
         <tr>
-            <td>@Html.DisplayNameFor(model=>model.Standings[0].Rank)</td>
-            <td>@Html.DisplayNameFor(model=>model.Standings[0].Team.Name)</td>
-            <td>@Html.DisplayNameFor(model=>model.Standings[0].Gain)</td>
-            <td>@Html.DisplayNameFor(model=>model.Standings[0].PointTotal)</td>
+            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Rank)</td>
+            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Name)</td>
+            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Gain)</td>
+            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Total)</td>
         </tr>
     </thead>
     <tbody>
-        @foreach (HP.Models.Standing standing in Model.Standings)
+        @foreach (HP.Models.StandingRow row in Model.StandingRows)
         {
             <tr>
-                <td>@standing.Rank.ToString()</td>
-                <td>@standing.Team.Name.ToString()</td>
-                <td>@standing.Gain.ToString()</td>
-                <td>@standing.PointTotal.ToString()</td>
+                <td>@row.Rank.ToString()</td>
+                <td>@row.Name.ToString()</td>
+                <td>@row.Gain.ToString()</td>
+                <td>@row.Total.ToString()</td>
             </tr>
         }
     </tbody>
