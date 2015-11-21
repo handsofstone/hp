@@ -17,7 +17,7 @@
         }
 
         // Do nothing if nothing is selected
-        if ((srcList.selectedIndex == -1) && (moveAll == false)) {
+        if ((srcList.selectedIndex == -1) && (moveAll === false)) {
             return;
         } else if (keepers) {
             return;
@@ -34,7 +34,7 @@
     function addOption(object, text, value) {
         var defaultSelected = true;
         var selected = true;
-        var optionName = new Option(text, value, defaultSelected, selected)
+        var optionName = new Option(text, value, defaultSelected, selected);
         object.options[object.length] = optionName;
     }
 
@@ -43,7 +43,7 @@
             if (fromObject.options[i].selected)
                 addOption(toObject, fromObject.options[i].text, fromObject.options[i].value);
         }
-        for (var i = fromObject.options.length - 1; i > -1; i--) {
+        for (i = fromObject.options.length - 1; i > -1; i--) {
             if (fromObject.options[i].selected)
                 deleteOption(fromObject, i);
         }
@@ -71,32 +71,42 @@
         document.getElementById('frmAddPlayers').submit();
 
     }
-</script>
-<script type="text/javascript">
+
+    function player(active, lid, pid, pos )
+    {
+        this.active = active;
+        this.lineupPlayerId = lid;
+        this.playerId = pid;
+        this.position = pos;
+    }
+
     // Java script for Lineup and Rosters
     function getLineup() {
         return $('#lineupTable tbody tr').map(function (i, e) {
-            var player = new Object();
-            player.Active = $('#active', e).is(':checked');
+            //var player =
+            //var player = new Object();
+            //player.Active = $('#active', e).is(':checked');
             //player.LineupPlayerId = $('#lineupPlayerId').val() == "null" ? "" : $('#lineupPlayerId').val()
-            player.LineupPlayerId = $('#lineupPlayerId', e).val()
-            player.PlayerId = $('#playerId', e).val();
-            player.Position = $('#position', e).val()
-            return player;
+            //player.LineupPlayerId = $('#lineupPlayerId', e).val()
+            //player.PlayerId = $('#playerId', e).val();
+            //player.Position = $('#position', e).val()
+            return new player(
+                $('#active', e).is(':checked'),
+                $('#lineupPlayerId', e).val(),
+                $('#playerId', e).val(),
+                $('#position', e).val()
+                );
         });
     }
 
-    function LineupModel() {
-        var model = new Object();
-        model.IntervalId = $('#SelectedIntervalId').val();
-        model.TeamId = $('#TeamId').val();
-        model.Players = getLineup().toArray();
-
-        return model;
+    function lineupModel() {
+        this.IntervalId = $('#SelectedIntervalId').val();
+        this.TeamId = $('#TeamId').val();
+        this.Players = getLineup().toArray();
     }
 
     function submitLineup() {
-        var lm = LineupModel();
+        var lm = lineupModel();
 
         $.ajax({
             contentType: 'application/json, charset=utf-8',
