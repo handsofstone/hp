@@ -12,7 +12,6 @@ namespace HP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Interval()
         {
-            Team_Season_Player_Interval = new HashSet<Team_Season_Player_Interval>();
         }
 
         public int Id { get; set; }
@@ -32,7 +31,5 @@ namespace HP.Models
 
         public string Name { get { return StartDate.ToString("MMM d") + " - " + EndDate.ToString("MMM d"); } }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
     }
 }

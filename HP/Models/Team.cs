@@ -18,7 +18,7 @@ namespace HP.Models
         [Display(Name="Team Name")]
         public string Name { get; set; }
 
-        public int Pool_Id { get; set; }
+        public int PoolId { get; set; }
 
         public virtual Pool Pool { get; set; }
 

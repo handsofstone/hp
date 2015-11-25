@@ -44,10 +44,8 @@ namespace HP.Models
         // Custom DbSets
         public virtual DbSet<Interval> Intervals { get; set; }
         public virtual DbSet<NHLPlayer> Players { get; set; }
-        public virtual DbSet<Standing> Standings { get; set; }
         public virtual DbSet<Pool> Pools { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
-        public virtual DbSet<Team_Season_Player_Interval> Team_Season_Player_Interval { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<RosterPlayer> RosterPlayers { get; set; }
         public virtual DbSet<LineupPlayer> LineupPlayers { get; set; }
@@ -71,30 +69,11 @@ namespace HP.Models
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Roles);
-
-            //modelBuilder.Entity<User>()
-            //    .HasMany(e => e.Teams)
-            //    .WithMany(e => e.Users)
-            //    .Map(m => m.ToTable("UserTeam", "nlpool").MapLeftKey("UserId").MapRightKey("TeamId"));
-            //modelBuilder.Entity<User>()
-            //.HasMany(e => e.Teams)
-            //.WithOptional(e => e.User)
-            //.HasForeignKey(e => e.User_Id);
             
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "nlpool");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin", "nlpool");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim", "nlpool");
             modelBuilder.Entity<IdentityRole>().ToTable("Role", "nlpool");
-
-            modelBuilder.Entity<Interval>()
-                 .HasMany(e => e.Team_Season_Player_Interval)
-                 .WithRequired(e => e.Interval)
-                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Player>()
-                .HasMany(e => e.Team_Season_Player_Interval)
-                .WithRequired(e => e.Player)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Configurations.Add(new PlayerMap());
 
@@ -103,58 +82,20 @@ namespace HP.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Pool>()
-                .HasMany(e => e.Standings)
-                .WithRequired(e => e.Pool)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Pool>()
                 .HasMany(e => e.Teams)
                 .WithRequired(e => e.Pool)
-                .HasForeignKey(e => e.Pool_Id)
+                .HasForeignKey(e => e.PoolId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Pool>()
                 .HasMany(e => e.Seasons)
                 .WithMany(e => e.Pools)
-                .Map(m => m.ToTable("PoolSeason", "nlpool").MapLeftKey("Pools_Id").MapRightKey("Seasons_Id"));
+                .Map(m => m.ToTable("PoolSeason", "nlpool").MapLeftKey("PoolId").MapRightKey("SeasonId"));
 
             modelBuilder.Entity<Season>()
                 .HasMany(e => e.Intervals)
                 .WithRequired(e => e.Season)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Season>()
-                .HasMany(e => e.Standings)
-                .WithRequired(e => e.Season)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Season>()
-                .HasMany(e => e.Team_Season_Player_Interval)
-                .WithRequired(e => e.Season)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Standing>()
-                .HasRequired(e => e.Team)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-            //modelBuilder.Entity<Team>()
-            //    .HasMany(e => e.Standings)
-            //    .WithRequired(e => e.Team)
-            //    .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<Team>()
-            //    .HasMany(e => e.Team_Season_Player_Interval)
-            //    .WithRequired(e => e.Team)
-            //    .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<Team>()
-            //    .HasMany(e => e.RosterPlayers)
-            //    .WithMany()
-            //    .Map(m => m.ToTable("RosterPlayer", "nlpool").MapLeftKey("Team_Id").MapRightKey("Player_Id"));
-            //modelBuilder.Entity<Team>()
-            //    .HasMany<TeamSeasonStanding>(e => e.Standings)
-            //    .WithRequired(e => e.Team)
-            //    .Map(m => m.ToTable("TeamSeasonStanding", "nlpool").MapKey("TeamId"));
 
             modelBuilder.Configurations.Add(new RosterPlayerMap());
             modelBuilder.Configurations.Add(new UserTeamMap());
@@ -167,7 +108,7 @@ namespace HP.Models
 
         public IList<Team> TeamsByPoolID(int PoolId)
         {
-            return Teams.Where(t => t.Pool_Id == PoolId).ToList<Team>();
+            return Teams.Where(t => t.PoolId == PoolId).ToList<Team>();
         }
 
         public IList<NHLPlayer> PlayersByPoolID(int PoolId)

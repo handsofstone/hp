@@ -16,18 +16,19 @@ namespace HP.Models
         [Display(Name="Season")]
         public int SelectedSeasonID { get; set; }
         public IList<SelectListItem> Seasons { get; set; }
-        public List<Standing> Standings { get; set; }
         public List<StandingRow> StandingRows { get; set; }
     }
 
     public class TeamSeasonStanding
     {
-        //[ForeignKey("Team")]
+        public int Rank { get; set; }
         public int TeamId { get; set; }
+        public int PoolId { get; set; }
         public int SeasonId { get; set; }
         public int Total { get; set; }
-        public Team Team { get; set; }
-        public Season Season { get; set; }
+        public virtual Team Team { get; set; }
+        public virtual Season Season { get; set; }
+        public virtual Pool Pool { get; set; }
     }
     public class TeamSeasonStandingMap : EntityTypeConfiguration<TeamSeasonStanding>
     {
@@ -36,21 +37,24 @@ namespace HP.Models
             this.HasKey(t => new { t.TeamId, t.SeasonId });
             this.ToTable("nlpool.TeamSeasonStanding");
             this.HasRequired(t => t.Team)
-                .WithMany(t => t.Standings)
+                .WithMany()
                 .HasForeignKey(t => t.TeamId);
             this.HasRequired(t => t.Season)
                 .WithMany()
                 .HasForeignKey(t => t.SeasonId);
+            this.HasRequired(t => t.Pool)
+                .WithMany()
+                .HasForeignKey(t => t.PoolId);
         }
     }
     public class StandingRow
     {
         [Display(Name = "Rank")]
-        public short Rank { get; set; }
+        public int Rank { get; set; }
         [Display(Name = "Team Name")]
         public string Name { get; set; }        
         [Display(Name = "Gain")]
-        public short Gain { get; set; }
+        public int Gain { get; set; }
         [Display(Name = "Total")]
         public int Total { get; set; }
 

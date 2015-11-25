@@ -251,7 +251,7 @@ namespace HP.Controllers
             using (var db = new ApplicationDbContext())
             {
                 var result = (from p in db.Teams
-                              where p.Name.ToLower().Contains(term.ToLower()) && p.Pool_Id == poolId
+                              where p.Name.ToLower().Contains(term.ToLower()) && p.PoolId == poolId
                               select new { value = p.Name, id = p.Id }).Distinct();
                 return Json(result.ToList(), JsonRequestBehavior.AllowGet);
             }

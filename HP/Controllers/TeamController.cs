@@ -20,9 +20,9 @@ namespace HP.Controllers
                 model.TeamId = id;
                 model.RosterPlayersToAdd = new SelectList(team.RosterPlayers.Select(p => p.Player).ToList(), "Id", "LexicalName").ToList();
                 model.RosterPlayers = team.RosterPlayers.Select(p => new PlayerInterval(p)).OrderBy(p => p, new PlayerIntervalComparer()).ToList();
-                model.AvailablePlayers = AvailablePlayers(team.Pool_Id);
-                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.Pool_Id, 1), "Id", "Name").ToList();
-                model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.Pool_Id, 1).First().Id).ToList();
+                model.AvailablePlayers = AvailablePlayers(team.PoolId);
+                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 1), "Id", "Name").ToList();
+                model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
 
             }
             return View(model);

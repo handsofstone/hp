@@ -447,6 +447,30 @@
     <Compile Include="Migrations\201511172231020_CascadeDeleteOnUserTeam.Designer.cs">
       <DependentUpon>201511172231020_CascadeDeleteOnUserTeam.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511252132381_AddedPoolAndRankToStandings.cs" />
+    <Compile Include="Migrations\201511252132381_AddedPoolAndRankToStandings.Designer.cs">
+      <DependentUpon>201511252132381_AddedPoolAndRankToStandings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511252151228_AddedPoolAndRankToStandings2.cs" />
+    <Compile Include="Migrations\201511252151228_AddedPoolAndRankToStandings2.Designer.cs">
+      <DependentUpon>201511252151228_AddedPoolAndRankToStandings2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511252226573_RenamedPool_IdToPoolId.cs" />
+    <Compile Include="Migrations\201511252226573_RenamedPool_IdToPoolId.Designer.cs">
+      <DependentUpon>201511252226573_RenamedPool_IdToPoolId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511252234329_RemovingMoreUnderscores.cs" />
+    <Compile Include="Migrations\201511252234329_RemovingMoreUnderscores.Designer.cs">
+      <DependentUpon>201511252234329_RemovingMoreUnderscores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511252238462_RenameColumnsInPoolSeason.cs" />
+    <Compile Include="Migrations\201511252238462_RenameColumnsInPoolSeason.Designer.cs">
+      <DependentUpon>201511252238462_RenameColumnsInPoolSeason.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511252251350_CleanUpTables.cs" />
+    <Compile Include="Migrations\201511252251350_CleanUpTables.Designer.cs">
+      <DependentUpon>201511252251350_CleanUpTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -457,11 +481,9 @@
     <Compile Include="Models\PlayerInterval.cs" />
     <Compile Include="Models\Pool.cs" />
     <Compile Include="Models\RosterPlayer.cs" />
-    <Compile Include="Models\Standing.cs" />
     <Compile Include="Models\Season.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamViewModel.cs" />
-    <Compile Include="Models\Team_Season_Player_Interval.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserTeam.cs" />
     <Compile Include="Startup.cs" />
@@ -534,6 +556,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511172231020_CascadeDeleteOnUserTeam.resx">
       <DependentUpon>201511172231020_CascadeDeleteOnUserTeam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511252132381_AddedPoolAndRankToStandings.resx">
+      <DependentUpon>201511252132381_AddedPoolAndRankToStandings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511252151228_AddedPoolAndRankToStandings2.resx">
+      <DependentUpon>201511252151228_AddedPoolAndRankToStandings2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511252226573_RenamedPool_IdToPoolId.resx">
+      <DependentUpon>201511252226573_RenamedPool_IdToPoolId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511252234329_RemovingMoreUnderscores.resx">
+      <DependentUpon>201511252234329_RemovingMoreUnderscores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511252238462_RenameColumnsInPoolSeason.resx">
+      <DependentUpon>201511252238462_RenameColumnsInPoolSeason.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511252251350_CleanUpTables.resx">
+      <DependentUpon>201511252251350_CleanUpTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
