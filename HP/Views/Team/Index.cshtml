@@ -72,70 +72,41 @@
 
     }
 
-    function player(active, lid, pid, pos )
+    function player(e)
     {
-        this.active = active;
-        this.lineupPlayerId = lid;
-        this.playerId = pid;
-        this.position = pos;
+        this.active = $('#active', e).is(':checked');
+        this.lineupPlayerId = $('#lineupPlayerId', e).val();
+        this.playerId = $('#playerId', e).val();
+        this.position = $('#position', e).val();
     }
 
-    // Java script for Lineup and Rosters
-    function getLineup() {
-        return $('#lineupTable tbody tr').map(function (i, e) {
-            //var player =
-            //var player = new Object();
-            //player.Active = $('#active', e).is(':checked');
-            //player.LineupPlayerId = $('#lineupPlayerId').val() == "null" ? "" : $('#lineupPlayerId').val()
-            //player.LineupPlayerId = $('#lineupPlayerId', e).val()
-            //player.PlayerId = $('#playerId', e).val();
-            //player.Position = $('#position', e).val()
-            return new player(
-                $('#active', e).is(':checked'),
-                $('#lineupPlayerId', e).val(),
-                $('#playerId', e).val(),
-                $('#position', e).val()
-                );
+    function getPlayers(id) {
+        return $(id + ' tbody tr').map(function (i, e) {
+            return new player(e);
         });
     }
 
-    function lineupModel() {
+    function getModel(id) {
         this.IntervalId = $('#SelectedIntervalId').val();
         this.TeamId = $('#TeamId').val();
-        this.Players = getLineup().toArray();
+        this.Players = getPlayers(id).toArray();
     }
 
-    function submitLineup() {
-        var lm = new lineupModel();
 
+    function submitLineup() {
         $.ajax({
             contentType: 'application/json, charset=utf-8',
             type: 'POST',
             url: '@Url.Action("SubmitLineup")', // we are calling json method
             dataType: 'json',
-            data: JSON.stringify({ model: lm }),
+            data: JSON.stringify({ model: new getModel('#lineupTable') }),
             success: function () {
-                { alert('success'); }
+                 alert('success'); 
             },
             error: function (ex) {
                 alert('Failed to retrieve states.' + ex);
             }
         });
-    }
-
-    function getRosterPlayers() {
-        return $('#rosterTable tbody tr').map(function (i, e) {
-            var player = new Object();
-            player.PlayerId = $('#playerId', e).val();
-            player.Position = $('#position', e).val()
-            return player;
-        });
-    }
-    function SaveRosterViewModel() {
-        var model = Object();
-        model.TeamId = $('#TeamId').val();
-        model.Players = getRosterPlayers().toArray();
-        return model;
     }
 
     function saveRoster() {
@@ -145,9 +116,9 @@
             type: 'POST',
             url: '@Url.Action("SaveRoster")', // we are calling json method
             dataType: 'json',
-            data: JSON.stringify({ model: SaveRosterViewModel() }),
+            data: JSON.stringify({ model: new getModel('#rosterTable') }),
             success: function () {
-                { alert('success'); }
+                 alert('success'); 
             },
             error: function (ex) {
                 alert('Failed to retrieve states.' + ex);
@@ -165,7 +136,7 @@
         var position = player.Position;
         var team = player.Team;
         var eligiblePositions = player.EligiblePositions;
-        var checked = ''
+        var checked = '';
         if (active) {
             checked = 'checked="checked"';
         }
@@ -203,7 +174,7 @@
                 }
             });
             return false;
-        })
+        });
     });
 
 </script>
@@ -451,5 +422,3 @@
     </div>
 </div>
 }
-
-
