@@ -72,8 +72,7 @@
 
     }
 
-    function player(e)
-    {
+    function player(e) {
         this.active = $('#active', e).is(':checked');
         this.lineupPlayerId = $('#lineupPlayerId', e).val();
         this.playerId = $('#playerId', e).val();
@@ -101,7 +100,7 @@
             dataType: 'json',
             data: JSON.stringify({ model: new getModel('#lineupTable') }),
             success: function () {
-                 alert('success'); 
+                alert('success');
             },
             error: function (ex) {
                 alert('Failed to retrieve states.' + ex);
@@ -118,7 +117,7 @@
             dataType: 'json',
             data: JSON.stringify({ model: new getModel('#rosterTable') }),
             success: function () {
-                 alert('success'); 
+                alert('success');
             },
             error: function (ex) {
                 alert('Failed to retrieve states.' + ex);
@@ -174,6 +173,10 @@
                 }
             });
             return false;
+        });
+
+        $("input.playerActive").change(function () {
+            alert("test");
         });
     });
 
@@ -284,16 +287,16 @@
 {
     @Html.HiddenFor(p => Model.TeamId, new { @id = "TeamId" })
 
-<div class="panel with-nav-tabs panel-primary">
-    <div class="panel-heading">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
-            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
-        </ul>
-    </div>
-    <div class="panel-body">
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="tabLineup">
+    <div class="panel with-nav-tabs panel-primary">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
+                <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="tabLineup">
 
                     <div class="navbar navbar-default">
                         <ul class="nav navbar-nav">
@@ -326,8 +329,10 @@
                                 </tr>
                             </thead>
                             <tbody id="lineup">
-                                @foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)
+                                @*foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)*@
+                                @for (int i = 0; i < Model.PlayerIntervals.Count; i++)
                                 {
+                                    var pi = Model.PlayerIntervals[i];
                                     var active = pi.Active;
                                     var lineupPlayerId = pi.LineupPlayerId;
                                     var playerId = pi.PlayerId;
@@ -339,13 +344,14 @@
                                        { "data-toggle", "toggle" },
                                        { "data-on", "Active" },
                                        { "data-off", "Bench" },
-                                       { "data-size", "mini" } };
+                                       { "data-size", "mini" },
+                                       { "class", "playerActive" } };
                                     <tr>
                                         <td>
-                                            @Html.CheckBoxFor(p => active, toggleDic)
+                                            @Html.CheckBoxFor(p => Model.PlayerIntervals[i].Active, toggleDic)
                                             @Html.HiddenFor(p => lineupPlayerId)
                                         </td>
-                                        <td>@Html.DisplayFor(p => num)</td>
+                                        <td> @Html.DisplayFor(p => num) </td>
                                         <td>
                                             @Html.DisplayFor(p => name)
                                             @Html.HiddenFor(p => playerId)
@@ -357,14 +363,14 @@
                                         <td>
                                             @Html.DisplayFor(p => pi.Team)
                                         </td>
-                                        <td>@Html.DisplayFor(p => pts)</td>
+                                        <td> @Html.DisplayFor(p => pts) </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
-            </div>
-            <div class="tab-pane fade" id="tabRoster">
+                </div>
+                <div class="tab-pane fade" id="tabRoster">
                     <div class="navbar navbar-default">
                         <ul class="nav navbar-nav">
                             <li class="navbar-form">
@@ -417,8 +423,8 @@
                             </tbody>
                         </table>
                     </div>
-             </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 }
