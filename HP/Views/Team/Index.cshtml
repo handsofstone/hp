@@ -175,11 +175,20 @@
             return false;
         });
 
-        $("input.playerActive").change(function () {
+        $("input.playerActive").change(function (event) {
+            validateLineup();
             alert("test");
         });
     });
+    function validateLineup()
+    {
+        var lineupFormat = 'CCRRLLDDDDG'
+    }
 
+    function sortLineup()
+    {
+
+    }
 </script>
 <style>
     .panel.with-nav-tabs .panel-heading {
