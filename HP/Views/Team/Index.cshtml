@@ -180,13 +180,18 @@
             alert("test");
         });
     });
-    function validateLineup()
-    {
-        var lineupFormat = 'CCRRLLDDDDG'
+    function validateLineup() {
+        var lineupFormat = {C:2,RW:2,LW:2,D:4,G:1};
+        var players = getPlayers('#lineupTable');
+
+        $.each('lineupFormat', function (k, v) {
+            players
+        });
+        $.each($('.playerRow'), function (i, v) {
+        });
     }
 
-    function sortLineup()
-    {
+    function sortLineup() {
 
     }
 </script>
@@ -256,38 +261,38 @@
         <div class="modal-content">
             @using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
             {
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Player(s)</h4>
-                </div>
-                <div class="modal-body">
-                    <table celpadding=2 cellspacing=1 border=0 class="table">
-                        <tr>
-                            <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
-                            <td>&nbsp;</td>
-                            <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
-                        </tr>
-                        <tr>
-                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                                <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                            </td>
-                            <td style="vertical-align: middle">
-                                <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
-                                <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
-                            </td>
-                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                                @Html.Hidden("teamId", Model.TeamId)
-                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                                @Html.Hidden("playerIds")
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Player(s)</h4>
+            </div>
+            <div class="modal-body">
+                <table celpadding=2 cellspacing=1 border=0 class="table">
+                    <tr>
+                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
+                        <td>&nbsp;</td>
+                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                        </td>
+                        <td style="vertical-align: middle">
+                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                        </td>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                            @Html.Hidden("teamId", Model.TeamId)
+                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                            @Html.Hidden("playerIds")
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
             }
         </div>
     </div>
@@ -355,7 +360,7 @@
                                        { "data-off", "Bench" },
                                        { "data-size", "mini" },
                                        { "class", "playerActive" } };
-                                    <tr>
+                                    <tr class=playerRow id="@playerId">
                                         <td>
                                             @Html.CheckBoxFor(p => Model.PlayerIntervals[i].Active, toggleDic)
                                             @Html.HiddenFor(p => lineupPlayerId)
