@@ -167,6 +167,7 @@
                         $("#lineup").append(rowForLineup(player));
                     });
                     $('[id=active]').bootstrapToggle();
+                    validateLineup();
                 },
                 error: function (ex) {
                     alert('Failed to retrieve states.' + ex);
@@ -175,19 +176,23 @@
             return false;
         });
 
+        validateLineup();
+
         $("input.playerActive").change(function (event) {
             validateLineup();
-            alert("test");
         });
     });
     function validateLineup() {
-        var lineupFormat = {C:2,RW:2,LW:2,D:4,G:1};
+        var lineupFormat = {C:2,R:2,L:2,D:4,G:1};
         var players = getPlayers('#lineupTable');
 
-        $.each('lineupFormat', function (k, v) {
-            players
-        });
-        $.each($('.playerRow'), function (i, v) {
+        $.each(lineupFormat, function (k, v) {
+            var activeCount = $("#lineupTable .playerRow:has(:checked):has(td.position:contains("+k+"))").length;
+            var benchToggles = $("#lineupTable .playerRow:not(:has(:checked)):has(td.position:contains(" + k + ")) .playerActive");
+            if (activeCount >= v)
+                benchToggles.bootstrapToggle('disable')
+            else
+                benchToggles.bootstrapToggle('enable')
         });
     }
 
@@ -360,7 +365,7 @@
                                        { "data-off", "Bench" },
                                        { "data-size", "mini" },
                                        { "class", "playerActive" } };
-                                    <tr class=playerRow id="@playerId">
+                                    <tr class="playerRow" id="@playerId">
                                         <td>
                                             @Html.CheckBoxFor(p => Model.PlayerIntervals[i].Active, toggleDic)
                                             @Html.HiddenFor(p => lineupPlayerId)
@@ -370,7 +375,7 @@
                                             @Html.DisplayFor(p => name)
                                             @Html.HiddenFor(p => playerId)
                                         </td>
-                                        <td>
+                                        <td class="position">
                                             @Html.DisplayFor(p => pi.Position)
                                             @Html.HiddenFor(p => position)
                                         </td>

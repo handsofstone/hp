@@ -471,6 +471,10 @@
     <Compile Include="Migrations\201511252251350_CleanUpTables.Designer.cs">
       <DependentUpon>201511252251350_CleanUpTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512012026041_ChangeDataTypeToDateInInterval.cs" />
+    <Compile Include="Migrations\201512012026041_ChangeDataTypeToDateInInterval.Designer.cs">
+      <DependentUpon>201512012026041_ChangeDataTypeToDateInInterval.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -574,6 +578,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511252251350_CleanUpTables.resx">
       <DependentUpon>201511252251350_CleanUpTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512012026041_ChangeDataTypeToDateInInterval.resx">
+      <DependentUpon>201512012026041_ChangeDataTypeToDateInInterval.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

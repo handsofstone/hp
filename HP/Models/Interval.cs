@@ -17,9 +17,11 @@ namespace HP.Models
         public int Id { get; set; }
 
         [Required]
+        [Column(TypeName= "date")]
         public DateTime StartDate { get; set; }
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime EndDate { get; set; }
 
         public int SeasonId { get; set; }
