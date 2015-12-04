@@ -53,4 +53,9 @@ namespace HP.Models
         public List<LineupPlayerViewModel> Players { get; set; }
         public SaveLineupViewModel() { }
     }
+
+    public class LineupViewModel
+    {
+        public IList<PlayerInterval> PlayerIntervals { get; set; }
+    }
 }

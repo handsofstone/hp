@@ -131,5 +131,12 @@ namespace HP.Controllers
 
             return Json(playerIntervals, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Lineup(int teamId, int intervalId)
+        {
+            var playerIntervals = GetPlayerIntervals(teamId, intervalId);
+
+            return PartialView("_Lineup",)
+        }
     }
 }
