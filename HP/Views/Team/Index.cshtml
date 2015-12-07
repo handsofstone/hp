@@ -125,48 +125,20 @@
         });
     }
 
-    function rowForLineup(player) {
-        var active = player.Active;
-        var lineupPlayerId = player.LineupPlayerId;
-        var playerId = player.PlayerId;
-        var name = player.Name;
-        var num = player.Number;
-        var pts = player.Points;
-        var position = player.Position;
-        var team = player.Team;
-        var eligiblePositions = player.EligiblePositions;
-        var checked = '';
-        if (active) {
-            checked = 'checked="checked"';
-        }
-
-        return '<tr><td>' +
-               '<input ' + checked + ' data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." id="active" name="active" type="checkbox" value="true" /><input name="active" type="hidden" value="false" />' +
-               '<input data-val="true" data-val-number="The field Nullable`1 must be a number." id="lineupPlayerId" name="lineupPlayerId" type="hidden" value="' + lineupPlayerId + '" />' +
-               '</td><td>' + num + '</td><td>' + name +
-               '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="' + playerId + '" />' +
-               '</td><td>' + position +
-               '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="position" name="position" type="hidden" value="' + position + '" />' +
-               '</td><td>' + team + '</td><td>' + pts + '</td></tr>';
-    }
-
     $(document).ready(function () {
 
         //Dropdownlist Selectedchange event
         $("#SelectedIntervalId").change(function () {
             $('#IntervalRoster').empty();
             $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetIntervalRoster")', // we are calling json method
-                dataType: 'json',
+                type: 'GET',
+                url: '@Url.Action("Lineup")', // we are calling json method
+                dataType: 'html',
                 data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
                 success: function (players) {
                     $('#lineup').empty();
-
-                    $.each(players, function (i, player) {
-                        $("#lineup").append(rowForLineup(player));
-                    });
-                    $('[id=active]').bootstrapToggle();
+                    $('#lineup').html(players)
+                    $("input.playerActive").bootstrapToggle();
                     validateLineup();
                 },
                 error: function (ex) {
@@ -183,11 +155,11 @@
         });
     });
     function validateLineup() {
-        var lineupFormat = {C:2,R:2,L:2,D:4,G:1};
+        var lineupFormat = { C: 2, R: 2, L: 2, D: 4, G: 1 };
         var players = getPlayers('#lineupTable');
 
         $.each(lineupFormat, function (k, v) {
-            var activeCount = $("#lineupTable .playerRow:has(:checked):has(td.position:contains("+k+"))").length;
+            var activeCount = $("#lineupTable .playerRow:has(:checked):has(td.position:contains(" + k + "))").length;
             var benchToggles = $("#lineupTable .playerRow:not(:has(:checked)):has(td.position:contains(" + k + ")) .playerActive");
             if (activeCount >= v)
                 benchToggles.bootstrapToggle('disable')
@@ -327,7 +299,7 @@
                                     @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-success" aria-label="Left Align" onclick="submitLineup()">
+                                <button type="button" class="btn btn-success" aria-label="Left Align" onclick="submitLineup()">
                                         <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                                     </button>
                                 </div>
@@ -348,43 +320,46 @@
                                 </tr>
                             </thead>
                             <tbody id="lineup">
-                                @*foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)*@
-                                @for (int i = 0; i < Model.PlayerIntervals.Count; i++)
-                                {
-                                    var pi = Model.PlayerIntervals[i];
-                                    var active = pi.Active;
-                                    var lineupPlayerId = pi.LineupPlayerId;
-                                    var playerId = pi.PlayerId;
-                                    var name = pi.Name;
-                                    var num = pi.Number.ToString();
-                                    var pts = pi.Points.ToString();
-                                    var position = pi.Position.First();
-                                    Dictionary<string, Object> toggleDic = new Dictionary<string, Object> {
-                                       { "data-toggle", "toggle" },
-                                       { "data-on", "Active" },
-                                       { "data-off", "Bench" },
-                                       { "data-size", "mini" },
-                                       { "class", "playerActive" } };
-                                    <tr class="playerRow" id="@playerId">
-                                        <td>
-                                            @Html.CheckBoxFor(p => Model.PlayerIntervals[i].Active, toggleDic)
-                                            @Html.HiddenFor(p => lineupPlayerId)
-                                        </td>
-                                        <td> @Html.DisplayFor(p => num) </td>
-                                        <td>
-                                            @Html.DisplayFor(p => name)
-                                            @Html.HiddenFor(p => playerId)
-                                        </td>
-                                        <td class="position">
-                                            @Html.DisplayFor(p => pi.Position)
-                                            @Html.HiddenFor(p => position)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(p => pi.Team)
-                                        </td>
-                                        <td> @Html.DisplayFor(p => pts) </td>
-                                    </tr>
+                                @{
+                                    Html.RenderAction("Lineup", new { teamId = Model.TeamId, intervalId = Model.SelectedIntervalId });
                                 }
+                                @*foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)*@
+                                @*@for (int i = 0; i < Model.PlayerIntervals.Count; i++)
+                                    {
+                                        var pi = Model.PlayerIntervals[i];
+                                        var active = pi.Active;
+                                        var lineupPlayerId = pi.LineupPlayerId;
+                                        var playerId = pi.PlayerId;
+                                        var name = pi.Name;
+                                        var num = pi.Number.ToString();
+                                        var pts = pi.Points.ToString();
+                                        var position = pi.Position.First();
+                                        Dictionary<string, Object> toggleDic = new Dictionary<string, Object> {
+                                           { "data-toggle", "toggle" },
+                                           { "data-on", "Active" },
+                                           { "data-off", "Bench" },
+                                           { "data-size", "mini" },
+                                           { "class", "playerActive" } };
+                                        <tr class="playerRow" id="@playerId">
+                                            <td>
+                                                @Html.CheckBoxFor(p => Model.PlayerIntervals[i].Active, toggleDic)
+                                                @Html.HiddenFor(p => lineupPlayerId)
+                                            </td>
+                                            <td> @Html.DisplayFor(p => num) </td>
+                                            <td>
+                                                @Html.DisplayFor(p => name)
+                                                @Html.HiddenFor(p => playerId)
+                                            </td>
+                                            <td class="position">
+                                                @Html.DisplayFor(p => pi.Position)
+                                                @Html.HiddenFor(p => position)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(p => pi.Team)
+                                            </td>
+                                            <td> @Html.DisplayFor(p => pts) </td>
+                                        </tr>
+                                    }*@
                             </tbody>
                         </table>
                     </div>
@@ -446,4 +421,4 @@
             </div>
         </div>
     </div>
-}
+                                    }

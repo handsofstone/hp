@@ -136,7 +136,7 @@ namespace HP.Controllers
         {
             var playerIntervals = GetPlayerIntervals(teamId, intervalId);
 
-            return PartialView("_Lineup",)
+            return PartialView("_Lineup", playerIntervals);
         }
     }
 }
