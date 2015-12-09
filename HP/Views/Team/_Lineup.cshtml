@@ -20,7 +20,7 @@
     <tr class="playerRow" id="@playerId">
         <td>
             @Html.CheckBoxFor(p => Model[i].Active, toggleDic)
-            @Html.HiddenFor(p => lineupPlayerId)
+            @Html.HiddenFor(p => Model[i].LineupPlayerId, new {@class="lineupPlayerId"})
         </td>
         <td> @Html.DisplayFor(p => Model[i].Number) </td>
         <td>

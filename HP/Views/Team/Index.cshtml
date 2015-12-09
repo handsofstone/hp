@@ -73,8 +73,8 @@
     }
 
     function player(e) {
-        this.active = $('#active', e).is(':checked');
-        this.lineupPlayerId = $('#lineupPlayerId', e).val();
+        this.active = $('.playerActive', e).is(':checked');
+        this.lineupPlayerId = $('.lineupPlayerId', e).val();
         this.playerId = $('#playerId', e).val();
         this.position = $('#position', e).val();
     }
@@ -322,44 +322,7 @@
                             <tbody id="lineup">
                                 @{
                                     Html.RenderAction("Lineup", new { teamId = Model.TeamId, intervalId = Model.SelectedIntervalId });
-                                }
-                                @*foreach (HP.Models.PlayerInterval pi in Model.PlayerIntervals)*@
-                                @*@for (int i = 0; i < Model.PlayerIntervals.Count; i++)
-                                    {
-                                        var pi = Model.PlayerIntervals[i];
-                                        var active = pi.Active;
-                                        var lineupPlayerId = pi.LineupPlayerId;
-                                        var playerId = pi.PlayerId;
-                                        var name = pi.Name;
-                                        var num = pi.Number.ToString();
-                                        var pts = pi.Points.ToString();
-                                        var position = pi.Position.First();
-                                        Dictionary<string, Object> toggleDic = new Dictionary<string, Object> {
-                                           { "data-toggle", "toggle" },
-                                           { "data-on", "Active" },
-                                           { "data-off", "Bench" },
-                                           { "data-size", "mini" },
-                                           { "class", "playerActive" } };
-                                        <tr class="playerRow" id="@playerId">
-                                            <td>
-                                                @Html.CheckBoxFor(p => Model.PlayerIntervals[i].Active, toggleDic)
-                                                @Html.HiddenFor(p => lineupPlayerId)
-                                            </td>
-                                            <td> @Html.DisplayFor(p => num) </td>
-                                            <td>
-                                                @Html.DisplayFor(p => name)
-                                                @Html.HiddenFor(p => playerId)
-                                            </td>
-                                            <td class="position">
-                                                @Html.DisplayFor(p => pi.Position)
-                                                @Html.HiddenFor(p => position)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(p => pi.Team)
-                                            </td>
-                                            <td> @Html.DisplayFor(p => pts) </td>
-                                        </tr>
-                                    }*@
+                                }                                
                             </tbody>
                         </table>
                     </div>
