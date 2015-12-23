@@ -27,9 +27,9 @@
             @Html.DisplayFor(p => Model[i].Name)
             @Html.HiddenFor(p => playerId)
         </td>
-        <td class="position">
+        <td>
             @Html.DisplayFor(p => Model[i].Position)
-            @Html.HiddenFor(p => position)
+            @Html.HiddenFor(p => Model[i].Position, new { @class = "position" })
         </td>
         <td>
             @Html.DisplayFor(p => Model[i].Team)

@@ -23,7 +23,7 @@ namespace HP.Controllers
                 model.AvailablePlayers = AvailablePlayers(team.PoolId);
                 model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 1), "Id", "Name").ToList();
                 model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
-
+                model.SelectedIntervalId = GetCurrentInterval();
             }
             return View(model);
         }
@@ -137,6 +137,19 @@ namespace HP.Controllers
             var playerIntervals = GetPlayerIntervals(teamId, intervalId);
 
             return PartialView("_Lineup", playerIntervals);
+        }
+        
+        public int GetCurrentInterval()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var today = DateTime.Now;
+                var interval = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate)).First();
+                if (interval == null)
+                     interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
+
+                return interval.Id;
+            }
         }
     }
 }
