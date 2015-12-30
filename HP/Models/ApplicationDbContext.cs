@@ -52,7 +52,7 @@ namespace HP.Models
         public virtual DbSet<LineupPlayerTotal> LineupPlayerTotals { get; set; }
         public virtual DbSet<TeamSeasonStanding> TeamSeasonStanding { get; set; }
         public virtual DbSet<UserTeam> UserTeams { get; set; }
-
+        public virtual DbSet<GameInfo> Games { get; set; }
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -103,6 +103,7 @@ namespace HP.Models
             modelBuilder.Configurations.Add(new NHLTeamMap());
             modelBuilder.Configurations.Add(new LineupPlayerTotalMap());
             modelBuilder.Configurations.Add(new TeamSeasonStandingMap());
+            modelBuilder.Configurations.Add(new GameInfoMap());
 
         }
 

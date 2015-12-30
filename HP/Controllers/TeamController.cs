@@ -151,5 +151,22 @@ namespace HP.Controllers
                 return interval.Id;
             }
         }
+        public bool GetCanSave()
+        {
+            var today = DateTime.Now;
+
+            return false;
+        }
+
+        public bool GetCanSubmit(int intervalId)
+        {
+            var today = DateTime.Now;
+            using (var context = new ApplicationDbContext())
+            {
+                var deadline = context.Intervals.ElementAt(intervalId).StartDate;
+                
+                return false;
+                    } 
+        }
     }
 }

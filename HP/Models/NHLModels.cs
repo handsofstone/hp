@@ -85,4 +85,35 @@ namespace HP.Models
                 .HasForeignKey(t => t.NHLTeamCode);
         }
     }
+
+    [Table("dbo.GAME_INFO")]
+    public partial class GameInfo
+    {
+        public int Id { get; set; }
+        public string HomeTeam { get; set; }
+        public string VisitorTeam { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Status { get; set; }
+        public int HomeScore { get; set; }
+        public int VisitorScore { get; set; }
+    }
+
+    public class GameInfoMap : EntityTypeConfiguration<GameInfo>
+    {
+        public GameInfoMap()
+        {
+            this.HasKey(t => t.Id);
+            this.ToTable("dbo.GAME_INFO");
+            this.Property(t => t.Id).HasColumnName("ID");
+            this.Property(t => t.HomeTeam).HasColumnName("HOME_TEAM").IsRequired().HasMaxLength(50);
+            this.Property(t => t.VisitorTeam).HasColumnName("VISITOR_TEAM").IsRequired().HasMaxLength(50);
+            this.Property(t => t.StartTime).HasColumnName("START_TIME");
+            this.Property(t => t.EndTime).HasColumnName("END_TIME");
+            this.Property(t => t.Status).HasColumnName("STATUS");
+            this.Property(t => t.HomeScore).HasColumnName("HOME_SCORE").IsRequired();
+            this.Property(t => t.VisitorScore).HasColumnName("VISITOR_SCORE").IsRequired();
+
+        }
+    }
 }

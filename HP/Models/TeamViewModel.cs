@@ -17,6 +17,8 @@ namespace HP.Models
         [Display(Name="Interval")]
         public int SelectedIntervalId { get; set; }
         public IList<PlayerInterval> PlayerIntervals { get; set; }
+        public bool CanSubmit { get; set; }
+        public bool CanSave { get; set; }
     }
     public class AddPlayersViewModel
     {
