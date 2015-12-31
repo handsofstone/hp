@@ -1,6 +1,8 @@
 ﻿using HP.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
@@ -24,6 +26,7 @@ namespace HP.Controllers
                 model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 1), "Id", "Name").ToList();
                 model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
                 model.SelectedIntervalId = GetCurrentInterval();
+                model.CanSubmit = GetCanSubmit(model.SelectedIntervalId);
             }
             return View(model);
         }
@@ -138,7 +141,7 @@ namespace HP.Controllers
 
             return PartialView("_Lineup", playerIntervals);
         }
-        
+
         public int GetCurrentInterval()
         {
             using (var context = new ApplicationDbContext())
@@ -146,7 +149,7 @@ namespace HP.Controllers
                 var today = DateTime.Now;
                 var interval = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate)).First();
                 if (interval == null)
-                     interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
+                    interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
 
                 return interval.Id;
             }
@@ -163,10 +166,14 @@ namespace HP.Controllers
             var today = DateTime.Now;
             using (var context = new ApplicationDbContext())
             {
-                var deadline = context.Intervals.ElementAt(intervalId).StartDate;
-                
-                return false;
-                    } 
+                var deadline = context.Intervals.Find(intervalId).StartDate;
+                var game = context.Games.Where(g => DbFunctions.TruncateTime(g.StartTime) == DbFunctions.TruncateTime(deadline)).OrderBy(g=>g.StartTime).First();
+                return today < game.StartTime;
+            }
+        }
+        public JsonResult EnableSubmit(int intervalId)
+        {            
+            return Json(GetCanSubmit(intervalId), JsonRequestBehavior.AllowGet);            
         }
     }
 }

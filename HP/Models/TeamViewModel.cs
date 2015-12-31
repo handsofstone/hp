@@ -60,4 +60,11 @@ namespace HP.Models
     {
         public IList<PlayerInterval> PlayerIntervals { get; set; }
     }
+
+    public class IntervalViewModel
+    {
+        public int SelectedIntervalId { get; set; }
+        public IList<PlayerInterval> PlayerIntervals { get; set; }
+        public bool CanSubmit { get; set; }
+    }
 }

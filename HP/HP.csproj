@@ -479,6 +479,10 @@
     <Compile Include="Migrations\201512300001234_AddGameInfo.Designer.cs">
       <DependentUpon>201512300001234_AddGameInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512302341455_GameInfoTimeNullable.cs" />
+    <Compile Include="Migrations\201512302341455_GameInfoTimeNullable.Designer.cs">
+      <DependentUpon>201512302341455_GameInfoTimeNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -529,6 +533,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\themes\start\" />
+    <Folder Include="ViewModel\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
@@ -589,6 +594,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512300001234_AddGameInfo.resx">
       <DependentUpon>201512300001234_AddGameInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512302341455_GameInfoTimeNullable.resx">
+      <DependentUpon>201512302341455_GameInfoTimeNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
