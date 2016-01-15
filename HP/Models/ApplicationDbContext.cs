@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -69,7 +70,7 @@ namespace HP.Models
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Roles);
-            
+
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "nlpool");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin", "nlpool");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim", "nlpool");
@@ -114,7 +115,7 @@ namespace HP.Models
 
         public IList<NHLPlayer> PlayersByPoolID(int PoolId)
         {
-            return TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers).Select(p=>p.Player).ToList<NHLPlayer>();            
+            return TeamsByPoolID(PoolId).SelectMany(t => t.RosterPlayers).Select(p => p.Player).ToList<NHLPlayer>();
         }
         public IList<NHLPlayer> AvailablePlayers(int PoolId)
         {
@@ -126,5 +127,15 @@ namespace HP.Models
             return Intervals.Where(i => i.PoolId == poolId && i.SeasonId == seasonId).ToList();
         }
 
+        public IEnumerable<GameInfo> GamesByTeamInterval(string teamCode, int intervalId)
+        {
+            Interval interval = Intervals.Find(intervalId);
+            return from g in Games
+                   where g.StartTime >= interval.StartDate && g.StartTime <= interval.EndDate && 
+                   (g.HomeCode == teamCode || g.VisitorCode == teamCode)
+                   select g;
+
+        }
     }
+
 }

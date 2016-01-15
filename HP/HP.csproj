@@ -483,6 +483,10 @@
     <Compile Include="Migrations\201512302341455_GameInfoTimeNullable.Designer.cs">
       <DependentUpon>201512302341455_GameInfoTimeNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601151907579_JoinGameAndTeams.cs" />
+    <Compile Include="Migrations\201601151907579_JoinGameAndTeams.Designer.cs">
+      <DependentUpon>201601151907579_JoinGameAndTeams.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -597,6 +601,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512302341455_GameInfoTimeNullable.resx">
       <DependentUpon>201512302341455_GameInfoTimeNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601151907579_JoinGameAndTeams.resx">
+      <DependentUpon>201601151907579_JoinGameAndTeams.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -70,6 +70,16 @@ namespace HP.Models
         public string Code { get; set; }
         public string Name { get; set; }
         public ICollection<NHLPlayer> Players { get; set; }
+        public virtual ICollection<GameInfo> HomeGames { get; set; }
+        public virtual ICollection<GameInfo> VisitorGames { get; set; }
+
+        public IOrderedEnumerable<GameInfo> Games
+        {
+            get
+            {
+                return HomeGames.Union(VisitorGames).OrderBy(t=>t.StartTime);
+            }
+        }
     }
 
     public class NHLTeamMap : EntityTypeConfiguration<NHLTeam>
@@ -90,6 +100,8 @@ namespace HP.Models
     public partial class GameInfo
     {
         public int Id { get; set; }
+        public string HomeCode { get; set; }
+        public string VisitorCode { get; set; }
         public string HomeTeam { get; set; }
         public string VisitorTeam { get; set; }
         public DateTime? StartTime { get; set; }
@@ -97,6 +109,8 @@ namespace HP.Models
         public string Status { get; set; }
         public int HomeScore { get; set; }
         public int VisitorScore { get; set; }
+        public virtual NHLTeam Home { get; set; }
+        public virtual NHLTeam Visitor { get; set; }
     }
 
     public class GameInfoMap : EntityTypeConfiguration<GameInfo>
@@ -113,7 +127,14 @@ namespace HP.Models
             this.Property(t => t.Status).HasColumnName("STATUS");
             this.Property(t => t.HomeScore).HasColumnName("HOME_SCORE").IsRequired();
             this.Property(t => t.VisitorScore).HasColumnName("VISITOR_SCORE").IsRequired();
-
+            this.HasOptional<NHLTeam>(t => t.Home)
+                .WithMany(t => t.HomeGames)
+                .HasForeignKey(t => t.HomeCode)
+                .WillCascadeOnDelete(false);
+            this.HasOptional<NHLTeam>(t => t.Visitor)
+                .WithMany(t => t.VisitorGames)
+                .HasForeignKey(t => t.VisitorCode)
+                .WillCascadeOnDelete(false);
         }
     }
 }

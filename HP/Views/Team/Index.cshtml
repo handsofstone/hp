@@ -296,6 +296,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
                 <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
+                <li><a href="#tabAnalysis" data-toggle="tab">Analysis</a></li>
             </ul>
         </div>
         <div class="panel-body">
@@ -312,7 +313,7 @@
                                     @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
                                 </div>
                                 <div class="form-group">
-                                    <button id="lineupSubmit" type="button" class="btn btn-success" aria-label="Left Align" onclick="submitLineup()" @(Model.CanSubmit? "" : "disabled")>
+                                    <button id="lineupSubmit" type="button" class="btn btn-success" aria-label="Left Align" onclick="submitLineup()" @(Model.CanSubmit ? "" : "disabled")>
                                         <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                                     </button>
                                 </div>
@@ -330,6 +331,7 @@
                                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Position)</td>
                                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Team)</td>
                                     <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Points)</td>
+                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Schedule)</td>
                                 </tr>
                             </thead>
                             <tbody id="lineup">
@@ -394,7 +396,9 @@
                         </table>
                     </div>
                 </div>
+                <div id="tabAnalysis" data-toggle="tab">
+                </div>
             </div>
         </div>
     </div>
-                                    }
+}

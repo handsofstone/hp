@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace HP.Models
@@ -22,8 +23,11 @@ namespace HP.Models
         public int Points { get; set; }
         [Display(Name = "")]
         public bool Active { get; set; }
+        [Display(Name = "Schedule")]
+        public string Schedule { get; set; }
         public int PlayerId { get; set; }
         public int? LineupPlayerId { get; set; }
+        
 
         public PlayerInterval() { }
 
@@ -62,6 +66,21 @@ namespace HP.Models
             Team = player.Player.NHLTeamCode;
             Points = player.Total != null ? player.Total.Gain : 0;
             Active = player.Active;
+            Schedule = ScheduleString(Team, player.IntervalId);
+        }
+
+        private string ScheduleString(string teamCode, int intervalId)
+        {
+            List<string> opponents = new List<string>();
+            using (var context = new ApplicationDbContext())
+            {
+                foreach (GameInfo g in context.GamesByTeamInterval(teamCode,intervalId))
+                    if (g.HomeCode == teamCode)
+                        opponents.Add(g.VisitorCode);
+                    else
+                        opponents.Add("@" + g.HomeCode);
+            }
+            return String.Join(", ", opponents);
         }
     }
     public class PlayerIntervalComparer : IComparer<PlayerInterval>
