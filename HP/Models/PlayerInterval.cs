@@ -27,7 +27,6 @@ namespace HP.Models
         public string Schedule { get; set; }
         public int PlayerId { get; set; }
         public int? LineupPlayerId { get; set; }
-        
 
         public PlayerInterval() { }
 
@@ -43,7 +42,8 @@ namespace HP.Models
             Points = 0;
             Active = false;
         }
-        public PlayerInterval(RosterPlayer player)
+
+        public PlayerInterval(RosterPlayer player, int? intervalId = null)
         {
             LineupPlayerId = null;
             PlayerId = player.PlayerId;
@@ -54,7 +54,9 @@ namespace HP.Models
             Team = player.Player.NHLTeamCode;
             Points = 0;
             Active = false;
+            Schedule = intervalId.HasValue ? ScheduleString(Team, (int)intervalId) : null;
         }
+
         public PlayerInterval(LineupPlayer player)
         {
             LineupPlayerId = player.Id;

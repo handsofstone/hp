@@ -24,7 +24,7 @@ namespace HP.Controllers
                 model.RosterPlayers = team.RosterPlayers.Select(p => new PlayerInterval(p)).OrderBy(p => p, new PlayerIntervalComparer()).ToList();
                 model.AvailablePlayers = AvailablePlayers(team.PoolId);
                 model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 1), "Id", "Name").ToList();
-                model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
+                //model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
                 model.SelectedIntervalId = GetCurrentInterval();
                 model.CanSubmit = GetCanSubmit(model.SelectedIntervalId);
             }
@@ -122,7 +122,7 @@ namespace HP.Controllers
                 if (result.Count() == 0)
                 {
                     var team = context.Teams.Find(teamId);
-                    result = team.RosterPlayers.Select(p => new PlayerInterval(p));
+                    result = team.RosterPlayers.Select(p => new PlayerInterval(p, intervalId));
                 }
                 return result.OrderBy(p => p, new PlayerIntervalComparer()).ToList();
             }
