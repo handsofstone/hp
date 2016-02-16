@@ -154,6 +154,7 @@ namespace HP.Controllers
                 return interval.Id;
             }
         }
+
         public bool GetCanSave()
         {
             var today = DateTime.Now;
@@ -165,10 +166,13 @@ namespace HP.Controllers
         {
             var today = DateTime.Now;
             using (var context = new ApplicationDbContext())
-            {
-                var deadline = context.Intervals.Find(intervalId).StartDate;
-                var game = context.Games.Where(g => DbFunctions.TruncateTime(g.StartTime) == DbFunctions.TruncateTime(deadline)).OrderBy(g=>g.StartTime).First();
-                return today < game.StartTime;
+            {                
+                var query = from g in context.Games
+                            from i in context.Intervals
+                            where i.Id == intervalId && DbFunctions.TruncateTime(g.StartTime) >= i.StartDate && DbFunctions.TruncateTime(g.StartTime) <= i.EndDate
+                            orderby g.StartTime
+                            select g;
+                return today < query.First().StartTime;
             }
         }
         public JsonResult EnableSubmit(int intervalId)

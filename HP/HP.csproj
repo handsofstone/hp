@@ -487,6 +487,14 @@
     <Compile Include="Migrations\201601151907579_JoinGameAndTeams.Designer.cs">
       <DependentUpon>201601151907579_JoinGameAndTeams.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602162033033_AddedTeamIntervalActiveTotalView.cs" />
+    <Compile Include="Migrations\201602162033033_AddedTeamIntervalActiveTotalView.Designer.cs">
+      <DependentUpon>201602162033033_AddedTeamIntervalActiveTotalView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602162116442_ExplicitColumnNameTeamId.cs" />
+    <Compile Include="Migrations\201602162116442_ExplicitColumnNameTeamId.Designer.cs">
+      <DependentUpon>201602162116442_ExplicitColumnNameTeamId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -604,6 +612,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601151907579_JoinGameAndTeams.resx">
       <DependentUpon>201601151907579_JoinGameAndTeams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602162033033_AddedTeamIntervalActiveTotalView.resx">
+      <DependentUpon>201602162033033_AddedTeamIntervalActiveTotalView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602162116442_ExplicitColumnNameTeamId.resx">
+      <DependentUpon>201602162116442_ExplicitColumnNameTeamId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
