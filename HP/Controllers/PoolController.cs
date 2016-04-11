@@ -68,9 +68,11 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var today = DateTime.Now;
-                var interval = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate)).First();
-                if (interval == null)
-                    interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
+                var intervals = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
+                var interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
+                
+                if (intervals.Count() > 0)
+                    interval = intervals.First();
 
                 return interval.Id;
             }
