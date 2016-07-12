@@ -52,6 +52,7 @@ namespace HP.Models
         public virtual DbSet<LineupPlayer> LineupPlayers { get; set; }
         public virtual DbSet<LineupPlayerTotal> LineupPlayerTotals { get; set; }
         public virtual DbSet<TeamSeasonStanding> TeamSeasonStanding { get; set; }
+        public virtual DbSet<TeamIntervalActiveTotal> TeamIntervalActiveTotal { get; set; }
         public virtual DbSet<UserTeam> UserTeams { get; set; }
         public virtual DbSet<GameInfo> Games { get; set; }
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
@@ -104,6 +105,7 @@ namespace HP.Models
             modelBuilder.Configurations.Add(new NHLTeamMap());
             modelBuilder.Configurations.Add(new LineupPlayerTotalMap());
             modelBuilder.Configurations.Add(new TeamSeasonStandingMap());
+            modelBuilder.Configurations.Add(new TeamIntervalActiveTotalMap());
             modelBuilder.Configurations.Add(new GameInfoMap());
 
         }
@@ -135,6 +137,12 @@ namespace HP.Models
                    (g.HomeCode == teamCode || g.VisitorCode == teamCode)
                    select g;
 
+        }
+        public IQueryable<int> GainForTeamInterval(int intervalId, int teamId)
+        {
+            return from ti in TeamIntervalActiveTotal
+                   where ti.IntervalId == intervalId && ti.TeamId == teamId
+                   select ti.IntervalTotal;
         }
     }
 
