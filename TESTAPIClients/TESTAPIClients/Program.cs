@@ -10,7 +10,9 @@ namespace TestAPIClients
     {
         static void Main(string[] args)
         {
-            TSNAPIClient.GetPlayerHeader("");
+            foreach (var c in TSNAPIClient.GetPlayerPositions("auston-matthews"))
+                System.Console.WriteLine(c);
+            System.Console.ReadKey();
         }
     }
 }
