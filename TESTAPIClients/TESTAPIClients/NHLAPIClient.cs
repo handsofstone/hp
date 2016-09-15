@@ -21,9 +21,9 @@ namespace TestAPIClients
             //var syncClient = new WebClient();
             var webRequest = (HttpWebRequest)WebRequest.Create(url);
 
-            WebProxy wp = new WebProxy("kdcbchwbs01.bchydro.adroot.bchydro.bc.ca", 8080);
-            wp.UseDefaultCredentials = true;
-            webRequest.Proxy = wp;
+            //WebProxy wp = new WebProxy("kdcbchwbs01.bchydro.adroot.bchydro.bc.ca", 8080);
+            //wp.UseDefaultCredentials = true;
+            //webRequest.Proxy = wp;
 
             var p = new Player();
             try
@@ -44,6 +44,13 @@ namespace TestAPIClients
             return p;
         }
 
+        public static string getPlayerPosition(int playerId)
+        {
+
+            var p = GetPlayer(playerId).people.First<Person>();
+            return p.primaryPosition.code;
+        }
+
         public static SearchResult SearchPlayers(string searchString)
         {
             var sb = new StringBuilder();
@@ -54,9 +61,9 @@ namespace TestAPIClients
 
             var webRequest = (HttpWebRequest)WebRequest.Create(url);
 
-            WebProxy wp = new WebProxy("kdcbchwbs01.bchydro.adroot.bchydro.bc.ca", 8080);
-            wp.UseDefaultCredentials = true;
-            webRequest.Proxy = wp;
+            //WebProxy wp = new WebProxy("kdcbchwbs01.bchydro.adroot.bchydro.bc.ca", 8080);
+            //wp.UseDefaultCredentials = true;
+            //webRequest.Proxy = wp;
 
             var r = new SearchResult();
             try

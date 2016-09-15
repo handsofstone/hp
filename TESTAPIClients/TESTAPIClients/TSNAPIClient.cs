@@ -35,9 +35,9 @@ namespace TestAPIClients
             //webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, sdch");
             //webRequest.Headers.Add("Accept-Language", "en-US,en;q-0.8");
             webRequest.Method = "GET";
-            WebProxy wp = new WebProxy("kdcbchwbs01.bchydro.adroot.bchydro.bc.ca", 8080);
-            wp.UseDefaultCredentials = true;
-            webRequest.Proxy = wp;
+            //WebProxy wp = new WebProxy("kdcbchwbs01.bchydro.adroot.bchydro.bc.ca", 8080);
+            //wp.UseDefaultCredentials = true;
+            //webRequest.Proxy = wp;
             var ph = new PlayerHeader();
             ph.PositionAcronym = "";
             try
