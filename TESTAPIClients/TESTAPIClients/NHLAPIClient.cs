@@ -83,5 +83,13 @@ namespace TestAPIClients
 
             return r;
         }
+
+        public static void ParseSearchResult(string result)
+        {
+            foreach (var token in result.Split('|'))
+            {
+
+            }
+        }
     }
 }
