@@ -44,6 +44,11 @@ namespace HP
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
                       "~/Scripts/DataTables/jquery.dataTables.js",
                       "~/Scripts/DataTables/dataTables.bootstrap.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/nhl").Include(
+                      "~/Scripts/site-core.js",
+                      "~/Scripts/site-desktop.js"));
+
         }
     }
 }
