@@ -6,8 +6,53 @@
         xmlns:local="clr-namespace:HPAdmin"
         mc:Ignorable="d"
         Title="Hockey Pool Admin Tool" Height="500" Width="650">
-    <Grid>
-        <TabControl TabStripPlacement="Left">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem></StatusBarItem>
+        </StatusBar>
+        <TabControl DockPanel.Dock="Top" TabStripPlacement="Left" >
+            <TabItem Header="Connection">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.RowSpan="7" Background="White" AlternatingRowBackground="Gainsboro"  AlternationCount="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Connection Name" Binding="{Binding ConnectionName}" />
+                            <DataGridTextColumn Header="Connection Details" Binding="{Binding ConnectionDetails}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Label Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right">Connection Name:</Label>
+                    <TextBox Grid.Column="2" Grid.Row="0" Margin="2"></TextBox>
+                    <Label Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right">Hostname:</Label>
+                    <TextBox Grid.Column="2" Grid.Row="1" Margin="2"></TextBox>
+                    <Label Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right">Port:</Label>
+                    <TextBox Grid.Column="2" Grid.Row="2" Margin="2"></TextBox>
+                    <Label Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right">Username:</Label>
+                    <TextBox Grid.Column="2" Grid.Row="3" Margin="2"></TextBox>
+                    <Label Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right">Password:</Label>
+                    <PasswordBox Grid.Column="2" Grid.Row="4" Margin="2"></PasswordBox>
+                    <Label Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right">Proxy:</Label>
+                    <TextBox Grid.Column="2" Grid.Row="5" Margin="2"></TextBox>
+                    <StackPanel Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                        <Button>Save</Button>
+                        <Button>Clear</Button>
+                        <Button>Connect</Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
             <TabItem Header="Add Players">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -33,13 +78,15 @@
                         <Button>&gt;&gt;</Button>
                         <Button>&lt;&lt;</Button>
                     </StackPanel>
-                    <Button Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right">Save</Button>  
+                    <Button Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right">Save</Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Season">
                 <Grid></Grid>
             </TabItem>
         </TabControl>
-    </Grid>
 
+    </DockPanel>
+
+    
 </Window>
