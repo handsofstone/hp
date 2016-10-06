@@ -391,8 +391,12 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\site-core.js" />
+    <Content Include="Scripts\site-desktop.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -535,6 +539,7 @@
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Shared\_LayoutNoMenu.cshtml" />
     <Content Include="Views\Team\_Lineup.cshtml" />
+    <Content Include="Views\Team\_Analysis.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

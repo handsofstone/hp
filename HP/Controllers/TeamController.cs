@@ -23,7 +23,7 @@ namespace HP.Controllers
                 model.RosterPlayersToAdd = new SelectList(team.RosterPlayers.Select(p => p.Player).ToList(), "Id", "LexicalName").ToList();
                 model.RosterPlayers = team.RosterPlayers.Select(p => new PlayerInterval(p)).OrderBy(p => p, new PlayerIntervalComparer()).ToList();
                 model.AvailablePlayers = AvailablePlayers(team.PoolId);
-                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 1), "Id", "Name").ToList();
+                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 2), "Id", "Name").ToList();
                 //model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
                 model.SelectedIntervalId = GetCurrentInterval();
                 model.CanSubmit = GetCanSubmit(model.SelectedIntervalId);
@@ -147,11 +147,15 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var today = DateTime.Now;
-                var intervals = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
-                var interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
 
-                if (intervals.Count() > 0)
-                    interval = intervals.First();
+                var current_intervals = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
+                var future_intervals = context.Intervals.Where(i => (today <= i.StartDate)).OrderBy(i => i.StartDate);
+                var interval = context.Intervals.OrderByDescending(i => i.EndDate).First(); //latest interval
+
+                if (current_intervals.Count() > 0)
+                    interval = current_intervals.First();
+                else if (future_intervals.Count() > 0)
+                    interval = future_intervals.First();
 
                 return interval.Id;
             }
@@ -180,6 +184,13 @@ namespace HP.Controllers
         public JsonResult EnableSubmit(int intervalId)
         {            
             return Json(GetCanSubmit(intervalId), JsonRequestBehavior.AllowGet);            
+        }
+
+        public ActionResult Analysis(int teamId, int intervalId)
+        {
+            var playerIntervals = GetPlayerIntervals(teamId, intervalId);
+
+            return PartialView("_Analysis", playerIntervals);
         }
     }
 }

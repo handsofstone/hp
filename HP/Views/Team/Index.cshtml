@@ -4,6 +4,7 @@
     ViewBag.Title = "Team";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <script type="text/javascript">
     // Javascript for Add Players
     function moveDualList(srcList, destList, moveAll) {
@@ -76,7 +77,7 @@
         this.active = $('.playerActive', e).is(':checked');
         this.lineupPlayerId = $('.lineupPlayerId', e).val();
         this.playerId = $('#playerId', e).val();
-        this.position = $('.position', e).val();
+        this.position = $('#position,.position', e).val();
     }
 
     function getPlayers(id) {
@@ -246,6 +247,7 @@
         }
 </style>
 <div id="addPlayerModal" class="modal fade" role="dialog">
+
     <div class="modal-dialog">
         <!-- Add Players Modal content-->
         <div class="modal-content">
@@ -256,6 +258,7 @@
                 <h4 class="modal-title">Add Player(s)</h4>
             </div>
             <div class="modal-body">
+
                 <table celpadding=2 cellspacing=1 border=0 class="table">
                     <tr>
                         <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
@@ -359,6 +362,7 @@
                             </li>
                         </ul>
                     </div>
+
                     <div class="panel panel-default">
                         <div class="panel-heading">Roster</div>
                         <table id="rosterTable" class="table table-bordered" data-toggle="table" style="width:auto">
@@ -379,24 +383,43 @@
                                     var num = pi.Number.ToString();
                                     var pts = pi.Points.ToString();
                                     var position = pi.Position.First();
-                                    <tr>
-                                        <td>@Html.DisplayFor(p => num)</td>
-                                        <td>
-                                            @Html.DisplayFor(p => name)
-                                            @Html.HiddenFor(p => playerId)
-                                        </td>
-                                        <td>
-                                            @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
-                                        </td>
-                                        <td>@Html.DisplayFor(p => pi.Team)</td>
-                                        <td>@Html.DisplayFor(p => pts)</td>
-                                    </tr>
+                                <tr>
+                                    <td>@Html.DisplayFor(p => num)</td>
+                                    <td>
+                                        @Html.DisplayFor(p => name)
+                                        @Html.HiddenFor(p => playerId)
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
+                                    </td>
+                                    <td>@Html.DisplayFor(p => pi.Team)</td>
+                                    <td>@Html.DisplayFor(p => pts)</td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div id="tabAnalysis" data-toggle="tab">
+                <div id="tabAnalysis" class="tab-pane fade">
+                    <div class="navbar navbar-default">
+                        <ul class="nav navbar-nav">
+                            <li class="navbar-form">
+                                <div class="form-group">
+                                    @Html.DisplayNameFor(model => model.SelectedIntervalId)
+                                </div>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Lineup</div>
+
+                        @{
+                            Html.RenderAction("Analysis", new { teamId = Model.TeamId, intervalId = Model.SelectedIntervalId });
+                        }
+                    </div>
                 </div>
             </div>
         </div>
