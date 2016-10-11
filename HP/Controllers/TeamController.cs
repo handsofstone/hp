@@ -1,4 +1,6 @@
 ﻿using HP.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,6 +14,20 @@ namespace HP.Controllers
 {
     public class TeamController : Controller
     {
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         // GET: Team
         public ActionResult Index(int id)
         {
@@ -26,7 +42,7 @@ namespace HP.Controllers
                 model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 2), "Id", "Name").ToList();
                 //model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
                 model.SelectedIntervalId = GetCurrentInterval();
-                model.CanSubmit = GetCanSubmit(model.SelectedIntervalId);
+                model.CanSubmit = GetCanSubmit(model.TeamId, model.SelectedIntervalId);
             }
             return View(model);
         }
@@ -161,15 +177,37 @@ namespace HP.Controllers
             }
         }
 
-        public bool GetCanSave()
+        public bool GetCanSave(int teamId, int intervalId)
         {
             var today = DateTime.Now;
+            var isOwner = false;
 
-            return false;
+            if (User.Identity.GetUserId() != null)
+            {
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                isOwner = (user.Teams.Where(u => u.TeamId == teamId).Count() > 0);
+            }
+
+            using (var context = new ApplicationDbContext())
+            {
+                var query = from g in context.Games
+                            from i in context.Intervals
+                            where i.Id == intervalId && DbFunctions.TruncateTime(g.StartTime) >= i.StartDate && DbFunctions.TruncateTime(g.StartTime) <= i.EndDate
+                            orderby g.StartTime
+                            select g;
+                return isOwner && today < query.First().StartTime;
+            }            
         }
 
-        public bool GetCanSubmit(int intervalId)
+        public bool GetCanSubmit(int teamId, int intervalId)
         {
+            var isOwner = false;
+            if (User.Identity.GetUserId() != null)
+            {
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                isOwner = (user.Teams.Where(u => u.TeamId == teamId).Count() > 0);
+            }
+            
             var today = DateTime.Now;
             using (var context = new ApplicationDbContext())
             {                
@@ -178,12 +216,12 @@ namespace HP.Controllers
                             where i.Id == intervalId && DbFunctions.TruncateTime(g.StartTime) >= i.StartDate && DbFunctions.TruncateTime(g.StartTime) <= i.EndDate
                             orderby g.StartTime
                             select g;
-                return today < query.First().StartTime;
+                return isOwner && today < query.First().StartTime;
             }
         }
-        public JsonResult EnableSubmit(int intervalId)
+        public JsonResult EnableSubmit(int teamId, int intervalId)
         {            
-            return Json(GetCanSubmit(intervalId), JsonRequestBehavior.AllowGet);            
+            return Json(GetCanSubmit(teamId, intervalId), JsonRequestBehavior.AllowGet);            
         }
 
         public ActionResult Analysis(int teamId, int intervalId)
