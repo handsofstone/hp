@@ -15,9 +15,9 @@ namespace HP.Models
         public string Name { get; set; }
         [Display(Name = "Eligible Positions")]
         public string EligiblePositions { get; set; }
-        [Display(Name = "Positon")]        
+        [Display(Name = "Positon")]
         public string Position { get; set; }
-        [Display(Name= "Team")]
+        [Display(Name = "Team")]
         public string Team { get; set; }
         [Display(Name = "Points")]
         public int Points { get; set; }
@@ -76,11 +76,15 @@ namespace HP.Models
             List<string> opponents = new List<string>();
             using (var context = new ApplicationDbContext())
             {
-                foreach (GameInfo g in context.GamesByTeamInterval(teamCode,intervalId))
+                foreach (GameInfo g in context.GamesByTeamInterval(teamCode, intervalId))
+                {
+                    var dow = g.StartTime.Value.DayOfWeek.ToString().Substring(0, 3).ToUpper();
+
                     if (g.HomeCode == teamCode)
-                        opponents.Add(g.VisitorCode);
+                        opponents.Add(String.Format("{0}({1})", g.VisitorCode, dow));
                     else
-                        opponents.Add("@" + g.HomeCode);
+                        opponents.Add(String.Format("@{0}({1})", g.HomeCode, dow));
+                }
             }
             return String.Join(", ", opponents);
         }
@@ -91,7 +95,7 @@ namespace HP.Models
         {
             var result = y.Active.CompareTo(x.Active);
             if (result == 0)
-                result = PositionCompare(x.Position,y.Position);
+                result = PositionCompare(x.Position, y.Position);
             if (result == 0)
                 result = x.Points.CompareTo(y.Points);
             return result;
