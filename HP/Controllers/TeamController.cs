@@ -122,6 +122,24 @@ namespace HP.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        public int DeleteLineup(int teamId, int intervalId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var records = context.LineupPlayers.Where(p => p.IntervalId == intervalId && p.TeamId == teamId).ToList();
+
+                context.LineupPlayers.RemoveRange(records);
+                return context.SaveChanges();
+            }
+        }
+
+        public ActionResult ResetLineup(int teamId, int intervalId)
+        {
+            DeleteLineup(teamId, intervalId);
+            return Lineup(teamId, intervalId);
+            //return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
         public IList<SelectListItem> AvailablePlayers(int poolId)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())

@@ -33,7 +33,6 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-
                 var model = new StandingsViewModel();
 
                 if (ModelState.IsValid)
@@ -56,6 +55,27 @@ namespace HP.Controllers
 
                 return View(model);
             }
+        }
+
+        public List<StandingRow> GetStandingRows(int poolId, int seasonId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                return context.TeamSeasonStanding.Where(p => p.PoolId == id && p.SeasonId == model.SelectedSeasonID).
+                        Select(s => new StandingRow()
+                        {
+                            Rank = s.Rank,
+                            Name = s.Team.Name,
+                            Gain = (from ti in context.TeamIntervalActiveTotal
+                                    where ti.IntervalId == currentIntervalId && ti.TeamId == s.TeamId
+                                    select ti.IntervalTotal).FirstOrDefault(),
+                            Total = s.Total
+                        }).ToList();
+            }
+        }
+        public ActionResult StandingRows(int poolId, int seasonId)
+        {
+            return Json(GetStandingRows(poolId,seasonId), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Team()

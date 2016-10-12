@@ -265,6 +265,7 @@
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\justified-nav.css" />
     <Content Include="Content\site.css" />
+    <Content Include="Content\team.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -391,12 +392,9 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\r.js" />
-    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
-    <Content Include="Scripts\site-core.js" />
-    <Content Include="Scripts\site-desktop.js" />
+    <Content Include="Scripts\team.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

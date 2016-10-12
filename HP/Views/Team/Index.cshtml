@@ -5,259 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script type="text/javascript">
-    // Javascript for Add Players
-    function moveDualList(srcList, destList, moveAll) {
+@Scripts.Render("~/bundles/team")
+@Styles.Render("~/Content/team")
 
-        var keepers = false;
-        if (srcList.id == "roster") {
-            var pText = srcList.options[srcList.selectedIndex].innerHTML;
-            if (pText.indexOf("[K]") > -1) {
-                keepers = true;
-            }
-        }
-
-        // Do nothing if nothing is selected
-        if ((srcList.selectedIndex == -1) && (moveAll === false)) {
-            return;
-        } else if (keepers) {
-            return;
-        } else {
-            copySelected(srcList, destList);
-            //sortSelect(destList);
-        }
-    }
-
-    function deleteOption(object, index) {
-        object.options[index] = null;
-    }
-
-    function addOption(object, text, value) {
-        var defaultSelected = true;
-        var selected = true;
-        var optionName = new Option(text, value, defaultSelected, selected);
-        object.options[object.length] = optionName;
-    }
-
-    function copySelected(fromObject, toObject) {
-        for (var i = 0, l = fromObject.options.length; i < l; i++) {
-            if (fromObject.options[i].selected)
-                addOption(toObject, fromObject.options[i].text, fromObject.options[i].value);
-        }
-        for (i = fromObject.options.length - 1; i > -1; i--) {
-            if (fromObject.options[i].selected)
-                deleteOption(fromObject, i);
-        }
-    }
-    function populatePlayerIds() {
-        playerIds = "";
-        submittedPlayerIds = document.getElementById("roster");
-        numberOfPlayers = submittedPlayerIds.length;
-        var comma = '';
-        for (var i = 0; i <= numberOfPlayers - 1; i++) {
-            playerIds = playerIds + comma + submittedPlayerIds[i].value;
-            comma = ',';
-        }
-        document.getElementById("playerIds").value = playerIds;
-    }
-
-    function selectAll() {
-
-        objList = document.getElementById('roster');
-
-        for (x = 0; x < objList.options.length; x++) {
-            objList.options[x].selected = true;
-        }
-
-        document.getElementById('frmAddPlayers').submit();
-
-    }
-
-    function player(e) {
-        this.active = $('.playerActive', e).is(':checked');
-        this.lineupPlayerId = $('.lineupPlayerId', e).val();
-        this.playerId = $('#playerId', e).val();
-        this.position = $('#position,.position', e).val();
-    }
-
-    function getPlayers(id) {
-        return $(id + ' tbody tr').map(function (i, e) {
-            return new player(e);
-        });
-    }
-
-    function getModel(id) {
-        this.IntervalId = $('#SelectedIntervalId').val();
-        this.TeamId = $('#TeamId').val();
-        this.Players = getPlayers(id).toArray();
-    }
-
-
-    function submitLineup() {
-        $.ajax({
-            contentType: 'application/json, charset=utf-8',
-            type: 'POST',
-            url: '@Url.Action("SubmitLineup")', // we are calling json method
-            dataType: 'json',
-            data: JSON.stringify({ model: new getModel('#lineupTable') }),
-            success: function () {
-                alert('success');
-            },
-            error: function (ex) {
-                alert('Failed to retrieve states.' + ex);
-            }
-        });
-    }
-
-    function saveRoster() {
-
-        $.ajax({
-            contentType: 'application/json, charset=utf-8',
-            type: 'POST',
-            url: '@Url.Action("SaveRoster")', // we are calling json method
-            dataType: 'json',
-            data: JSON.stringify({ model: new getModel('#rosterTable') }),
-            success: function () {
-                alert('success');
-            },
-            error: function (ex) {
-                alert('Failed to retrieve states.' + ex);
-            }
-        });
-    }
-
-    $(document).ready(function () {
-
-        //Dropdownlist Selectedchange event
-        $("#SelectedIntervalId").change(function () {
-            $('#IntervalRoster').empty();
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("Lineup")', // we are calling json method
-                dataType: 'html',
-                data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-                success: function (players) {
-                    $('#lineup').empty();
-                    $('#lineup').html(players)
-                    $("input.playerActive").bootstrapToggle();
-                    validateLineup();
-                },
-                error: function (ex) {
-                    alert('Failed to retrieve lineup.' + ex);
-                }
-            });
-            $.ajax({
-                type: 'GET',
-                contentType: "application/json; charset=utf-8",
-                url: '@Url.Action("EnableSubmit")', // we are calling json method
-                data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-                dataType: 'json',
-                success: function (data) {
-                    $('#lineupSubmit').prop('disabled', !data);
-                },
-                error: function (ex) {
-                    alert('Failed to enable/disable submit.' + ex);
-                }
-            });
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("IntervalStartTime")', // we are calling json method
-                dataType: 'html',
-                data: { intervalId: $("#SelectedIntervalId").val() },
-                success: function (date) {
-                    $('#intervalStart').text(date.replace(/\"/g, ""));
-                },
-                error: function (ex) {
-                    alert('Failed to retrieve start time.' + ex);
-                }
-            });
-            return false;
-        });
-
-        validateLineup();
-
-        $("input.playerActive").change(function (event) {
-            validateLineup();
-        });
-    });
-    function validateLineup() {
-        var lineupFormat = { C: 2, R: 2, L: 2, D: 4, G: 1 };
-        var players = getPlayers('#lineupTable');
-
-        $.each(lineupFormat, function (k, v) {
-            var activeCount = $("#lineupTable .playerRow:has(:checked):has(td .position[value=" + k + "])").length;
-            var benchToggles = $("#lineupTable .playerRow:not(:has(:checked)):has(td .position[value=" + k + "]) .playerActive");
-            if (activeCount >= v)
-                benchToggles.bootstrapToggle('disable')
-            else
-                benchToggles.bootstrapToggle('enable')
-        });
-    }
-
-    function sortLineup() {
-
-    }
-</script>
-<style>
-    .panel.with-nav-tabs .panel-heading {
-        padding: 5px 5px 0 5px;
-    }
-
-    .panel.with-nav-tabs .nav-tabs {
-        border-bottom: none;
-    }
-
-    .panel.with-nav-tabs .nav-justified {
-        margin-bottom: -1px;
-    }
-
-    /********************************************************************/
-    /*** PANEL PRIMARY ***/
-    .with-nav-tabs.panel-primary .nav-tabs > li > a,
-    .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-    .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-        color: #fff;
-    }
-
-        .with-nav-tabs.panel-primary .nav-tabs > .open > a,
-        .with-nav-tabs.panel-primary .nav-tabs > .open > a:hover,
-        .with-nav-tabs.panel-primary .nav-tabs > .open > a:focus,
-        .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-        .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-            color: #fff;
-            background-color: #3071a9;
-            border-color: transparent;
-        }
-
-    .with-nav-tabs.panel-primary .nav-tabs > li.active > a,
-    .with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
-    .with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
-        color: #428bca;
-        background-color: #fff;
-        border-color: #428bca;
-        border-bottom-color: transparent;
-    }
-
-    .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
-        background-color: #428bca;
-        border-color: #3071a9;
-    }
-
-        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a {
-            color: #fff;
-        }
-
-            .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-            .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-                background-color: #3071a9;
-            }
-
-        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-            background-color: #4a9fe9;
-        }
-</style>
 <div id="addPlayerModal" class="modal fade" role="dialog">
 
     <div class="modal-dialog">
@@ -321,20 +71,25 @@
                     <div class="navbar navbar-default">
                         <ul class="nav navbar-nav">
                             <li class="navbar-form">
-                                <div class="control-label">
+                                <span class="control-label">
                                     @Html.DisplayNameFor(model => model.SelectedIntervalId)
-                                </div>
+                                </span>
                                 <div class="form-group">
                                     @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
-                                </div>
+                                </div>                                
+                            </li>
+                            <li class="navbar-form">
                                 <div class="form-group">
                                     <button id="lineupSubmit" type="button" class="btn btn-success" onclick="submitLineup()" @(Model.CanSubmit ? "" : "disabled")>
                                         <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                                     </button>
+                                    <button id="lineupReset" type="button" class="btn btn-danger" onclick="resetLineup()" @(Model.CanSubmit ? "" : "disabled")>
+                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> Reset
+                                    </button>
                                 </div>
-                                <p id="intervalStart" class="label label-info ">
+                                <span id="intervalStart" class="label label-info ">
                                     @Html.DisplayTextFor(model => model.SelectedStartTime)
-                                </p>
+                                </span>
                             </li>
                         </ul>
                     </div>
