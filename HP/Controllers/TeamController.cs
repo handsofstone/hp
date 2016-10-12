@@ -43,6 +43,7 @@ namespace HP.Controllers
                 //model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
                 model.SelectedIntervalId = GetCurrentInterval();
                 model.CanSubmit = GetCanSubmit(model.TeamId, model.SelectedIntervalId);
+                model.SelectedStartTime = GetIntervalStartTime(model.SelectedIntervalId).ToString();
             }
             return View(model);
         }
@@ -216,12 +217,30 @@ namespace HP.Controllers
                             where i.Id == intervalId && DbFunctions.TruncateTime(g.StartTime) >= i.StartDate && DbFunctions.TruncateTime(g.StartTime) <= i.EndDate
                             orderby g.StartTime
                             select g;
-                return isOwner && today < query.First().StartTime;
+                return isOwner && today < GetIntervalStartTime(intervalId);
             }
         }
         public JsonResult EnableSubmit(int teamId, int intervalId)
         {            
             return Json(GetCanSubmit(teamId, intervalId), JsonRequestBehavior.AllowGet);            
+        }
+
+        public DateTime? GetIntervalStartTime(int intervalId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var query = from g in context.Games
+                            from i in context.Intervals
+                            where i.Id == intervalId && DbFunctions.TruncateTime(g.StartTime) >= i.StartDate && DbFunctions.TruncateTime(g.StartTime) <= i.EndDate
+                            orderby g.StartTime
+                            select g;
+                return query.First().StartTime;
+            }
+        }
+
+        public JsonResult IntervalStartTime(int intervalId)
+        {
+            return Json(GetIntervalStartTime(intervalId).ToString(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Analysis(int teamId, int intervalId)
