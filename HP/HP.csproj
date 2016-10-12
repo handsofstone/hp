@@ -394,6 +394,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\standings.js" />
     <Content Include="Scripts\team.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

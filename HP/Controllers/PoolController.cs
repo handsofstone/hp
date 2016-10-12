@@ -40,7 +40,7 @@ namespace HP.Controllers
                     var pool = context.Pools.Find(id);
                     var currentIntervalId = GetCurrentInterval();
                     model.Seasons = new SelectList(pool.Seasons, "Id", "Name").ToList();
-                    model.SelectedSeasonID = Convert.ToInt32(model.Seasons.First().Value);
+                    model.SelectedSeasonID = Convert.ToInt32(model.Seasons.Last().Value);
                     model.StandingRows = context.TeamSeasonStanding.Where(p => p.PoolId == id && p.SeasonId == model.SelectedSeasonID).
                         Select(s => new StandingRow()
                         {
@@ -61,7 +61,8 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                return context.TeamSeasonStanding.Where(p => p.PoolId == id && p.SeasonId == model.SelectedSeasonID).
+                var currentIntervalId = GetCurrentInterval();
+                return context.TeamSeasonStanding.Where(p => p.PoolId == poolId && p.SeasonId == seasonId).
                         Select(s => new StandingRow()
                         {
                             Rank = s.Rank,

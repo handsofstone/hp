@@ -49,6 +49,9 @@ namespace HP
                 "~/Scripts/team.js"));
             bundles.Add(new StyleBundle("~/Content/team").Include(
                 "~/Content/team.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/standings").Include(
+                "~/Scripts/standings.js"));
         }
     }
 }
