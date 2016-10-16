@@ -132,8 +132,9 @@ namespace HP.Models
         public IEnumerable<GameInfo> GamesByTeamInterval(string teamCode, int intervalId)
         {
             Interval interval = Intervals.Find(intervalId);
+            var intervalEnd = interval.EndDate.AddDays(1);
             return from g in Games
-                   where g.StartTime >= interval.StartDate && g.StartTime <= interval.EndDate && 
+                   where g.StartTime >= interval.StartDate && g.StartTime <= intervalEnd && 
                    (g.HomeCode == teamCode || g.VisitorCode == teamCode)
                    select g;
 
