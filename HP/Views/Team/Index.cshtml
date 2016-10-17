@@ -12,7 +12,7 @@
 
     <div class="modal-dialog">
         <!-- Add Players Modal content-->
-        <div class="modal-content">
+        @*<div class="modal-content">
             @using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
             {
                 <div class="modal-header">
@@ -49,7 +49,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             }
-        </div>
+        </div>*@
     </div>
 </div>
 @using (Html.BeginForm("SubmitRoster", "Team", FormMethod.Post))
@@ -120,12 +120,12 @@
                         <ul class="nav navbar-nav">
                             <li class="navbar-form">
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-success" aria-label="Left Align" onclick="saveRoster()">
+                                    <button type="button" class="btn btn-success disabled" aria-label="Left Align">
                                         <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Save
                                     </button>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                                    <button type="button" class="btn btn-info disabled" data-target="#addPlayerModal" aria-label="Left Align">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
                                     </button>
                                 </div>
