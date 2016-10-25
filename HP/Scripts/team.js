@@ -206,7 +206,12 @@ $(document).ready(function () {
         return false;
     });
 
+    $("input.playerActive").change(function (event) {
+        validateLineup();
+    });
+
     validateLineup();
+
 
 });
 
@@ -233,6 +238,9 @@ function populatePlayers(players) {
     $('#lineup').empty();
     $('#lineup').html(players)
     $("input.playerActive").bootstrapToggle();
+    $("input.playerActive").change(function (event) {
+        validateLineup();
+    });
     validateLineup();
 
 }
@@ -247,10 +255,6 @@ function validateLineup() {
             benchToggles.bootstrapToggle('disable')
         else
             benchToggles.bootstrapToggle('enable')
-    });
-
-    $("input.playerActive").change(function (event) {
-        validateLineup();
     });
 }
 

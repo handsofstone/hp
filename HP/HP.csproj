@@ -498,9 +498,9 @@
     <Compile Include="Migrations\201602162116442_ExplicitColumnNameTeamId.Designer.cs">
       <DependentUpon>201602162116442_ExplicitColumnNameTeamId.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610252206409_AddAdminUserRole.cs" />
-    <Compile Include="Migrations\201610252206409_AddAdminUserRole.Designer.cs">
-      <DependentUpon>201610252206409_AddAdminUserRole.cs</DependentUpon>
+    <Compile Include="Migrations\201610130239509_NullablePointsLineupPlayerTotal.cs" />
+    <Compile Include="Migrations\201610130239509_NullablePointsLineupPlayerTotal.Designer.cs">
+      <DependentUpon>201610130239509_NullablePointsLineupPlayerTotal.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
@@ -627,8 +627,8 @@
     <EmbeddedResource Include="Migrations\201602162116442_ExplicitColumnNameTeamId.resx">
       <DependentUpon>201602162116442_ExplicitColumnNameTeamId.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610252206409_AddAdminUserRole.resx">
-      <DependentUpon>201610252206409_AddAdminUserRole.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610130239509_NullablePointsLineupPlayerTotal.resx">
+      <DependentUpon>201610130239509_NullablePointsLineupPlayerTotal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -642,7 +642,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58933</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

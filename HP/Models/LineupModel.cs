@@ -72,7 +72,7 @@ namespace HP.Models
         public int? W { get; set; }
         public int? L { get; set; }
         public int? OT { get; set; }
-        public int P { get; set; }
+        public int? P { get; set; }
         public int Gain { get; set; }
         public LineupPlayer LineupPlayer { get; set; }        
     }

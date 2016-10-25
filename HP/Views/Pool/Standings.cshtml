@@ -14,7 +14,7 @@
         @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
     </div>
 
-<table class="table table-bordered" style="width:auto">
+<table id="standingsTable" class="table table-bordered" style="width:auto">
     <thead>
         <tr>
             <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Rank)</td>
