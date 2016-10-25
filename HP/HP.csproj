@@ -502,6 +502,10 @@
     <Compile Include="Migrations\201610130239509_NullablePointsLineupPlayerTotal.Designer.cs">
       <DependentUpon>201610130239509_NullablePointsLineupPlayerTotal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610252226207_AgainWithNullablePoints.cs" />
+    <Compile Include="Migrations\201610252226207_AgainWithNullablePoints.Designer.cs">
+      <DependentUpon>201610252226207_AgainWithNullablePoints.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Interval.cs" />
@@ -629,6 +633,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610130239509_NullablePointsLineupPlayerTotal.resx">
       <DependentUpon>201610130239509_NullablePointsLineupPlayerTotal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610252226207_AgainWithNullablePoints.resx">
+      <DependentUpon>201610252226207_AgainWithNullablePoints.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
