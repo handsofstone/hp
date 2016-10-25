@@ -221,6 +221,8 @@ namespace HP.Controllers
         public bool GetCanSubmit(int teamId, int intervalId)
         {
             var isOwner = false;
+            if (User.IsInRole("admin"))
+                return true;
             if (User.Identity.GetUserId() != null)
             {
                 var user = UserManager.FindById(User.Identity.GetUserId());
