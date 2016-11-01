@@ -41,16 +41,17 @@ namespace HP.Controllers
                     var currentIntervalId = GetCurrentInterval();
                     model.Seasons = new SelectList(pool.Seasons, "Id", "Name").ToList();
                     model.SelectedSeasonID = Convert.ToInt32(model.Seasons.Last().Value);
-                    model.StandingRows = context.TeamSeasonStanding.Where(p => p.PoolId == id && p.SeasonId == model.SelectedSeasonID).
-                        Select(s => new StandingRow()
-                        {
-                            Rank = s.Rank,
-                            Name = s.Team.Name,
-                            Gain = (from ti in context.TeamIntervalActiveTotal
-                                    where ti.IntervalId == currentIntervalId && ti.TeamId == s.TeamId
-                                    select ti.IntervalTotal).FirstOrDefault(),
-                            Total = s.Total
-                        }).ToList();
+                    model.StandingRows = new List<StandingRow>();
+                    //model.StandingRows = context.TeamSeasonStanding.Where(p => p.PoolId == id && p.SeasonId == model.SelectedSeasonID).
+                    //    Select(s => new StandingRow()
+                    //    {
+                    //        Rank = s.Rank,
+                    //        Name = s.Team.Name,
+                    //        Gain = (from ti in context.TeamIntervalActiveTotal
+                    //                where ti.IntervalId == currentIntervalId && ti.TeamId == s.TeamId
+                    //                select ti.IntervalTotal).FirstOrDefault(),
+                    //        Total = s.Total
+                    //    }).ToList();
                 }
 
                 return View(model);

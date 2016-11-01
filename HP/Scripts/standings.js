@@ -42,4 +42,6 @@ $(document).ready(function () {
         return false;
     });
 
+    $("#SelectedSeasonID").trigger('change');
+
 });
