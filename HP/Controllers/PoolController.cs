@@ -42,16 +42,6 @@ namespace HP.Controllers
                     model.Seasons = new SelectList(pool.Seasons, "Id", "Name").ToList();
                     model.SelectedSeasonID = Convert.ToInt32(model.Seasons.Last().Value);
                     model.StandingRows = new List<StandingRow>();
-                    //model.StandingRows = context.TeamSeasonStanding.Where(p => p.PoolId == id && p.SeasonId == model.SelectedSeasonID).
-                    //    Select(s => new StandingRow()
-                    //    {
-                    //        Rank = s.Rank,
-                    //        Name = s.Team.Name,
-                    //        Gain = (from ti in context.TeamIntervalActiveTotal
-                    //                where ti.IntervalId == currentIntervalId && ti.TeamId == s.TeamId
-                    //                select ti.IntervalTotal).FirstOrDefault(),
-                    //        Total = s.Total
-                    //    }).ToList();
                 }
 
                 return View(model);
@@ -63,16 +53,11 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var currentIntervalId = GetCurrentInterval();
-                return context.TeamSeasonStanding.Where(p => p.PoolId == poolId && p.SeasonId == seasonId).
-                        Select(s => new StandingRow()
-                        {
-                            Rank = s.Rank,
-                            Name = s.Team.Name,
-                            Gain = (from ti in context.TeamIntervalActiveTotal
-                                    where ti.IntervalId == currentIntervalId && ti.TeamId == s.TeamId
-                                    select ti.IntervalTotal).FirstOrDefault(),
-                            Total = s.Total
-                        }).ToList();
+                var standings = from ti in context.TeamIntervalActiveTotal
+                                join ss in context.TeamSeasonStanding on ti.TeamId equals ss.TeamId
+                                where ss.PoolId == poolId && ss.SeasonId == seasonId && ti.IntervalId == currentIntervalId
+                                select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = ti.IntervalTotal, Total = ss.Total };
+                return standings.ToList();
             }
         }
         public ActionResult StandingRows(int poolId, int seasonId)

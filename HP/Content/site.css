@@ -44,3 +44,18 @@ input[type="checkbox"].input-validation-error {
 .grey {
     color: grey;
 }
+
+.ui-progressbar {
+    position: relative;
+}
+
+.progress-label {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+}
+ .ui-progressbar-value {
+    background-color: #ccc;
+  }

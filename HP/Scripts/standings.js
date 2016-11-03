@@ -23,7 +23,31 @@ function standingsRow(obj) {
     '</tr>';
     return row.compose(obj);
 }
+
+function getPoolId() {
+    var id = $('#SelectedPoolId').val()
+    if (id == undefined) {
+        var url = window.location.pathname;
+        id = url.substring(url.lastIndexOf('/') + 1);
+    }
+    return id;
+}
+
 $(document).ready(function () {
+
+    $("#progressbar").progressbar({ value: false });
+
+    $(document)
+.ajaxStart(function () {
+    $('#standingsTable').hide();
+    $("#progressbar")
+        .show();
+})
+.ajaxStop(function () {
+    $("#progressbar").hide();
+    $('#standingsTable').show();
+});
+
     //Dropdownlist Selectedchange event
     $("#SelectedSeasonID").change(function () {
         $.ajax({
@@ -31,7 +55,7 @@ $(document).ready(function () {
             type: 'GET',
             url: '/Pool/StandingRows', // we are calling json method
             dataType: 'json',
-            data: { poolId: $('#SelectedPoolId').val(), seasonId: $("#SelectedSeasonID").val() },
+            data: { poolId: getPoolId(), seasonId: $("#SelectedSeasonID").val() },
             success: function (standings) {
                 populateStandings(standings);
             },
