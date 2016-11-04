@@ -16,10 +16,10 @@ function populateStandings(standings) {
 
 function standingsRow(obj) {
     var row = '<tr>' +
-    '<td>{{Rank}}</td>' +
+    '<td class="text-center">{{Rank}}</td>' +
     '<td>{{Name}}</td>' +
-    '<td>{{Gain}}</td>' +
-    '<td>{{Total}}</td>' +
+    '<td class="text-right">{{Gain}}</td>' +
+    '<td class="text-right">{{Total}}</td>' +
     '</tr>';
     return row.compose(obj);
 }

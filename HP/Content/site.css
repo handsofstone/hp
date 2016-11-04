@@ -51,7 +51,7 @@ input[type="checkbox"].input-validation-error {
 
 .progress-label {
     position: absolute;
-    left: 50%;
+    left: 40%;
     top: 4px;
     font-weight: bold;
     text-shadow: 1px 1px 0 #fff;
@@ -60,7 +60,10 @@ input[type="checkbox"].input-validation-error {
     background-color: #ccc;
   }
 
-.table-striped>tbody>tr:nth-child(odd)>td, 
-.table-striped>tbody>tr:nth-child(odd)>th {
-   background-color: red; // Choose your own color here
+thead {
+   background-color: steelblue;
+   color: white;
  }
+
+.table-striped>tbody>tr:nth-child(even)>td {
+   background-color: #99ccff;

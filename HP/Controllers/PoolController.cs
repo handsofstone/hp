@@ -53,12 +53,13 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var currentIntervalId = GetCurrentInterval();
-                var standings = from ss in context.TeamSeasonStanding
-                                from ti in context.TeamIntervalActiveTotal
-                                .Where(interval=> interval.TeamId == ss.TeamId)
+                var standings = from ss in context.TeamSeasonStanding 
+                                join i in context.Intervals on ss.SeasonId equals i.SeasonId
+                                from tiat in context.TeamIntervalActiveTotal
+                                .Where(t=> t.TeamId == ss.TeamId && t.IntervalId == i.Id)
                                 .DefaultIfEmpty()
-                                where ss.PoolId == poolId && ss.SeasonId == seasonId && ti.IntervalId == currentIntervalId
-                                select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (ti == null ? 0 : ti.IntervalTotal), Total = ss.Total };
+                                where ss.PoolId == poolId && ss.SeasonId == seasonId && i.Id == currentIntervalId
+                                select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (tiat == null ? 0 : tiat.IntervalTotal), Total = ss.Total };
                 return standings.ToList();
             }
         }

@@ -4,37 +4,50 @@
     ViewBag.Title = "Standings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Scripts.Render("~/bundles/standings")
-
-<h2>Standings</h2>
-    <div class="form-group">
-        @Html.LabelFor(model => Model.SelectedSeasonID)
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Standings</h4></div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <span class="control-label">
+                            @Html.LabelFor(model => Model.SelectedSeasonID)
+                        </span>
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="progressbar"><div class="progress-label">Loading...</div></div>
+                    <table id="standingsTable" class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <td class="text-center">@Html.DisplayNameFor(model => model.StandingRows[0].Rank)</tdclass="text-center">
+                                <td>@Html.DisplayNameFor(model => model.StandingRows[0].Name)</td>
+                                <td class="text-right">@Html.DisplayNameFor(model => model.StandingRows[0].Gain)</tdclass="text-right">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.StandingRows[0].Total)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (HP.Models.StandingRow row in Model.StandingRows)
+                            {
+                                <tr>
+                                    <td class="text-center">@row.Rank.ToString()</td>
+                                    <td>@row.Name.ToString()</td>
+                                    <td class="text-right">@row.Gain.ToString()</td>
+                                    <td class="text-right">@row.Total.ToString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
-    </div>
-
-<div id="progressbar"><div class="progress-label">Loading...</div></div>
-<table id="standingsTable" class="table table-bordered" style="width:auto">
-    <thead>
-        <tr>
-            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Rank)</td>
-            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Name)</td>
-            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Gain)</td>
-            <td>@Html.DisplayNameFor(model=>model.StandingRows[0].Total)</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (HP.Models.StandingRow row in Model.StandingRows)
-        {
-            <tr>
-                <td>@row.Rank.ToString()</td>
-                <td>@row.Name.ToString()</td>
-                <td>@row.Gain.ToString()</td>
-                <td>@row.Total.ToString()</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @Scripts.Render("~/bundles/standings")
 
 
