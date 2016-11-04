@@ -59,3 +59,8 @@ input[type="checkbox"].input-validation-error {
  .ui-progressbar-value {
     background-color: #ccc;
   }
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: red; // Choose your own color here
+ }

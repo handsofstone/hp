@@ -26,11 +26,14 @@ namespace HP
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/tether/tether.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/bootstrap-toggle.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/tether/tether.css",
+                      "~/Content/tether/tether-theme-basic.css*",
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-theme.css",
                       "~/Content/bootstrap2-toggle.css",
