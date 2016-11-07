@@ -10,190 +10,193 @@
     <div class="modal-dialog">
         <!-- Add Players Modal content-->
         @*<div class="modal-content">
-                @using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
-                {
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Player(s)</h4>
-                    </div>
-                    <div class="modal-body">
+            @using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
+            {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Player(s)</h4>
+            </div>
+            <div class="modal-body">
 
-                        <table celpadding=2 cellspacing=1 border=0 class="table">
-                            <tr>
-                                <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
-                                <td>&nbsp;</td>
-                                <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
-                            </tr>
-                            <tr>
-                                <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                                    <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                                    @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                                </td>
-                                <td style="vertical-align: middle">
-                                    <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
-                                    <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
-                                </td>
-                                <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                                    @Html.Hidden("teamId", Model.TeamId)
-                                    @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
-                                    @Html.Hidden("playerIds")
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                }
-            </div>*@
+                <table celpadding=2 cellspacing=1 border=0 class="table">
+                    <tr>
+                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
+                        <td>&nbsp;</td>
+                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                        </td>
+                        <td style="vertical-align: middle">
+                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                        </td>
+                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                            @Html.Hidden("teamId", Model.TeamId)
+                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                            @Html.Hidden("playerIds")
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            }
+        </div>*@
     </div>
 </div>
 @using (Html.BeginForm("SubmitRoster", "Team", FormMethod.Post))
 {
     @Html.HiddenFor(p => Model.TeamId, new { @id = "TeamId" })
-
-    <div class="panel with-nav-tabs panel-primary">
-        <div class="panel-heading">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
-                <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
-                <li><a href="#tabAnalysis" data-toggle="tab">Analysis</a></li>
-            </ul>
-        </div>
-        <div class="panel-body">
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="tabLineup">
-
-                    <div class="navbar navbar-default">
-                        <ul class="nav navbar-nav">
-                            <li class="navbar-form">
-                                <span class="control-label">
-                                    @Html.DisplayNameFor(model => model.SelectedIntervalId)
-                                </span>
-                                <div class="form-group">
-                                    @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
+}
+<div class="panel with-nav-tabs panel-primary">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
+            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
+            <li><a href="#tabAnalysis" data-toggle="tab">Analysis</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabLineup">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <form class="form-inline">
+                                        <span class="control-label">
+                                            @Html.LabelFor(model => model.SelectedIntervalId)
+                                        </span>
+                                        <div class="form-group">
+                                            @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="lineupSubmit" type="button" class="btn btn-success" onclick="submitLineup()" @(Model.CanSubmit ? "":"disabled" )>
+                                                <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
+                                            </button>
+                                            <button id="lineupReset" type="button" class="btn btn-danger" onclick="resetLineup()" @(Model.CanSubmit ? "":"disabled" )>
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> Reset
+                                            </button>
+                                        </div>
+                                        <span id="intervalStart" class="label label-info ">
+                                            @Html.DisplayTextFor(model => model.SelectedStartTime)
+                                        </span>
+                                    </form>
                                 </div>
-                            </li>
-                            <li class="navbar-form">
-                                <div class="form-group">
-                                    <button id="lineupSubmit" type="button" class="btn btn-success" onclick="submitLineup()" @(Model.CanSubmit ? "" : "disabled")>
-                                        <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
-                                    </button>
-                                    <button id="lineupReset" type="button" class="btn btn-danger" onclick="resetLineup()" @(Model.CanSubmit ? "" : "disabled")>
-                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> Reset
-                                    </button>
-                                </div>
-                                <span id="intervalStart" class="label label-info ">
-                                    @Html.DisplayTextFor(model => model.SelectedStartTime)
-                                </span>
-                                <span id="unsubmitted" class="label label-danger ">
-                                    Unsubmitted
-                                </span>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Lineup</div>
-                        <table id="lineupTable" class="table table-bordered" data-toggle="table" style="width:auto">
-                            <thead>
-                                <tr>
-                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Active)</td>
-                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Number)</td>
-                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Name)</td>
-                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Position)</td>
-                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Team)</td>
-                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Points)</td>
-                                    <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Schedule)</td>
-                                </tr>
-                            </thead>
-                            <tbody id="lineup">
-                                @{
-                                    Html.RenderAction("Lineup", new { teamId = Model.TeamId, intervalId = Model.SelectedIntervalId });
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="tabRoster">
-                    <div class="navbar navbar-default">
-                        <ul class="nav navbar-nav">
-                            <li class="navbar-form">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-success disabled" aria-label="Left Align">
-                                        <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Save
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-info disabled" data-target="#addPlayerModal" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Roster</div>
-                        <table id="rosterTable" class="table table-bordered" data-toggle="table" style="width:auto">
-                            <thead>
-                                <tr>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
-                                </tr>
-                            </thead>
-                            <tbody id="lineup">
-                                @foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
-                                {
-                                    var playerId = pi.PlayerId;
-                                    var name = pi.Name;
-                                    var num = pi.Number.ToString();
-                                    var pts = pi.Points.ToString();
-                                    var position = pi.Position.First();
+                    <div class="row">
+                        <div class="col">
+                            <div id="progressbar"><div class="progress-label">Loading...</div></div>
+                            <table id="lineupTable" class="table table-bordered" data-toggle="table" style="width:auto">
+                                <thead>
                                     <tr>
-                                        <td>@Html.DisplayFor(p => num)</td>
-                                        <td>
-                                            @Html.DisplayFor(p => name)
-                                            @Html.HiddenFor(p => playerId)
-                                        </td>
-                                        <td>
-                                            @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
-                                        </td>
-                                        <td>@Html.DisplayFor(p => pi.Team)</td>
-                                        <td>@Html.DisplayFor(p => pts)</td>
+                                        <td><span id="unsubmitted" class="label label-danger">Unsubmitted</span></td>
+                                        <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Number)</td>
+                                        <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Name)</td>
+                                        <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Position)</td>
+                                        <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Team)</td>
+                                        <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Points)</td>
+                                        <td>@Html.DisplayNameFor(model => model.PlayerIntervals.FirstOrDefault().Schedule)</td>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody id="lineup">
+                                    @{
+                                    Html.RenderAction("Lineup", new { teamId = Model.TeamId, intervalId = Model.SelectedIntervalId });
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div id="tabAnalysis" class="tab-pane fade">
-                    <div class="navbar navbar-default">
-                        <ul class="nav navbar-nav">
-                            <li class="navbar-form">
-                                <div class="form-group">
-                                    @Html.DisplayNameFor(model => model.SelectedIntervalId)
-                                </div>
-                                <div class="form-group">
-                                    @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Lineup</div>
 
-                        @{
-                            Html.RenderAction("Analysis", new { teamId = Model.TeamId, intervalId = Model.SelectedIntervalId });
-                        }
-                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabRoster">
+                <div class="navbar navbar-default">
+                    <ul class="nav navbar-nav">
+                        <li class="navbar-form">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success disabled" aria-label="Left Align">
+                                    <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Save
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-info disabled" data-target="#addPlayerModal" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Roster</div>
+                    <table id="rosterTable" class="table table-bordered" data-toggle="table" style="width:auto">
+                        <thead>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
+                            </tr>
+                        </thead>
+                        <tbody id="lineup">
+                            @foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
+                            {
+                            var playerId = pi.PlayerId;
+                            var name = pi.Name;
+                            var num = pi.Number.ToString();
+                            var pts = pi.Points.ToString();
+                            var position = pi.Position.First();
+                            <tr>
+                                <td>@Html.DisplayFor(p => num)</td>
+                                <td>
+                                    @Html.DisplayFor(p => name)
+                                    @Html.HiddenFor(p => playerId)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
+                                </td>
+                                <td>@Html.DisplayFor(p => pi.Team)</td>
+                                <td>@Html.DisplayFor(p => pts)</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="tabAnalysis" class="tab-pane fade">
+                <div class="navbar navbar-default">
+                    <ul class="nav navbar-nav">
+                        <li class="navbar-form">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.SelectedIntervalId)
+                            </div>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Lineup</div>
+
+                    @{
+                    Html.RenderAction("Analysis", new { teamId = Model.TeamId, intervalId = Model.SelectedIntervalId });
+                    }
                 </div>
             </div>
         </div>
     </div>
-                            }
+</div>
+
 @Scripts.Render("~/bundles/team")
 @Styles.Render("~/Content/team")
