@@ -237,6 +237,7 @@ function refreshLineup() {
 function populatePlayers(players) {
     $('#lineup').empty();
     $('#lineup').html(players)
+    $('#unsubmitted').toggle($('input.lineupPlayerId')[0].value == "")
     $("input.playerActive").bootstrapToggle();
     $("input.playerActive").change(function (event) {
         validateLineup();
