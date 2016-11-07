@@ -57,9 +57,11 @@ namespace HP.Models
             Schedule = intervalId.HasValue ? ScheduleString(Team, (int)intervalId) : null;
         }
 
-        public PlayerInterval(LineupPlayer player)
+
+
+        public PlayerInterval(LineupPlayer player, int? intervalId = null)
         {
-            LineupPlayerId = player.Id;
+            LineupPlayerId = intervalId.HasValue ? (int?) null : player.Id;
             PlayerId = player.PlayerId;
             Number = player.Player.Number;
             Name = player.Player.FullName;
@@ -68,9 +70,8 @@ namespace HP.Models
             Team = player.Player.NHLTeamCode;
             Points = player.Total != null ? player.Total.Gain : 0;
             Active = player.Active;
-            Schedule = ScheduleString(Team, player.IntervalId);
+            Schedule = ScheduleString(Team, (int) ( intervalId.HasValue ? intervalId : player.IntervalId ));
         }
-
         private string ScheduleString(string teamCode, int intervalId)
         {
             List<string> opponents = new List<string>();

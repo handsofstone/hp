@@ -154,11 +154,25 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var result = context.LineupPlayers.Where(p => (p.TeamId == teamId) && (p.IntervalId == intervalId)).ToList().Select(p => new PlayerInterval(p));
-                if (result.Count() == 0)
+
+                if (!result.Any())
                 {
-                    var team = context.Teams.Find(teamId);
-                    result = team.RosterPlayers.Select(p => new PlayerInterval(p, intervalId));
+                    var endDate = (from i in context.Intervals
+                                   where i.Id == intervalId
+                                   select i.EndDate).Single();
+                    var lastIntervalId = (from lp in context.LineupPlayers
+                                          join i in context.Intervals on lp.IntervalId equals i.Id
+                                          where lp.TeamId == teamId && i.EndDate < endDate
+                                          orderby i.EndDate descending
+                                          select i.Id).Take(1).Single();
+                    var lineup = from lp in context.LineupPlayers
+                             join rp in context.RosterPlayers on new { lp.TeamId, lp.PlayerId } equals new { rp.TeamId, rp.PlayerId }
+                             where lp.TeamId == teamId && lp.IntervalId == lastIntervalId
+                             select lp;
+                    result = lineup.ToList().Select(p => new PlayerInterval(p, intervalId));
+                    //var team = context.Teams.Find(teamId);
                 }
+                //result = team.RosterPlayers.Select(p => new PlayerInterval(p, intervalId));
                 return result.OrderBy(p => p, new PlayerIntervalComparer()).ToList();
             }
         }
@@ -215,7 +229,7 @@ namespace HP.Controllers
                             orderby g.StartTime
                             select g;
                 return isOwner && today < query.First().StartTime;
-            }            
+            }
         }
 
         public bool GetCanSubmit(int teamId, int intervalId)
@@ -228,10 +242,10 @@ namespace HP.Controllers
                 var user = UserManager.FindById(User.Identity.GetUserId());
                 isOwner = (user.Teams.Where(u => u.TeamId == teamId).Count() > 0);
             }
-            
+
             var today = DateTime.Now;
             using (var context = new ApplicationDbContext())
-            {                
+            {
                 var query = from g in context.Games
                             from i in context.Intervals
                             where i.Id == intervalId && DbFunctions.TruncateTime(g.StartTime) >= i.StartDate && DbFunctions.TruncateTime(g.StartTime) <= i.EndDate
@@ -241,8 +255,8 @@ namespace HP.Controllers
             }
         }
         public JsonResult EnableSubmit(int teamId, int intervalId)
-        {            
-            return Json(GetCanSubmit(teamId, intervalId), JsonRequestBehavior.AllowGet);            
+        {
+            return Json(GetCanSubmit(teamId, intervalId), JsonRequestBehavior.AllowGet);
         }
 
         public DateTime? GetIntervalStartTime(int intervalId)
