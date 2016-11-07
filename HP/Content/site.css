@@ -65,5 +65,6 @@ thead {
    color: white;
  }
 
-.table-striped>tbody>tr:nth-child(even)>td {
-   background-color: #99ccff;
+.table-striped > tbody > tr:nth-child(even) > td {
+    background-color: #99ccff;
+}
