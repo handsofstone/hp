@@ -262,3 +262,32 @@ function validateLineup() {
 function sortLineup() {
 
 }
+
+String.prototype.compose = (function () {
+    var re = /\{{(.+?)\}}/g;
+    return function (o) {
+        return this.replace(re, function (_, k) {
+            return typeof o[k] != 'undefined' ? o[k] : '';
+        });
+    }
+}());
+
+function lineupRow(obj) {
+    var row = '<tr class="playerRow" id={{playerId}}>' +
+'<td>'+
+    '<input '+obj.Active?"checked":""+'class="playerActive" data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." name="[0].Active" type="checkbox" value="true" />'+
+    '<input name="Active" type="hidden" value="false" />'+
+    '<input class="lineupPlayerId" data-val="true" data-val-number="The field LineupPlayerId must be a number." name="LineupPlayerId" type="hidden" value="{{LineupPlayerId}}" />'+
+'</td>'+
+'<td class="text-center">{{Position}}<input class="position" name="[0].Position" type="hidden" value="{{Position}}" /></td>'+
+'<td>'+
+  '<span data-toggle="tooltip" data-placement="bottom" title="{{Number}}, {{Team}}">{{Name}}</span>'+
+  '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="8473563" />'+
+'</td>'+
+    '<td class="text-right"> 0 </td>'+
+'<td class="text-right"> 0 </td>'+
+'<td class="text-right"> 0 </td>'+
+    '<td> <span data-toggle="tooltip" data-placement="bottom" title="Tuesday, November 7, 2016">SJS</span>, @CHI, @CAR</td>'+
+'</tr>';
+    return row.compose(obj);
+}
