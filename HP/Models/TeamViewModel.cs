@@ -16,7 +16,7 @@ namespace HP.Models
         public IList<SelectListItem> Intervals { get; set; }
         [Display(Name="Interval")]
         public int SelectedIntervalId { get; set; }
-        public IList<PlayerInterval> PlayerIntervals { get; set; }
+        public IList<LineupRow> LineupRows { get; set; }
         public bool CanSubmit { get; set; }
         public bool CanSave { get; set; }
         public string SelectedStartTime { get; set; }

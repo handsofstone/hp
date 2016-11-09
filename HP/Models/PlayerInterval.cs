@@ -108,4 +108,77 @@ namespace HP.Models
             return order.IndexOf(x).CompareTo(order.IndexOf(y));
         }
     }
+
+    public class LineupRow
+    {
+        public int Number { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+        [Display(Name = "Positon")]
+        public string Position { get; set; }
+        [Display(Name = "Team")]
+        public string Team { get; set; }
+        //[Display(Name = "Points")]
+        //public int Points { get; set; }
+        [Display(Name = "D")]
+        public int DayPoints { get; set; }
+        [Display(Name = "I")]
+        public int IntervalPoints { get; set; }
+        [Display(Name = "T")]
+        public int TotalPoints { get; set; }        
+        public bool Active { get; set; }
+        [Display(Name = "Schedule")]
+        public String Schedule { get; set; }
+        public int PlayerId { get; set; }
+        public int? LineupPlayerId { get; set; }
+        public LineupRow(LineupPlayer player, int? intervalId = null)
+        {
+            LineupPlayerId = intervalId.HasValue ? (int?)null : player.Id;
+            PlayerId = player.PlayerId;
+            Number = player.Player.Number;
+            Name = player.Player.FullName;
+            Position = player.Position;
+            Team = player.Player.NHLTeamCode;
+            DayPoints = 0;
+            IntervalPoints = player.Total != null && !intervalId.HasValue ? player.Total.Gain : 0;
+            TotalPoints = 0;
+            Active = player.Active;
+            Schedule = ScheduleString(Team, (int)(intervalId.HasValue ? intervalId : player.IntervalId));
+        }
+        private string ScheduleString(string teamCode, int intervalId)
+        {
+            List<string> opponents = new List<string>();
+            using (var context = new ApplicationDbContext())
+            {
+                foreach (GameInfo g in context.GamesByTeamInterval(teamCode, intervalId))
+                {
+                    var dow = g.StartTime.Value.DayOfWeek.ToString().Substring(0, 3).ToUpper();
+
+                    if (g.HomeCode == teamCode)
+                        opponents.Add(String.Format("{0}({1})", g.VisitorCode, dow));
+                    else
+                        opponents.Add(String.Format("@{0}({1})", g.HomeCode, dow));
+                }
+            }
+            return String.Join(", ", opponents);
+        }
+    }
+    public class LineupRowComparer : IComparer<LineupRow>
+    {
+        public int Compare(LineupRow x, LineupRow y)
+        {
+            var result = y.Active.CompareTo(x.Active);
+            if (result == 0)
+                result = PositionCompare(x.Position, y.Position);
+            if (result == 0)
+                result = x.TotalPoints.CompareTo(y.TotalPoints);
+            return result;
+        }
+
+        private int PositionCompare(string x, string y)
+        {
+            List<string> order = new List<string>() { "C", "R", "L", "D", "G" };
+            return order.IndexOf(x).CompareTo(order.IndexOf(y));
+        }
+    }
 }

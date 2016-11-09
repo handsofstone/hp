@@ -171,12 +171,42 @@ namespace HP.Controllers
                              select lp;
                     result = lineup.ToList().Select(p => new PlayerInterval(p, intervalId));
                     //var team = context.Teams.Find(teamId);
+                    var result2 = lineup.ToList().Select(p => new LineupRow(p, intervalId));
                 }
+                
                 //result = team.RosterPlayers.Select(p => new PlayerInterval(p, intervalId));
                 return result.OrderBy(p => p, new PlayerIntervalComparer()).ToList();
             }
         }
 
+        public IEnumerable<LineupRow> GetLineupRows(int teamId, int intervalId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var result = context.LineupPlayers.Where(p => (p.TeamId == teamId) && (p.IntervalId == intervalId)).ToList().Select(p => new LineupRow(p));
+
+                if (!result.Any())
+                {
+                    var endDate = (from i in context.Intervals
+                                   where i.Id == intervalId
+                                   select i.EndDate).Single();
+                    var lastIntervalId = (from lp in context.LineupPlayers
+                                          join i in context.Intervals on lp.IntervalId equals i.Id
+                                          where lp.TeamId == teamId && i.EndDate < endDate
+                                          orderby i.EndDate descending
+                                          select i.Id).Take(1).Single();
+                    var lineup = from lp in context.LineupPlayers
+                                 join rp in context.RosterPlayers on new { lp.TeamId, lp.PlayerId } equals new { rp.TeamId, rp.PlayerId }
+                                 where lp.TeamId == teamId && lp.IntervalId == lastIntervalId
+                                 select lp;                    
+                    //var team = context.Teams.Find(teamId);
+                    result = lineup.ToList().Select(p => new LineupRow(p, intervalId));
+                }
+
+                //result = team.RosterPlayers.Select(p => new PlayerInterval(p, intervalId));
+                return result.OrderBy(p => p, new LineupRowComparer()).ToList();
+            }
+        }
         public JsonResult GetIntervalRoster(int teamId, int intervalId)
         {
             var playerIntervals = GetPlayerIntervals(teamId, intervalId);
@@ -184,11 +214,12 @@ namespace HP.Controllers
             return Json(playerIntervals, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Lineup(int teamId, int intervalId)
+        public JsonResult Lineup(int teamId, int intervalId)
         {
-            var playerIntervals = GetPlayerIntervals(teamId, intervalId);
-
-            return PartialView("_Lineup", playerIntervals);
+            //var playerIntervals = GetPlayerIntervals(teamId, intervalId);
+            var rows = GetLineupRows(teamId, intervalId);
+            return Json(rows, JsonRequestBehavior.AllowGet);
+            //return PartialView("_Lineup", playerIntervals);
         }
 
         public int GetCurrentInterval()

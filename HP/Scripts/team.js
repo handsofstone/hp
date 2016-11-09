@@ -185,45 +185,37 @@ function saveRoster() {
 }
 
 $(document).ready(function () {
+    $("#progressbar").progressbar({ value: false });
+
+    $(document)
+    .ajaxStart(function () {
+        $('#lineupTable').hide();
+        $("#progressbar").show();
+    })
+    .ajaxStop(function () {
+        $("#progressbar").hide();
+        $('#lineupTable').show();
+    });
     checkButtons();
+    refreshLineup();
 
     //Dropdownlist Selectedchange event
     $("#SelectedIntervalId").change(function () {
         waiting(true);
         refreshLineup();
-        $.ajax({
-            type: 'GET',
-            url: '/Team/IntervalStartTime', // we are calling json method
-            dataType: 'html',
-            data: { intervalId: $("#SelectedIntervalId").val() },
-            success: function (date) {
-                $('#intervalStart').text(date.replace(/\"/g, ""));
-            },
-            error: function (ex) {
-                alert('Failed to retrieve start time.' + ex);
-            }
-        });
         return false;
     });
-
-    $("input.playerActive").change(function (event) {
-        validateLineup();
-    });
-
-    validateLineup();
-
 
 });
 
 function refreshLineup() {
-    $('#IntervalRoster').empty();
     $.ajax({
         type: 'GET',
         url: '/Team/Lineup', // we are calling json method
-        dataType: 'html',
+        dataType: 'json',
         data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-        success: function (players) {
-            populatePlayers(players)
+        success: function (rows) {
+            lineupRow(rows)
         },
         error: function (ex) {
             alert('Failed to retrieve lineup.' + ex);
@@ -232,19 +224,20 @@ function refreshLineup() {
             waiting(false);
         }
     });
-}
-
-function populatePlayers(players) {
-    $('#lineup').empty();
-    $('#lineup').html(players)
-    $('#unsubmitted').toggle($('input.lineupPlayerId')[0].value == "")
-    $("input.playerActive").bootstrapToggle();
-    $("input.playerActive").change(function (event) {
-        validateLineup();
+    $.ajax({
+        type: 'GET',
+        url: '/Team/IntervalStartTime', // we are calling json method
+        dataType: 'html',
+        data: { intervalId: $("#SelectedIntervalId").val() },
+        success: function (date) {
+            $('#intervalStart').text(date.replace(/\"/g, ""));
+        },
+        error: function (ex) {
+            alert('Failed to retrieve start time.' + ex);
+        }
     });
-    validateLineup();
-
 }
+
 function validateLineup() {
     var lineupFormat = { C: 2, R: 2, L: 2, D: 4, G: 1 };
     var players = getPlayers('#lineupTable');
@@ -263,31 +256,45 @@ function sortLineup() {
 
 }
 
-String.prototype.compose = (function () {
-    var re = /\{{(.+?)\}}/g;
-    return function (o) {
-        return this.replace(re, function (_, k) {
-            return typeof o[k] != 'undefined' ? o[k] : '';
-        });
+function lineupRow(rows) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = rows.length; i < size; i++) {
+        //var row =
+        r[++j] = '<tr class="playerRow" id=';
+        r[++j] = rows[i].PlayerId;
+        r[++j] = '><td><input ';
+        r[++j] = rows[i].Active ? "checked" : "";
+        r[++j] = ' class="playerActive" data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." type="checkbox" value="true" />'
+        //'<input name="Active" type="hidden" value="false" />';
+        r[++j] = '<input class="lineupPlayerId" data-val="true" data-val-number="The field LineupPlayerId must be a number." type="hidden" value="'
+        r[++j] = rows[i].LineupPlayerId;
+        r[++j] = '"/></td><td class="text-center">';
+        r[++j] = rows[i].Position;
+        r[++j] = '<input class="position" type="hidden" value="';
+        r[++j] = rows[i].Position;
+        r[++j] = '"/></td><td><span data-toggle="tooltip" data-placement="bottom" title="'
+        r[++j] = rows[i].Number;
+        r[++j] = ', ';
+        r[++j] = rows[i].Team;
+        r[++j] = '">';
+        r[++j] = rows[i].Name;
+        r[++j] = '</span><input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="'
+        r[++j] = rows[i].PlayerId;
+        r[++j] = '"/></td><td class="text-right">'
+        r[++j] = rows[i].DayPoints;
+        r[++j] = '</td><td class="text-right">';
+        r[++j] = rows[i].IntervalPoints;
+        r[++j] = '</td><td class="text-right">';
+        r[++j] = rows[i].TotalPoints;
+        //r[++j] = '</td><td><span data-toggle="tooltip" data-placement="bottom" title="Tuesday, November 7, 2016">SJS</span>, @CHI, @CAR</td>';
+        r[++j] = '</td><td>';
+        r[++j] = rows[i].Schedule;
+        r[++j] = '</td></tr>';
     }
-}());
-
-function lineupRow(obj) {
-    var row = '<tr class="playerRow" id={{playerId}}>' +
-'<td>'+
-    '<input '+obj.Active?"checked":""+'class="playerActive" data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." name="[0].Active" type="checkbox" value="true" />'+
-    '<input name="Active" type="hidden" value="false" />'+
-    '<input class="lineupPlayerId" data-val="true" data-val-number="The field LineupPlayerId must be a number." name="LineupPlayerId" type="hidden" value="{{LineupPlayerId}}" />'+
-'</td>'+
-'<td class="text-center">{{Position}}<input class="position" name="[0].Position" type="hidden" value="{{Position}}" /></td>'+
-'<td>'+
-  '<span data-toggle="tooltip" data-placement="bottom" title="{{Number}}, {{Team}}">{{Name}}</span>'+
-  '<input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="8473563" />'+
-'</td>'+
-    '<td class="text-right"> 0 </td>'+
-'<td class="text-right"> 0 </td>'+
-'<td class="text-right"> 0 </td>'+
-    '<td> <span data-toggle="tooltip" data-placement="bottom" title="Tuesday, November 7, 2016">SJS</span>, @CHI, @CAR</td>'+
-'</tr>';
-    return row.compose(obj);
+    $('#lineup')[0].innerHTML = r.join('');
+    $("input.playerActive").bootstrapToggle();
+    $("input.playerActive").change(function (event) {
+        validateLineup();
+    });
+    validateLineup();
 }
