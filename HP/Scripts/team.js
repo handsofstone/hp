@@ -215,7 +215,8 @@ function refreshLineup() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
         success: function (rows) {
-            lineupRow(rows)
+            lineupRow(rows);
+
         },
         error: function (ex) {
             alert('Failed to retrieve lineup.' + ex);
@@ -264,9 +265,9 @@ function lineupRow(rows) {
         r[++j] = rows[i].PlayerId;
         r[++j] = '><td><input ';
         r[++j] = rows[i].Active ? "checked" : "";
-        r[++j] = ' class="playerActive" data-off="Bench" data-on="Active" data-size="mini" data-toggle="toggle" data-val="true" data-val-required="The  field is required." type="checkbox" value="true" />'
+        r[++j] = ' class="playerActive" data-toggle="toggle" data-size="mini" type="checkbox" value="true" data-width="80%" data-height="22px"/>';
         //'<input name="Active" type="hidden" value="false" />';
-        r[++j] = '<input class="lineupPlayerId" data-val="true" data-val-number="The field LineupPlayerId must be a number." type="hidden" value="'
+        r[++j] = '<input class="lineupPlayerId" type="hidden" value="';
         r[++j] = rows[i].LineupPlayerId;
         r[++j] = '"/></td><td class="text-center">';
         r[++j] = rows[i].Position;
@@ -278,9 +279,9 @@ function lineupRow(rows) {
         r[++j] = rows[i].Team;
         r[++j] = '">';
         r[++j] = rows[i].Name;
-        r[++j] = '</span><input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="playerId" name="playerId" type="hidden" value="'
+        r[++j] = '</span><input data-val="true" id="playerId" name="playerId" type="hidden" value="';
         r[++j] = rows[i].PlayerId;
-        r[++j] = '"/></td><td class="text-right">'
+        r[++j] = '"/></td><td class="text-right">';
         r[++j] = rows[i].DayPoints;
         r[++j] = '</td><td class="text-right">';
         r[++j] = rows[i].IntervalPoints;
@@ -291,10 +292,18 @@ function lineupRow(rows) {
         r[++j] = rows[i].Schedule;
         r[++j] = '</td></tr>';
     }
-    $('#lineup')[0].innerHTML = r.join('');
-    $("input.playerActive").bootstrapToggle();
+    $('#lineup').html(r.join(''));
+
     $("input.playerActive").change(function (event) {
         validateLineup();
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="toggle"]').bootstrapToggle({
+        on: "Active",
+        off: "Bench",
+        
+    });
+
     validateLineup();
 }

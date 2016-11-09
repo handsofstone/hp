@@ -311,7 +311,6 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\images\favicon.ico" />
-    <Content Include="Content\images\glove.ico" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\justified-nav.css" />
     <Content Include="Content\site.css" />
