@@ -490,6 +490,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Helpers\DisplayHelper.cs" />
     <Compile Include="Migrations\201510082136381_InitialCreate.cs" />
     <Compile Include="Migrations\201510082136381_InitialCreate.Designer.cs">
       <DependentUpon>201510082136381_InitialCreate.cs</DependentUpon>
@@ -614,7 +615,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="packages.config" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />

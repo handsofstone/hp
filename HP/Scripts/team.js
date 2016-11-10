@@ -263,9 +263,9 @@ function lineupRow(rows) {
         //var row =
         r[++j] = '<tr class="playerRow" id=';
         r[++j] = rows[i].PlayerId;
-        r[++j] = '><td><input ';
+        r[++j] = '><td class="text-center"><input ';
         r[++j] = rows[i].Active ? "checked" : "";
-        r[++j] = ' class="playerActive" data-toggle="toggle" data-size="mini" type="checkbox" value="true" data-width="80%" data-height="22px"/>';
+        r[++j] = ' class="playerActive" data-toggle="toggle" data-size="mini" type="checkbox" value="true" data-width="90%" data-height="22px"/>';
         //'<input name="Active" type="hidden" value="false" />';
         r[++j] = '<input class="lineupPlayerId" type="hidden" value="';
         r[++j] = rows[i].LineupPlayerId;
@@ -288,8 +288,9 @@ function lineupRow(rows) {
         r[++j] = '</td><td class="text-right">';
         r[++j] = rows[i].TotalPoints;
         //r[++j] = '</td><td><span data-toggle="tooltip" data-placement="bottom" title="Tuesday, November 7, 2016">SJS</span>, @CHI, @CAR</td>';
-        r[++j] = '</td><td>';
-        r[++j] = rows[i].Schedule;
+        r[++j] = '</td><td class="text-justify">';
+        //r[++j] = rows[i].Schedule;
+        r[++j] = ScheduleCell(rows[i].Games);
         r[++j] = '</td></tr>';
     }
     $('#lineup').html(r.join(''));
@@ -306,4 +307,19 @@ function lineupRow(rows) {
     });
 
     validateLineup();
+}
+function ScheduleCell(games) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = games.length; i < size; i++) {
+        var gameDate = new Date(games[i].StartDate);
+        r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
+        r[++j] = gameDate.toDateString();
+        r[++j] = '"><a href="https://www.nhl.com/gamecenter/';
+        r[++j] = games[i].GameId;
+        r[++j] = '">'
+        r[++j] = games[i].isHomeTeam ? "" : "@";
+        r[++j] = games[i].OpponentTeamCode;
+        r[++j] = '</a></span>';
+    }
+    return r.join('');
 }

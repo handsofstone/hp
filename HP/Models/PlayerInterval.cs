@@ -61,7 +61,7 @@ namespace HP.Models
 
         public PlayerInterval(LineupPlayer player, int? intervalId = null)
         {
-            LineupPlayerId = intervalId.HasValue ? (int?) null : player.Id;
+            LineupPlayerId = intervalId.HasValue ? (int?)null : player.Id;
             PlayerId = player.PlayerId;
             Number = player.Player.Number;
             Name = player.Player.FullName;
@@ -70,7 +70,7 @@ namespace HP.Models
             Team = player.Player.NHLTeamCode;
             Points = player.Total != null ? player.Total.Gain : 0;
             Active = player.Active;
-            Schedule = ScheduleString(Team, (int) ( intervalId.HasValue ? intervalId : player.IntervalId ));
+            Schedule = ScheduleString(Team, (int)(intervalId.HasValue ? intervalId : player.IntervalId));
         }
         private string ScheduleString(string teamCode, int intervalId)
         {
@@ -112,38 +112,50 @@ namespace HP.Models
     public class LineupRow
     {
         public int Number { get; set; }
-        [Display(Name = "Name")]
+        [Display(Name = "Player Name", ShortName = "Name")]
         public string Name { get; set; }
-        [Display(Name = "Positon")]
+        [Display(Name = "Position", ShortName = "Pos")]
         public string Position { get; set; }
         [Display(Name = "Team")]
         public string Team { get; set; }
-        //[Display(Name = "Points")]
-        //public int Points { get; set; }
-        [Display(Name = "D")]
+        [Display(Description = "Points", Name = "Day", ShortName = "D")]
         public int DayPoints { get; set; }
-        [Display(Name = "I")]
+        [Display(Name = "Interval", ShortName = "I")]
         public int IntervalPoints { get; set; }
-        [Display(Name = "T")]
-        public int TotalPoints { get; set; }        
+        [Display(Name = "Total", ShortName = "T")]
+        public int TotalPoints { get; set; }
         public bool Active { get; set; }
         [Display(Name = "Schedule")]
         public String Schedule { get; set; }
+        [Display(Name = "Schedule")]
+        public List<Versus> Games { get; set; }
         public int PlayerId { get; set; }
         public int? LineupPlayerId { get; set; }
         public LineupRow(LineupPlayer player, int? intervalId = null)
         {
+
             LineupPlayerId = intervalId.HasValue ? (int?)null : player.Id;
             PlayerId = player.PlayerId;
             Number = player.Player.Number;
             Name = player.Player.FullName;
             Position = player.Position;
-            Team = player.Player.NHLTeamCode;
+            Team = player.Player.Team;
             DayPoints = 0;
             IntervalPoints = player.Total != null && !intervalId.HasValue ? player.Total.Gain : 0;
             TotalPoints = 0;
             Active = player.Active;
-            Schedule = ScheduleString(Team, (int)(intervalId.HasValue ? intervalId : player.IntervalId));
+            Schedule = ScheduleString(player.Player.NHLTeamCode, (int)(intervalId.HasValue ? intervalId : player.IntervalId));
+            var intId = (int) (intervalId.HasValue ? intervalId : player.IntervalId);
+            var teamCode = player.Player.NHLTeamCode;
+            Games = GetGames(teamCode, intId);
+        }
+        private List<Versus> GetGames(string teamCode, int intervalId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                return (from g in context.GamesByTeamInterval(teamCode, intervalId)
+                        select new Versus(g, teamCode)).ToList();
+            }
         }
         private string ScheduleString(string teamCode, int intervalId)
         {
@@ -161,6 +173,23 @@ namespace HP.Models
                 }
             }
             return String.Join(", ", opponents);
+        }
+    }
+    public class Versus
+    {
+        public int GameId { get; set; }
+        public string OpponentTeamCode { get; set; }
+        public bool isHomeTeam { get; set; }
+        public string StartDate { get; set; }
+
+        public Versus(GameInfo game, string teamCode)
+        {
+            GameId = game.Id;
+            if (isHomeTeam = (game.HomeCode == teamCode))
+                OpponentTeamCode = game.VisitorCode;
+            else
+                OpponentTeamCode = game.HomeCode;
+            StartDate = game.StartTime.ToString();
         }
     }
     public class LineupRowComparer : IComparer<LineupRow>
