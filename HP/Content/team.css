@@ -56,3 +56,11 @@
     .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
         background-color: #4a9fe9;
     }
+
+td > ul {
+    margin-bottom: 0px;
+}
+
+.table > thead > tr > th {
+    vertical-align:middle;
+}

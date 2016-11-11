@@ -98,16 +98,16 @@
                             <table id="lineupTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
                                 <thead>
                                     <tr>
-                                        <th rowspan="2"><span id="unsubmitted" class="label label-danger">Unsubmitted</span></th>
+                                        <th rowspan="2"><span id="submitted" class="label label-success">Submitted</span><span id="unsubmitted" class="label label-danger">Unsubmitted</span></th>
                                         <th rowspan="2" class="text-capitalize">@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().Position)</th>
                                         <th rowspan="2" class="text-capitalize">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Name)</th>
                                         <th colspan="3" class="text-capitalize text-center">@Html.DisplayDescriptionFor(model => model.LineupRows.FirstOrDefault().DayPoints)</th>
                                         <th rowspan="2" class="text-capitalize">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Schedule)</th>
                                     </tr>
                                     <tr>
-                                        <th>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().DayPoints)</th>
-                                        <th>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().IntervalPoints)</th>
-                                        <th>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().TotalPoints)</th>
+                                        <th><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().DayPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().DayPoints)</span></th>
+                                        <th><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().IntervalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().IntervalPoints)</span></th>
+                                        <th><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().TotalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().TotalPoints)</span></th>
                                     </tr>
                                 </thead>
                                 <tbody id="lineup"></tbody>

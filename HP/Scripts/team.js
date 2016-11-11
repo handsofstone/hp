@@ -222,6 +222,7 @@ function refreshLineup() {
             alert('Failed to retrieve lineup.' + ex);
         },
         complete: function () {
+            postLineupUpdate();
             waiting(false);
         }
     });
@@ -288,14 +289,36 @@ function lineupRow(rows) {
         r[++j] = '</td><td class="text-right">';
         r[++j] = rows[i].TotalPoints;
         //r[++j] = '</td><td><span data-toggle="tooltip" data-placement="bottom" title="Tuesday, November 7, 2016">SJS</span>, @CHI, @CAR</td>';
-        r[++j] = '</td><td class="text-justify">';
+        r[++j] = '</td><td>';
         //r[++j] = rows[i].Schedule;
         r[++j] = ScheduleCell(rows[i].Games);
         r[++j] = '</td></tr>';
     }
     $('#lineup').html(r.join(''));
 
+
+    //$('#lineupTable').DataTable();
+}
+function ScheduleCell(games) {
+    var r = new Array(), j = -1;
+    r[++j] = '<ul class="list-inline">';
+    for (var i = 0, size = games.length; i < size; i++) {
+        var gameDate = new Date(games[i].StartDate);
+        r[++j] = '<li><span data-toggle="tooltip" data-placement="bottom" title="';
+        r[++j] = gameDate.toDateString();
+        r[++j] = '"><a href="https://www.nhl.com/gamecenter/';
+        r[++j] = games[i].GameId;
+        r[++j] = '">'
+        r[++j] = games[i].isHomeTeam ? "" : "@";
+        r[++j] = games[i].OpponentTeamCode;
+        r[++j] = '</a></span></li>';
+    }
+    r[++j] = '</ul>';
+    return r.join('');
+}
+function postLineupUpdate() {
     $("input.playerActive").change(function (event) {
+        setSubmitted(false);
         validateLineup();
     });
 
@@ -303,23 +326,15 @@ function lineupRow(rows) {
     $('[data-toggle="toggle"]').bootstrapToggle({
         on: "Active",
         off: "Bench",
-        
+
     });
 
     validateLineup();
+    setSubmitted();
 }
-function ScheduleCell(games) {
-    var r = new Array(), j = -1;
-    for (var i = 0, size = games.length; i < size; i++) {
-        var gameDate = new Date(games[i].StartDate);
-        r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
-        r[++j] = gameDate.toDateString();
-        r[++j] = '"><a href="https://www.nhl.com/gamecenter/';
-        r[++j] = games[i].GameId;
-        r[++j] = '">'
-        r[++j] = games[i].isHomeTeam ? "" : "@";
-        r[++j] = games[i].OpponentTeamCode;
-        r[++j] = '</a></span>';
-    }
-    return r.join('');
+function setSubmitted(flag)
+{
+    flag = flag || $('.lineupPlayerId').first().val() != "";    
+    $('#submitted').toggle(flag);
+    $('#unsubmitted').toggle(!flag);
 }
