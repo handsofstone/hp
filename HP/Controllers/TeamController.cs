@@ -119,7 +119,7 @@ namespace HP.Controllers
         public ActionResult SubmitLineup(LineupModel model)
         {
             SaveLineup(model);
-            return Json(true, JsonRequestBehavior.AllowGet);
+            return Lineup(model.TeamId, model.IntervalId);
         }
 
         public int DeleteLineup(int teamId, int intervalId)
@@ -133,11 +133,10 @@ namespace HP.Controllers
             }
         }
 
-        public ActionResult ResetLineup(int teamId, int intervalId)
+        public JsonResult ResetLineup(int teamId, int intervalId)
         {
             DeleteLineup(teamId, intervalId);
             return Lineup(teamId, intervalId);
-            //return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public IList<SelectListItem> AvailablePlayers(int poolId)
@@ -170,11 +169,9 @@ namespace HP.Controllers
                              where lp.TeamId == teamId && lp.IntervalId == lastIntervalId
                              select lp;
                     result = lineup.ToList().Select(p => new PlayerInterval(p, intervalId));
-                    //var team = context.Teams.Find(teamId);
+
                     var result2 = lineup.ToList().Select(p => new LineupRow(p, intervalId));
                 }
-                
-                //result = team.RosterPlayers.Select(p => new PlayerInterval(p, intervalId));
                 return result.OrderBy(p => p, new PlayerIntervalComparer()).ToList();
             }
         }
@@ -199,11 +196,10 @@ namespace HP.Controllers
                                  join rp in context.RosterPlayers on new { lp.TeamId, lp.PlayerId } equals new { rp.TeamId, rp.PlayerId }
                                  where lp.TeamId == teamId && lp.IntervalId == lastIntervalId
                                  select lp;                    
-                    //var team = context.Teams.Find(teamId);
+
                     result = lineup.ToList().Select(p => new LineupRow(p, intervalId));
                 }
 
-                //result = team.RosterPlayers.Select(p => new PlayerInterval(p, intervalId));
                 return result.OrderBy(p => p, new LineupRowComparer()).ToList();
             }
         }
@@ -215,11 +211,9 @@ namespace HP.Controllers
         }
 
         public JsonResult Lineup(int teamId, int intervalId)
-        {
-            //var playerIntervals = GetPlayerIntervals(teamId, intervalId);
+        {            
             var rows = GetLineupRows(teamId, intervalId);
             return Json(rows, JsonRequestBehavior.AllowGet);
-            //return PartialView("_Lineup", playerIntervals);
         }
 
         public int GetCurrentInterval()

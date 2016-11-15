@@ -94,13 +94,14 @@ function submitLineup() {
         url: '/Team/SubmitLineup', // we are calling json method
         dataType: 'json',
         data: JSON.stringify({ model: new getModel('#lineupTable') }),
-        success: function () {
-            alert('success');
+        success: function (rows) {
+            lineupRow(rows);
         },
         error: function (ex) {
             alert('Failed to retrieve states.' + ex);
         },
         complete: function () {
+            postLineupUpdate();
             waiting(false);
         }
     });
@@ -111,15 +112,16 @@ function resetLineup() {
     $.ajax({
         type: 'GET',
         url: '/Team/ResetLineup', // we are calling json method
-        dataType: 'html',
+        dataType: 'json',
         data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-        success: function (players) {
-            populatePlayers(players);
+        success: function (rows) {
+            lineupRow(rows);
         },
         error: function (ex) {
-            alert('Failed to retrieve lineup.' + ex);
+            alert('Failed to reset lineup.' + ex);
         },
         complete: function (ex) {
+            postLineupUpdate();
             waiting(false);
         }
     });
