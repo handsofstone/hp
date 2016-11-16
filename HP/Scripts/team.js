@@ -281,7 +281,11 @@ function lineupRow(rows) {
         r[++j] = ', ';
         r[++j] = rows[i].Team;
         r[++j] = '">';
+        r[++j] = '<a target="_blank" href="https://www.nhl.com/player/';
+        r[++j] = rows[i].PlayerId;
+        r[++j] = '">';
         r[++j] = rows[i].Name;
+        r[++j] = '</a>';
         r[++j] = '</span><input data-val="true" id="playerId" name="playerId" type="hidden" value="';
         r[++j] = rows[i].PlayerId;
         r[++j] = '"/></td><td class="text-right">';
@@ -308,7 +312,7 @@ function ScheduleCell(games) {
         var gameDate = new Date(games[i].StartDate);
         r[++j] = '<li><span data-toggle="tooltip" data-placement="bottom" title="';
         r[++j] = gameDate.toDateString();
-        r[++j] = '"><a href="https://www.nhl.com/gamecenter/';
+        r[++j] = '"><a  target="_blank" href="https://www.nhl.com/gamecenter/';
         r[++j] = games[i].GameId;
         r[++j] = '">'
         r[++j] = games[i].isHomeTeam ? "" : "@";

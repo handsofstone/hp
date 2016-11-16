@@ -140,9 +140,9 @@ namespace HP.Models
             Name = player.Player.FullName;
             Position = player.Position;
             Team = player.Player.Team;
-            DayPoints = 0;
+            DayPoints = player.Total != null && !intervalId.HasValue ? player.Total.DayGain : 0;
             IntervalPoints = player.Total != null && !intervalId.HasValue ? player.Total.Gain : 0;
-            TotalPoints = 0;
+            TotalPoints = player.Total != null && !intervalId.HasValue ? player.Total.Total : 0; 
             Active = player.Active;
             Schedule = ScheduleString(player.Player.NHLTeamCode, (int)(intervalId.HasValue ? intervalId : player.IntervalId));
             var intId = (int) (intervalId.HasValue ? intervalId : player.IntervalId);

@@ -74,6 +74,8 @@ namespace HP.Models
         public int? OT { get; set; }
         public int? P { get; set; }
         public int Gain { get; set; }
+        public int DayGain { get; set; }
+        public int Total { get; set; }
         public LineupPlayer LineupPlayer { get; set; }        
     }
     public class LineupPlayerTotalMap : EntityTypeConfiguration<LineupPlayerTotal>
