@@ -212,11 +212,9 @@ namespace HP.Controllers
 
         public ContentResult Lineup(int teamId, int intervalId)
         {
-//var rows = GetLineupRows(teamId, intervalId);
             using (var context = new ApplicationDbContext())
             {
                 var rows = context.LineupView(teamId, intervalId);
-
                 return Content(rows, "application/json");//JsonRequestBehavior.AllowGet);
             }
         }

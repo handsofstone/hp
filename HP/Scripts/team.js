@@ -288,7 +288,9 @@ function lineupRow(rows) {
         r[++j] = '</a>';
         r[++j] = '</span><input data-val="true" id="playerId" name="playerId" type="hidden" value="';
         r[++j] = rows[i].PlayerId;
-        r[++j] = '"/></td><td class="text-right">';
+        r[++j] = '"/></td><td class="text-center">'
+        r[++j] = rows[i].GP;
+        r[++j] = '</td><td class="text-right">';
         r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
         r[++j] = rows[i].Points.D.Description;
         r[++j] = '">';
