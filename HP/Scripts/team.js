@@ -289,13 +289,22 @@ function lineupRow(rows) {
         r[++j] = '</span><input data-val="true" id="playerId" name="playerId" type="hidden" value="';
         r[++j] = rows[i].PlayerId;
         r[++j] = '"/></td><td class="text-right">';
-        r[++j] = rows[i].DayPoints;
-        r[++j] = '</td><td class="text-right">';
-        r[++j] = rows[i].IntervalPoints;
-        r[++j] = '</td><td class="text-right">';
-        r[++j] = rows[i].TotalPoints;
+        r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
+        r[++j] = rows[i].Points.D.Description;
+        r[++j] = '">';
+        r[++j] = rows[i].Points.D.Value;
+        r[++j] = '</span></td><td class="text-right">';
+        r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
+        r[++j] = rows[i].Points.I.Description;
+        r[++j] = '">';
+        r[++j] = rows[i].Points.I.Value;
+        r[++j] = '</span></td><td class="text-right">';
+        r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
+        r[++j] = rows[i].Points.T.Description;
+        r[++j] = '">';
+        r[++j] = rows[i].Points.T.Value;
         //r[++j] = '</td><td><span data-toggle="tooltip" data-placement="bottom" title="Tuesday, November 7, 2016">SJS</span>, @CHI, @CAR</td>';
-        r[++j] = '</td><td>';
+        r[++j] = '</span></td><td>';
         //r[++j] = rows[i].Schedule;
         r[++j] = ScheduleCell(rows[i].Games);
         r[++j] = '</td></tr>';
@@ -315,7 +324,6 @@ function ScheduleCell(games) {
         r[++j] = '"><a  target="_blank" href="https://www.nhl.com/gamecenter/';
         r[++j] = games[i].GameId;
         r[++j] = '">'
-        r[++j] = games[i].isHomeTeam ? "" : "@";
         r[++j] = games[i].OpponentTeamCode;
         r[++j] = '</a></span></li>';
     }

@@ -133,7 +133,7 @@ namespace HP.Controllers
             }
         }
 
-        public JsonResult ResetLineup(int teamId, int intervalId)
+        public ContentResult ResetLineup(int teamId, int intervalId)
         {
             DeleteLineup(teamId, intervalId);
             return Lineup(teamId, intervalId);
@@ -210,10 +210,15 @@ namespace HP.Controllers
             return Json(playerIntervals, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Lineup(int teamId, int intervalId)
-        {            
-            var rows = GetLineupRows(teamId, intervalId);
-            return Json(rows, JsonRequestBehavior.AllowGet);
+        public ContentResult Lineup(int teamId, int intervalId)
+        {
+//var rows = GetLineupRows(teamId, intervalId);
+            using (var context = new ApplicationDbContext())
+            {
+                var rows = context.LineupView(teamId, intervalId);
+
+                return Content(rows, "application/json");//JsonRequestBehavior.AllowGet);
+            }
         }
 
         public int GetCurrentInterval()

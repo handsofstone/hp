@@ -8,9 +8,11 @@ using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace HP.Models
 {
@@ -144,6 +146,12 @@ namespace HP.Models
             return from ti in TeamIntervalActiveTotal
                    where ti.IntervalId == intervalId && ti.TeamId == teamId
                    select ti.IntervalTotal;
+        }
+
+        public string LineupView(int teamId, int intervalId)
+        {
+            return Database.SqlQuery<String>("select nlpool.LineupView(@teamId, @intervalId)", 
+                new SqlParameter("teamId", teamId), new SqlParameter("intervalId",intervalId)).FirstOrDefault();            
         }
     }
 
