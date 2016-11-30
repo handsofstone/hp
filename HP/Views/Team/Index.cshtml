@@ -70,23 +70,25 @@
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <form class="form-inline">
-                                        <span class="control-label">
-                                            @Html.LabelFor(model => model.SelectedIntervalId)
-                                        </span>
                                         <div class="form-group">
+                                            <span class="control-label hidden-xs">
+                                                @Html.LabelFor(model => model.SelectedIntervalId)
+                                            </span>
                                             @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
                                         </div>
                                         <div class="form-group">
-                                            <button id="lineupSubmit" type="button" class="btn btn-success" onclick="submitLineup()" @(Model.CanSubmit ? "" : "disabled" )>
+                                            <button id="lineupSubmit" type="button" class="btn btn-default btn-success btn-xs-text" onclick="submitLineup()" @(Model.CanSubmit ? "" : "disabled" )>
                                                 <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                                             </button>
-                                            <button id="lineupReset" type="button" class="btn btn-danger" onclick="resetLineup()" @(Model.CanSubmit ? "" : "disabled" )>
+                                            <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()" @(Model.CanSubmit ? "" : "disabled" )>
                                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> Reset
                                             </button>
                                         </div>
-                                        <span id="intervalStart" class="label label-info ">
-                                            @Html.DisplayTextFor(model => model.SelectedStartTime)
-                                        </span>
+                                        <div class="form-group">
+                                            <span id="intervalStart" class="label label-info">
+                                                @Html.DisplayTextFor(model => model.SelectedStartTime)
+                                            </span>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -101,14 +103,14 @@
                                         <th rowspan="2"><span id="submitted" class="label label-success">Submitted</span><span id="unsubmitted" class="label label-danger">Unsubmitted</span></th>
                                         <th rowspan="2" class="text-capitalize">@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().Position)</th>
                                         <th rowspan="2" class="text-capitalize">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Name)</th>
-                                        <th rowspan="2" class="text-capitalize">GP</th>
-                                        <th colspan="3" class="text-capitalize text-center">@Html.DisplayDescriptionFor(model => model.LineupRows.FirstOrDefault().DayPoints)</th>
-                                        <th rowspan="2" class="text-capitalize">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Schedule)</th>
+                                        <th rowspan="2" class="text-capitalize submit-show">GP</th>
+                                        <th colspan="3" class="text-capitalize text-center submit-show">@Html.DisplayDescriptionFor(model => model.LineupRows.FirstOrDefault().DayPoints)</th>
+                                        <th rowspan="2" class="text-capitalize submit-hide hidden-xs">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Schedule)</th>
                                     </tr>
                                     <tr>
-                                        <th><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().DayPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().DayPoints)</span></th>
-                                        <th><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().IntervalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().IntervalPoints)</span></th>
-                                        <th><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().TotalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().TotalPoints)</span></th>
+                                        <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().DayPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().DayPoints)</span></th>
+                                        <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().IntervalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().IntervalPoints)</span></th>
+                                        <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().TotalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().TotalPoints)</span></th>
                                     </tr>
                                 </thead>
                                 <tbody id="lineup"></tbody>

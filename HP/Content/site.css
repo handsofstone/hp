@@ -68,3 +68,58 @@ thead {
 .table-striped > tbody > tr:nth-child(even) > td {
     background-color: #99ccff;
 }
+
+/* Small devices (tablets, 768px and up) */
+@media ( max-width : 768px ) {
+  .btn-xs-text.btn-default:not(span) {
+    font-size: 0pt !important;
+  }
+  .btn-xs-text.btn-default.btn-lg .glyphicon {
+    font-size: 18pt !important;
+  }
+  .btn-xs-text.btn-default .glyphicon {
+    font-size: 14pt !important;
+  }
+  .btn-xs-text.btn-default.btn-sm .glyphicon {
+    font-size: 12pt !important;
+  }
+  .btn-xs-text.btn-default.btn-xs .glyphicon {
+    font-size: 12pt !important;
+  }
+}
+/* Medium devices (desktops, 992px and up) */
+@media ( max-width : 992px ) {
+  .btn-md-text.btn-default:not(span) {
+    font-size: 0pt !important;
+  }
+  .btn-md-text.btn-default.btn-lg .glyphicon {
+    font-size: 18pt !important;
+  }
+  .btn-md-text.btn-default .glyphicon {
+    font-size: 14pt !important;
+  }
+  .btn-md-text.btn-default.btn-sm .glyphicon {
+    font-size: 12pt !important;
+  }
+  .btn-md-text.btn-default.btn-xs .glyphicon {
+    font-size: 12pt !important;
+  }
+}
+/* Large devices (large desktops, 1200px and up) */
+@media ( max-width : 1200px ) {
+  .btn-lg-text.btn-default:not(span) {
+    font-size: 0pt !important;
+  }
+  .btn-lg-text.btn-default.btn-lg .glyphicon {
+    font-size: 18pt !important;
+  }
+  .btn-lg-text.btn-default .glyphicon {
+    font-size: 14pt !important;
+  }
+  .btn-lg-text.btn-default.btn-sm .glyphicon {
+    font-size: 12pt !important;
+  }
+  .btn-lg-text.btn-default.btn-xs .glyphicon {
+    font-size: 12pt !important;
+  }
+}

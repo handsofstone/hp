@@ -140,7 +140,7 @@ function waiting(data) {
 
 function enableButtons(data) {
     $('#lineupSubmit').prop('disabled', !data);
-    $('#lineupReset').prop('disabled', !data);
+    $('#lineupReset').prop('disabled', !data);    
 }
 
 function showButtons(data) {
@@ -163,6 +163,8 @@ function checkButtons() {
         success: function (data) {
             enableButtons(data);
             showButtons(data);
+            $('th.submit-show, td.submit-show').toggleClass("hidden-xs", data);
+            $('th.submit-hide, td.submit-hide').toggleClass("hidden-xs", !data);
         },
         error: function (ex) {
             alert('Failed to enable/disable submit.' + ex);
@@ -263,13 +265,11 @@ function sortLineup() {
 function lineupRow(rows) {
     var r = new Array(), j = -1;
     for (var i = 0, size = rows.length; i < size; i++) {
-        //var row =
         r[++j] = '<tr class="playerRow" id=';
         r[++j] = rows[i].PlayerId;
         r[++j] = '><td class="text-center"><input ';
         r[++j] = rows[i].Active ? "checked" : "";
         r[++j] = ' class="playerActive" data-toggle="toggle" data-size="mini" type="checkbox" value="true" data-width="90%" data-height="22px"/>';
-        //'<input name="Active" type="hidden" value="false" />';
         r[++j] = '<input class="lineupPlayerId" type="hidden" value="';
         r[++j] = rows[i].LineupPlayerId;
         r[++j] = '"/></td><td class="text-center">';
@@ -288,26 +288,24 @@ function lineupRow(rows) {
         r[++j] = '</a>';
         r[++j] = '</span><input data-val="true" id="playerId" name="playerId" type="hidden" value="';
         r[++j] = rows[i].PlayerId;
-        r[++j] = '"/></td><td class="text-center">'
+        r[++j] = '"/></td><td class="text-center submit-show">'
         r[++j] = rows[i].GP;
-        r[++j] = '</td><td class="text-right">';
+        r[++j] = '</td><td class="text-right submit-show">';
         r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
         r[++j] = rows[i].Points.D.Description;
         r[++j] = '">';
         r[++j] = rows[i].Points.D.Value;
-        r[++j] = '</span></td><td class="text-right">';
+        r[++j] = '</span></td><td class="text-right submit-show">';
         r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
         r[++j] = rows[i].Points.I.Description;
         r[++j] = '">';
         r[++j] = rows[i].Points.I.Value;
-        r[++j] = '</span></td><td class="text-right">';
+        r[++j] = '</span></td><td class="text-right submit-show">';
         r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
         r[++j] = rows[i].Points.T.Description;
         r[++j] = '">';
         r[++j] = rows[i].Points.T.Value;
-        //r[++j] = '</td><td><span data-toggle="tooltip" data-placement="bottom" title="Tuesday, November 7, 2016">SJS</span>, @CHI, @CAR</td>';
-        r[++j] = '</span></td><td>';
-        //r[++j] = rows[i].Schedule;
+        r[++j] = '</span></td><td class="submit-hide hidden-xs">';
         r[++j] = ScheduleCell(rows[i].Games);
         r[++j] = '</td></tr>';
     }
