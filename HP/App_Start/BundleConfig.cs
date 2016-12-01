@@ -54,7 +54,8 @@ namespace HP
                 "~/Scripts/standings.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/flot").Include(
-                "~/Scripts/flot/jquery.flot.js"));
+                "~/Scripts/flot/jquery.flot.js",
+                "~/Scripts/flot/jquery.flot.*"));
         }
     }
 }

@@ -210,6 +210,7 @@ $(document).ready(function () {
         return false;
     });
 
+    $.plot("#donut1", [{ data: 70, color: '#5bc0de' }, { data: 20, color: '#ddd' }], { series: { pie: { show: true, innerRadius: 0.7 } }, grid: { hoverable: true } });
 });
 
 function refreshLineup() {

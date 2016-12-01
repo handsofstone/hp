@@ -64,3 +64,18 @@ td > ul {
 .table > thead > tr > th {
     vertical-align:middle;
 }
+
+.donut {
+  width:100%;
+  height:120px;
+}
+.donut-label {
+  position:absolute;
+  left:0;
+  top:25%;
+  font-size:20pt;
+  color:#ddd;
+  width:100%;
+  height:120px;
+  text-align:center;
+}
