@@ -211,6 +211,13 @@ $(document).ready(function () {
     });
 
     $.plot("#donut1", [{ data: 70, color: '#5bc0de' }, { data: 20, color: '#ddd' }], { series: { pie: { show: true, innerRadius: 0.7 } }, grid: { hoverable: true } });
+    $.plot('#pie1', [{ data: 20}, { data: 20}, { data: 20}, { data: 20}, { data: 20}], {
+        series: {
+            pie: {
+                show: true
+            }
+        }
+    });
 });
 
 function refreshLineup() {
