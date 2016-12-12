@@ -153,6 +153,15 @@ namespace HP.Models
             return Database.SqlQuery<String>("select nlpool.LineupView(@teamId, @intervalId)", 
                 new SqlParameter("teamId", teamId), new SqlParameter("intervalId",intervalId)).FirstOrDefault();            
         }
+        public string LineupDashboard(string userId, int teamId, int intervalId)
+        {
+            return Database.SqlQuery<String>(
+                "select nlpool.LineupDashboard(@userId, @teamId, @intervalId)",
+                new SqlParameter("userId", userId ?? (object) DBNull.Value),
+                new SqlParameter("teamId", teamId), 
+                new SqlParameter("intervalId", intervalId))
+                .FirstOrDefault();
+        }
     }
 
 }

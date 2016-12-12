@@ -214,8 +214,9 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var rows = context.LineupView(teamId, intervalId);
-                return Content(rows, "application/json");//JsonRequestBehavior.AllowGet);
+                var userId = User.Identity.GetUserId();
+                var lineup = context.LineupDashboard(userId, teamId, intervalId);
+                return Content(lineup, "application/json");//JsonRequestBehavior.AllowGet);
             }
         }
 

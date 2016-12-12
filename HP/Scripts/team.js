@@ -132,7 +132,6 @@ function waiting(data) {
         $("body").css("cursor", "progress");
         enableButtons(false);
     } else {
-        checkButtons();
         $("body").css("cursor", "default");
     }
 
@@ -140,7 +139,7 @@ function waiting(data) {
 
 function enableButtons(data) {
     $('#lineupSubmit').prop('disabled', !data);
-    $('#lineupReset').prop('disabled', !data);    
+    $('#lineupReset').prop('disabled', !data);
 }
 
 function showButtons(data) {
@@ -200,7 +199,6 @@ $(document).ready(function () {
         $("#progressbar").hide();
         $('#lineupTable').show();
     });
-    checkButtons();
     refreshLineup();
 
     //Dropdownlist Selectedchange event
@@ -211,7 +209,7 @@ $(document).ready(function () {
     });
 
     $.plot("#donut1", [{ data: 70, color: '#5bc0de' }, { data: 30, color: '#ddd' }], { series: { pie: { show: true, innerRadius: 0.7 } }, grid: { hoverable: true } });
-    $.plot('#pie1', [{ data: 20}, { data: 20}, { data: 20}, { data: 20}, { data: 20}], {
+    $.plot('#pie1', [{ data: 20 }, { data: 20 }, { data: 20 }, { data: 20 }, { data: 20 }], {
         series: {
             pie: {
                 show: true
@@ -220,15 +218,51 @@ $(document).ready(function () {
     });
 });
 
+function lineupAnalysis(data) {
+    if (data.ActivePoints != null) {
+        $.plot(
+            $('#donut1'),
+            [{ 'data': data.ActivePoints, color: '#5bc0de' }, { 'data': data.MaxPoints - data.ActivePoints, color: '#ddd' }],
+            {
+                series:
+                    {
+                        pie:
+                            {
+                                show: true,
+                                innerRadius: 0.7
+                            }
+                    },
+                grid:
+                    {
+                        hoverable: true
+                    }
+            });
+        $('#donut1-label').html(data.ActivePoints / data.MaxPoints);
+    }
+    if (data.Distribution) {
+        $.plot('#pie1', data.Distribution, {
+            series: {
+                pie: {
+                    show: true
+                }
+            }
+        });
+    }
+}
 function refreshLineup() {
     $.ajax({
         type: 'GET',
         url: '/Team/Lineup', // we are calling json method
         dataType: 'json',
         data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-        success: function (rows) {
-            lineupRow(rows);
-
+        success: function (data) {
+            $('#intervalStart').text(data.IntervalStartTime.replace(/\"/g, ""));
+            lineupRow(data.Lineup);
+            enableButtons(data.CanSubmitLineup);
+            showButtons(data.CanSubmitLineup);
+            $('th.submit-show, td.submit-show').toggleClass("hidden-xs", data.CanSubmitLineup);
+            $('th.submit-hide, td.submit-hide').toggleClass("hidden-xs", !data.CanSubmitLineup);
+            lineupAnalysis(data);
         },
         error: function (ex) {
             alert('Failed to retrieve lineup.' + ex);
@@ -236,18 +270,6 @@ function refreshLineup() {
         complete: function () {
             postLineupUpdate();
             waiting(false);
-        }
-    });
-    $.ajax({
-        type: 'GET',
-        url: '/Team/IntervalStartTime', // we are calling json method
-        dataType: 'html',
-        data: { intervalId: $("#SelectedIntervalId").val() },
-        success: function (date) {
-            $('#intervalStart').text(date.replace(/\"/g, ""));
-        },
-        error: function (ex) {
-            alert('Failed to retrieve start time.' + ex);
         }
     });
 }
@@ -354,9 +376,12 @@ function postLineupUpdate() {
     validateLineup();
     setSubmitted();
 }
-function setSubmitted(flag)
-{
-    flag = flag || $('.lineupPlayerId').first().val() != "";    
+function setSubmitted(flag) {
+    flag = flag || $('.lineupPlayerId').first().val() != "";
     $('#submitted').toggle(flag);
     $('#unsubmitted').toggle(!flag);
+}
+
+function getMaxPoints(rows) {
+
 }
