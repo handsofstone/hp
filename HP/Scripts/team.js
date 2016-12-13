@@ -207,15 +207,6 @@ $(document).ready(function () {
         refreshLineup();
         return false;
     });
-
-    $.plot("#donut1", [{ data: 70, color: '#5bc0de' }, { data: 30, color: '#ddd' }], { series: { pie: { show: true, innerRadius: 0.7 } }, grid: { hoverable: true } });
-    $.plot('#pie1', [{ data: 20 }, { data: 20 }, { data: 20 }, { data: 20 }, { data: 20 }], {
-        series: {
-            pie: {
-                show: true
-            }
-        }
-    });
 });
 
 function lineupAnalysis(data) {
@@ -237,7 +228,7 @@ function lineupAnalysis(data) {
                         hoverable: true
                     }
             });
-        $('#donut1-label').html(data.ActivePoints / data.MaxPoints);
+        $('#donut1-label').html(Math.round(data.ActivePoints / data.MaxPoints*100)+'%');
     }
     if (data.Distribution) {
         $.plot('#pie1', data.Distribution, {
