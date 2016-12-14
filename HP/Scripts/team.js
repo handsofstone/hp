@@ -94,8 +94,8 @@ function submitLineup() {
         url: '/Team/SubmitLineup', // we are calling json method
         dataType: 'json',
         data: JSON.stringify({ model: new getModel('#lineupTable') }),
-        success: function (rows) {
-            lineupRow(rows);
+        success: function (data) {
+            lineupRow(data.Lineup);
         },
         error: function (ex) {
             alert('Failed to retrieve states.' + ex);
@@ -114,8 +114,8 @@ function resetLineup() {
         url: '/Team/ResetLineup', // we are calling json method
         dataType: 'json',
         data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-        success: function (rows) {
-            lineupRow(rows);
+        success: function (data) {
+            lineupRow(data.Lineup);
         },
         error: function (ex) {
             alert('Failed to reset lineup.' + ex);
@@ -130,7 +130,7 @@ function resetLineup() {
 function waiting(data) {
     if (data) {
         $("body").css("cursor", "progress");
-        enableButtons(false);
+        enableButtons(!data);
     } else {
         $("body").css("cursor", "default");
     }
@@ -140,6 +140,7 @@ function waiting(data) {
 function enableButtons(data) {
     $('#lineupSubmit').prop('disabled', !data);
     $('#lineupReset').prop('disabled', !data);
+    $('.playerActive').bootstrapToggle(data ? 'enable' : 'disable');
 }
 
 function showButtons(data) {
@@ -186,8 +187,45 @@ function saveRoster() {
     });
     refreshLinup();
 }
-
+function setupPlots() {
+    plotLE = $.plot($('#efficiency'), [[]], {
+        series: {
+            pie: {
+                show: true,
+                radius: 1,
+                innerRadius: 0.7, label: {
+                    show: true,
+                    radius: 0.85,
+                    formatter: labelFormatter2,
+                    background: {
+                        opacity: 0.5
+                    }
+                }
+            }
+        }
+    });
+    plotPD = $.plot('#distribution', [[]], {
+        series: {
+            pie: {
+                show: true,
+                radius: 1,
+                label: {
+                    show: true,
+                    radius: 0.7,
+                    formatter: labelFormatter,
+                    background: {
+                        opacity: 0.5
+                    }
+                }
+            }
+        },
+        legend: {
+            show: false
+        }
+    });
+}
 $(document).ready(function () {
+
     $("#progressbar").progressbar({ value: false });
 
     $(document)
@@ -199,6 +237,9 @@ $(document).ready(function () {
         $("#progressbar").hide();
         $('#lineupTable').show();
     });
+
+    setupPlots();
+
     refreshLineup();
 
     //Dropdownlist Selectedchange event
@@ -207,38 +248,36 @@ $(document).ready(function () {
         refreshLineup();
         return false;
     });
+
+    $("#showBench").change(function () {
+        validateLineup();
+    });
 });
 
-function lineupAnalysis(data) {
+function labelFormatter(label, series) {
+    return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+}
+function labelFormatter2(label, series) {
+    return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + series.data[0][1] + "</div>";
+}
+
+function lineupAnalysis(data) {    
     if (data.ActivePoints != null) {
-        $.plot(
-            $('#donut1'),
-            [{ 'data': data.ActivePoints, color: '#5bc0de' }, { 'data': data.MaxPoints - data.ActivePoints, color: '#ddd' }],
-            {
-                series:
-                    {
-                        pie:
-                            {
-                                show: true,
-                                innerRadius: 0.7
-                            }
-                    },
-                grid:
-                    {
-                        hoverable: true
-                    }
-            });
-        $('#donut1-label').html(Math.round(data.ActivePoints / data.MaxPoints*100)+'%');
+        plotLE.setData([{ 'data': data.ActivePoints, color: '#5bc0de' }, { 'data': data.MaxPoints - data.ActivePoints, color: '#ddd' }]);
+        $('#efficiency-label').html(Math.round(data.ActivePoints / data.MaxPoints * 100));
     }
-    if (data.Distribution) {
-        $.plot('#pie1', data.Distribution, {
-            series: {
-                pie: {
-                    show: true
-                }
-            }
-        });
+    else
+    {
+        plotLE.setData([]);
+        $('#efficiency-label').html('N/A');
     }
+    
+    if (data.Distribution) 
+        plotPD.setData(data.Distribution);
+    else 
+        plotPD.setData([]);
+    plotLE.draw();
+    plotPD.draw();
 }
 function refreshLineup() {
     $.ajax({
@@ -249,6 +288,7 @@ function refreshLineup() {
         success: function (data) {
             $('#intervalStart').text(data.IntervalStartTime.replace(/\"/g, ""));
             lineupRow(data.Lineup);
+            postLineupUpdate();
             enableButtons(data.CanSubmitLineup);
             showButtons(data.CanSubmitLineup);
             $('th.submit-show, td.submit-show').toggleClass("hidden-xs", data.CanSubmitLineup);
@@ -259,7 +299,7 @@ function refreshLineup() {
             alert('Failed to retrieve lineup.' + ex);
         },
         complete: function () {
-            postLineupUpdate();
+            
             waiting(false);
         }
     });
@@ -272,15 +312,19 @@ function validateLineup() {
     $.each(lineupFormat, function (k, v) {
         var activeCount = $("#lineupTable .playerRow:has(:checked):has(td .position[value=" + k + "])").length;
         var benchToggles = $("#lineupTable .playerRow:not(:has(:checked)):has(td .position[value=" + k + "]) .playerActive");
+        var benchRows = $("#lineupTable .playerRow:not(:has(:checked)):has(td .position[value=" + k + "])");
+        var showBench = $("#showBench").prop('checked');
         if (activeCount >= v)
+        {
             benchToggles.bootstrapToggle('disable')
+            benchRows.toggle(showBench)
+        }
         else
+        {
             benchToggles.bootstrapToggle('enable')
+            benchRows.toggle(true)
+        }
     });
-}
-
-function sortLineup() {
-
 }
 
 function lineupRow(rows) {
@@ -373,6 +417,5 @@ function setSubmitted(flag) {
     $('#unsubmitted').toggle(!flag);
 }
 
-function getMaxPoints(rows) {
-
-}
+var plotLE;
+var plotPD;
