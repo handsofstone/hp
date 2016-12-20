@@ -38,9 +38,9 @@ namespace HP.Controllers
                 if (ModelState.IsValid)
                 {
                     var pool = context.Pools.Find(id);
-                    var currentIntervalId = GetCurrentInterval();
-                    model.Seasons = new SelectList(pool.Seasons, "Id", "Name").ToList();
-                    model.SelectedSeasonID = Convert.ToInt32(model.Seasons.Last().Value);
+                    var currentSeason = GetCurrentSeason();                    
+                    model.Seasons = new SelectList(context.Seasons, "Id", "Name").ToList();
+                    model.SelectedSeasonID = currentSeason.Id;
                     model.StandingRows = new List<StandingRow>();
                 }
 
@@ -54,12 +54,10 @@ namespace HP.Controllers
             {
                 var currentIntervalId = GetCurrentInterval();
                 var standings = from ss in context.TeamSeasonStanding 
-                                join i in context.Intervals on ss.SeasonId equals i.SeasonId
-                                from tiat in context.TeamIntervalActiveTotal
-                                .Where(t=> t.TeamId == ss.TeamId && t.IntervalId == i.Id)
-                                .DefaultIfEmpty()
-                                where ss.PoolId == poolId && ss.SeasonId == seasonId && i.Id == currentIntervalId
-                                select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (tiat == null ? 0 : tiat.IntervalTotal), Total = ss.Total };
+                                join tt in context.TeamIntervalActiveTotal.Where(t=>t.IntervalId==currentIntervalId) on new { ss.SeasonId, ss.TeamId } equals new { tt.SeasonId, tt.TeamId } into tiat
+                                from tt in tiat.DefaultIfEmpty()
+                                where ss.PoolId == poolId && ss.SeasonId == seasonId
+                                select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (tt == null ? 0 : tt.IntervalTotal), Total = ss.Total };
                 return standings.ToList();
             }
         }
@@ -85,6 +83,21 @@ namespace HP.Controllers
                     interval = intervals.First();
 
                 return interval.Id;
+            }
+        }
+
+        public Season GetCurrentSeason()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var today = DateTime.Now.Date;
+                var intervals = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
+                var interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
+
+                if (intervals.Count() > 0)
+                    interval = intervals.First();
+
+                return interval.Season;
             }
         }
     }

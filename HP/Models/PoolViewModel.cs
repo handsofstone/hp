@@ -52,9 +52,11 @@ namespace HP.Models
     {
         public int TeamId { get; set; }
         public int IntervalId { get; set; }
+        public int SeasonId { get; set; }
         public int IntervalTotal { get; set; }
         public virtual Team Team { get; set; }
         public virtual Interval Interval { get; set; }
+        public virtual Season Season { get; set; }
     }
 
     public class TeamIntervalActiveTotalMap : EntityTypeConfiguration<TeamIntervalActiveTotal>
