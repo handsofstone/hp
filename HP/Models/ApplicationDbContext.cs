@@ -136,7 +136,7 @@ namespace HP.Models
             Interval interval = Intervals.Find(intervalId);
             var intervalEnd = interval.EndDate.AddDays(1);
             return from g in Games
-                   where g.StartTime >= interval.StartDate && g.StartTime <= intervalEnd && 
+                   where g.StartTime >= interval.StartDate && g.StartTime <= intervalEnd &&
                    (g.HomeCode == teamCode || g.VisitorCode == teamCode)
                    select g;
 
@@ -150,18 +150,24 @@ namespace HP.Models
 
         public string LineupView(int teamId, int intervalId)
         {
-            return Database.SqlQuery<String>("select nlpool.LineupView(@teamId, @intervalId)", 
-                new SqlParameter("teamId", teamId), new SqlParameter("intervalId",intervalId)).FirstOrDefault();            
+            return Database.SqlQuery<String>("select nlpool.LineupView(@teamId, @intervalId)",
+                new SqlParameter("teamId", teamId), new SqlParameter("intervalId", intervalId)).FirstOrDefault();
         }
         public string LineupDashboard(string userId, int teamId, int intervalId)
         {
             return Database.SqlQuery<String>(
                 "select nlpool.LineupDashboard(@userId, @teamId, @intervalId)",
-                new SqlParameter("userId", userId ?? (object) DBNull.Value),
-                new SqlParameter("teamId", teamId), 
+                new SqlParameter("userId", userId ?? (object)DBNull.Value),
+                new SqlParameter("teamId", teamId),
                 new SqlParameter("intervalId", intervalId))
                 .FirstOrDefault();
         }
+        public string RosterDashboard(/*string userId,*/ int teamId)
+        {
+            return Database.SqlQuery<String>(
+                "select nlpool.RosterDashboard(@teamId)",
+                new SqlParameter("teamId", teamId))
+                .FirstOrDefault();
+        }
     }
-
 }

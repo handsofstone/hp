@@ -312,5 +312,15 @@ namespace HP.Controllers
 
             return PartialView("_Analysis", playerIntervals);
         }
+
+        public ContentResult RosterDashboard(int teamId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                //var userId = User.Identity.GetUserId();
+                var lineup = context.RosterDashboard(teamId);
+                return Content(lineup, "application/json");//JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

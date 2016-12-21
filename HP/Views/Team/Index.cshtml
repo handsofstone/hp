@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="checkbox">
-                                                <label><input id="showBench" type="checkbox" >Show Bench</label>
+                                                <label><input id="showBench" type="checkbox">Show Bench</label>
                                             </div>
                                         </div>
                                     </form>
@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="well-lg">
-                                        <div id="distribution" class="pie"></div>                                        
+                                        <div id="distribution" class="pie"></div>
                                         <h4 class="text-center">points distribution</h4>
                                     </div>
                                 </div>
@@ -159,9 +159,8 @@
                     </ul>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">Roster</div>
-                    <table id="rosterTable" class="table table-bordered" data-toggle="table" style="width:auto">
+                <div class="panel panel-default col-lg-6">
+                    <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
                         <thead>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
@@ -195,27 +194,19 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div id="tabAnalysis" class="tab-pane fade">
-                <div class="navbar navbar-default">
-                    <ul class="nav navbar-nav">
-                        <li class="navbar-form">
-                            <div class="form-group">
-                                @Html.DisplayNameFor(model => model.SelectedIntervalId)
-                            </div>
-                            <div class="form-group">
-                                @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Lineup</div>
-                </div>
+                <div class="panel panel-default col-lg-6">
+                    <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                        <thead>
+                            <tr>
+                                <td>Pick</td>
+                            </tr>
+                        </thead>
+                        <tbody id="picks"></tbody>
+                    </table>
+                </div>                
             </div>
         </div>
     </div>
-</div>
 
-@Scripts.Render("~/bundles/team")
-@Styles.Render("~/Content/team")
+    @Scripts.Render("~/bundles/team")
+    @Styles.Render("~/Content/team")

@@ -252,6 +252,8 @@ $(document).ready(function () {
     $("#showBench").change(function () {
         validateLineup();
     });
+
+    rosterDashboard();
 });
 
 function labelFormatter(label, series) {
@@ -419,3 +421,30 @@ function setSubmitted(flag) {
 
 var plotLE;
 var plotPD;
+
+function DraftPicks(picks) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = picks.length; i < size; i++) {        
+        r[++j] = '<tr><td>';
+        r[++j] = picks[i].Pick;
+        r[++j] = '</td></tr>';
+    }
+    $('#picks').html(r.join(''));
+}
+
+function rosterDashboard() {
+    $.ajax({
+        type: 'GET',
+        url: '/Team/RosterDashboard', // we are calling json method
+        dataType: 'json',
+        data: { teamId: $('#TeamId').val() },
+        success: function (data) {
+            DraftPicks(data.Picks)
+        },
+        error: function (ex) {
+            alert('Failed to retrieve Roster Dashboard.' + ex);
+        },
+        complete: function () {
+        }
+    });
+}
