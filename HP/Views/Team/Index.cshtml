@@ -49,6 +49,51 @@
             </div>*@
     </div>
 </div>
+
+<div id="tradeModal" class="modal fade" role="dialog">
+
+    <div class="modal-dialog">
+        <!-- Add Players Modal content-->
+        <div class="modal-content">
+            @using (Html.BeginForm("Trade", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmTrade" }))
+            {
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Offer Trade</h4>
+                </div>
+                <div class="modal-body">
+
+                    <table celpadding=2 cellspacing=1 border=0 class="table">
+                        <tr>
+                            <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
+                            <td>&nbsp;</td>
+                            <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>TEAM ROSTER</strong><br /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                            </td>
+                            <td style="vertical-align: middle">
+                                <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                                <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                            </td>
+                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                @Html.Hidden("teamId", Model.TeamId)
+                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "25", @style = "width:250px;" })
+                                @Html.Hidden("playerIds")
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-default" value="Send Offer" onclick="populatePlayerIds();selectAll();" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 @using (Html.BeginForm("SubmitRoster", "Team", FormMethod.Post))
 {
     @Html.HiddenFor(p => Model.TeamId, new { @id = "TeamId" })
@@ -144,7 +189,7 @@
             <div class="tab-pane fade" id="tabRoster">
                 <div class="navbar navbar-default">
                     <ul class="nav navbar-nav">
-                        <li class="navbar-form">
+                        <li class="navbar-form form-inline">
                             <div class="form-group">
                                 <button type="button" class="btn btn-success disabled" aria-label="Left Align">
                                     <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Save
@@ -153,6 +198,12 @@
                             <div class="form-group">
                                 <button type="button" class="btn btn-info disabled" data-target="#addPlayerModal" aria-label="Left Align">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button id="trade" type="button" class="btn btn-primary" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Trade
+                                    <span class="badge">1</span>
                                 </button>
                             </div>
                         </li>
@@ -203,7 +254,7 @@
                         </thead>
                         <tbody id="picks"></tbody>
                     </table>
-                </div>                
+                </div>
             </div>
         </div>
     </div>

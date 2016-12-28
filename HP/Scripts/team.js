@@ -254,6 +254,11 @@ $(document).ready(function () {
     });
 
     rosterDashboard();
+
+    //Trade Modal
+    //$('#trade').click(function () {
+    //    $('#tradeModal').Modal();
+    //})
 });
 
 function labelFormatter(label, series) {
