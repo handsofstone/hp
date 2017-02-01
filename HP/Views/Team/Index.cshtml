@@ -57,93 +57,95 @@
         <div class="modal-content">
             @using (Html.BeginForm("Trade", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmTrade" }))
             {
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Offer Trade</h4>
-            </div>
-
-            <div class="modal-body">
-               <div class="panel with-nav-tabs panel-primary">
-                    <div class="panel-heading">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tabOffers" data-toggle="tab">Offers<span class="badge">1</span></a></li>
-                            <li><a href="#tabProposals" data-toggle="tab">Proposals</a></li>
-                        </ul>
-                    </div>
-                <div class="panel-body">
-                    <div class="tab-content">
-                        <div class="tab-pane fade" id="tabOffers">
-                        </div>
-                        <div class="tab-pane fade" id="tabProposals">
-                <table celpadding=2 cellspacing=1 border=0 class="table">
-                    <tr>
-                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody" colspan="3"><strong>ADD TEAMS</strong><br></td>
-                    </tr>
-                    <tr>
-                        <td style="width:280px; " valign=middle class="colorNote tableBody">
-                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                            @Html.DropDownList("TeamsDropDown", new List<SelectListItem>
-                           {
-                               new SelectListItem { Text="Dave" },
-                               new SelectListItem { Text="Watson" },
-                               new SelectListItem { Text="Tyson" },
-                               new SelectListItem { Text="Elleena" },
-                               new SelectListItem { Text="Duncan" }
-
-                           },
-                           new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>MY ASSETS</strong><br></td>
-                        <td>&nbsp;</td>
-                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>MY TEAM GETS</strong><br /></td>
-                    </tr>
-                    <tr>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
-                        </td>
-                        <td style="vertical-align: middle">
-                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
-                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
-                        </td>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                            @Html.Hidden("teamId", Model.TeamId)
-                            @Html.DropDownList("TeamsDropDown", new List<SelectListItem> { }, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
-                            @Html.Hidden("playerIds")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>DAVE'S ASSETS</strong><br></td>
-                        <td>&nbsp;</td>
-                        <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>DAVE GETS</strong><br /></td>
-                    </tr>
-                    <tr>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                            <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
-                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
-                        </td>
-                        <td style="vertical-align: middle">
-                            <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
-                            <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
-                        </td>
-                        <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
-                            @Html.Hidden("teamId", Model.TeamId)
-                            @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
-                            @Html.Hidden("playerIds")
-                        </td>
-                    </tr>
-                </table>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Offer Trade</h4>
                 </div>
+
+                <div class="modal-body">
+                    <div class="panel with-nav-tabs panel-primary">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tabOffers" data-toggle="tab">Offers<span class="badge">1</span></a></li>
+                                <li><a href="#tabProposals" data-toggle="tab">Proposals</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade" id="tabOffers">
+                                </div>
+                                <div class="tab-pane fade" id="tabProposals">
+                                    <table celpadding=2 cellspacing=1 border=0 class="table">
+                                        <tr>                                            
+                                            <td style="width:280px; " valign=middle class="colorNote tableBody" colspan="3">
+                                                <form class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label for="selectTraderPartner">Trade Partner</label>
+                                                        <select id="selectTradeParnter" class="form-control">
+                                                            <option>Dave</option>
+                                                            <option>Watson</option>
+                                                            <option>Tyson</option>
+                                                            <option>Elleena</option>
+                                                            <option>Duncan</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="datepicker">Expiry Date</label>
+                                                        <input type="text" id="datepicker">
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>MY ASSETS</strong><br></td>
+                                            <td>&nbsp;</td>
+                                            <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>PARTNER ASSETS</strong><br /></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                                <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
+                                            </td>
+                                            <td style="vertical-align: middle">
+                                                <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                                                <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                                            </td>
+                                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                                @Html.Hidden("teamId", Model.TeamId)
+                                                @Html.DropDownList("TeamsDropDown", new List<SelectListItem> { }, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
+                                                @Html.Hidden("playerIds")
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>DAVE'S ASSETS</strong><br></td>
+                                            <td>&nbsp;</td>
+                                            <td valign=top align=left bgcolor=#f4f1e8 class="colorNote tableBody"><strong>DAVE GETS</strong><br /></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                                <input type=hidden id="backUsed" name="backUsed" value="1" defaultvalue="1"><input type="hidden" name="iCurrTeam" id="iCurrTeam" value="0" defaultvalue="0" />
+                                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.AvailablePlayers, new { @id = "availPlayers", @name = "availPlayers", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
+                                            </td>
+                                            <td style="vertical-align: middle">
+                                                <input type="button" name="btnRight" value=">>" onclick="moveDualList(document.getElementById('availPlayers'), document.getElementById('roster'), false);" class="select"><br /><br />
+                                                <input type="button" name="btnLeft" value="<<" onclick="moveDualList(document.getElementById('roster'), document.getElementById('availPlayers'), false);" class="select">
+                                            </td>
+                                            <td style="width:280px; height:310px;" valign=middle class="colorNote tableBody">
+                                                @Html.Hidden("teamId", Model.TeamId)
+                                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
+                                                @Html.Hidden("playerIds")
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-            </div>
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-default" value="Send Offer" onclick="populatePlayerIds();selectAll();" />
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-default" value="Send Offer" onclick="populatePlayerIds();selectAll();" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             }
         </div>
     </div>
