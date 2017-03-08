@@ -453,3 +453,7 @@ function rosterDashboard() {
         }
     });
 }
+
+$(function () {
+    $("#datepicker").datepicker();
+});
