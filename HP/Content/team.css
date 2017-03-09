@@ -79,3 +79,34 @@ td > ul {
   height:120px;
   text-align:center;
 }
+
+ul.droppable {
+    list-style-type: none;
+    margin: 0;
+    float: left;
+    margin-right: 10px;
+    background: #eee;
+    padding: 5px;
+    width: 100%;
+    max-height: 120px;
+    overflow: auto;
+}
+
+ul.droppable > li {
+    margin: 2px;
+    padding: 2px;
+    font-size: 1em;
+}
+
+.propose-top {
+    height: 70px;
+}
+
+.propose-middle {
+    height: 120px;
+}
+
+.propose-bottom {
+    height: auto;
+}
+

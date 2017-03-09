@@ -457,3 +457,17 @@ function rosterDashboard() {
 $(function () {
     $("#datepicker").datepicker();
 });
+
+$(function () {
+    $("ul.my").sortable({
+        connectWith: "ul.my",
+        scroll: true
+    });
+
+    $("ul.partner").sortable({
+        connectWith: "ul.partner",
+        scroll: true
+    });
+
+    $(".droppable").disableSelection();
+});

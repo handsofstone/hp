@@ -77,9 +77,40 @@
                                 <div class="tab-pane fade" id="tabProposals">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col">
-                                                <form class="form-horizontal">
-                                                    <div class="form-group">
+                                            <div class="col-lg-6">
+                                                <div class="row hidden-xs hidden-sm hidden-md propose-top">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                                        <strong>MY ASSETS</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row propose-middle">
+                                                    <div class="col-lg-12">
+                                                        <ul id="myAssets" class="droppable my">
+                                                            <li class="ui-state-default">Backstrom, Niclas - WAS</li>
+                                                            <li class="ui-state-default">Little, Bryan - WPG</li>
+                                                            <li class="ui-state-default">Stepan, Derek - NYR</li>
+                                                            <li class="ui-state-default">Lehtera, Jori - STL</li>
+                                                            <li class="ui-state-default">Bonino, Nick - PIT</li>
+                                                            <li class="ui-state-default">Schmaltz, Nick - CHI</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                                        <strong>Offer:</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row propose-bottom">
+                                                    <div class="col-lg-12">
+                                                        <ul id="myAssetsOffered" class="droppable my"></ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="row propose-top">
+                                                    <div class="col-lg-12">
                                                         <label for="selectTraderPartner">Trade Partner</label>
                                                         <select id="selectTradeParnter" class="form-control">
                                                             <option>Dave</option>
@@ -89,22 +120,26 @@
                                                             <option>Duncan</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="datepicker">Expiry Date</label>
-                                                        <input type="text" id="datepicker">
+                                                </div>
+                                                <div class="row">
+                                                    <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody"><strong>PARTNER ASSETS</strong><br /></div>
+                                                </div>
+                                                <div class="row propose-middle">
+                                                    <div class="col-lg-12">
+                                                        <ul id="partnerAssets" class="droppable partner">
+                                                            <li class="ui-state-default" value="player123">Thornton, Joe - SJS</li>
+                                                        </ul>
                                                     </div>
-                                                </form>
-
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="row colorNote tableBody" bgcolor=#f4f1e8><strong>MY ASSETS</strong></div>
-                                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div valign=top align=left bgcolor=#f4f1e8 class="row colorNote tableBody"><strong>PARTNER ASSETS</strong><br /></div>
-                                                @Html.DropDownListFor(model => model.RosterPlayersToAdd, Model.RosterPlayersToAdd, new { @id = "roster", @name = "roster", @class = "select", @multiple = "multiple", @size = "5", @style = "width:250px;" })
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8><strong>Request:</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row propose-bottom">
+                                                    <div class="col-lg-12">
+                                                        <ul id="partnerAssetsRequested" class="droppable partner"></ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>                                    
