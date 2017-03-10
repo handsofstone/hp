@@ -55,27 +55,50 @@
     <div class="modal-dialog">
         <!-- Trade Players Modal content-->
         <div class="modal-content">
-            @using (Html.BeginForm("Trade", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmTrade" }))
-            {
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Offer Trade</h4>
+                    <h4 class="modal-title">Trade Dashboard</h4>
                 </div>
-
                 <div class="modal-body">
-                    <div class="panel with-nav-tabs panel-primary">
-                        <div class="panel-heading">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tabOffers" data-toggle="tab">Offers<span class="badge">1</span></a></li>
-                                <li><a href="#tabProposals" data-toggle="tab">Proposals</a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="tab-content">
-                                <div class="tab-pane fade" id="tabOffers">
-                                </div>
-                                <div class="tab-pane fade" id="tabProposals">
-                                    <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="panel with-nav-tabs panel-primary">
+                            <div class="panel-heading">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#tabOffers" data-toggle="tab">Offers<span class="badge">1</span></a></li>
+                                    <li><a href="#tabPropose" data-toggle="tab">Propose</a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade active" id="tabOffers">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table id="offersTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>From</th>
+                                                            <th>Expires</th>
+                                                            <th>Receive</th>
+                                                            <th>Send</th>
+                                                            <th>Status</th>
+                                                            <th>Notes</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Dave</td>
+                                                            <td>03/08/17</td>
+                                                            <td>Thornton, Joe - SJS</td>
+                                                            <td>Petan, Nic - WPG</td>
+                                                            <td>Pending</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tabPropose">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row hidden-xs hidden-sm hidden-md propose-top">
@@ -132,7 +155,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8><strong>Request:</strong>
+                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                                        <strong>Request:</strong>
                                                     </div>
                                                 </div>
                                                 <div class="row propose-bottom">
@@ -142,7 +166,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +176,6 @@
                     <input type="submit" class="btn btn-default" value="Send Offer" onclick="populatePlayerIds();selectAll();" />
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
-            }
         </div>
     </div>
 </div>
