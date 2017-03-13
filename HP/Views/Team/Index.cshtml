@@ -55,114 +55,122 @@
     <div class="modal-dialog">
         <!-- Trade Players Modal content-->
         <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Trade Dashboard</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="panel with-nav-tabs panel-primary">
-                            <div class="panel-heading">
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tabOffers" data-toggle="tab">Offers<span class="badge">1</span></a></li>
-                                    <li><a href="#tabPropose" data-toggle="tab">Propose</a></li>
-                                </ul>
-                            </div>
-                            <div class="panel-body">
-                                <div class="tab-content">
-                                    <div class="tab-pane fade active" id="tabOffers">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <table id="offersTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>From</th>
-                                                            <th>Expires</th>
-                                                            <th>Receive</th>
-                                                            <th>Send</th>
-                                                            <th>Status</th>
-                                                            <th>Notes</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Dave</td>
-                                                            <td>03/08/17</td>
-                                                            <td>Thornton, Joe - SJS</td>
-                                                            <td>Petan, Nic - WPG</td>
-                                                            <td>Pending</td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Trade Dashboard</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="panel with-nav-tabs panel-primary">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tabOffers" data-toggle="tab">Offers <span class="badge">1</span></a></li>
+                                <li><a href="#tabPropose" data-toggle="tab">Propose</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane in active fade" id="tabOffers">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="overflow:auto">
+                                            <table id="offersTable" class="table table-bordered table-condensed table-responsive" data-toggle="table">
+                                                <thead>
+                                                    <tr>
+                                                        
+                                                        <th>From</th>
+                                                        <th>Expires</th>
+                                                        <th>Receive</th>
+                                                        <th>Send</th>
+                                                        <th>Status</th>
+                                                        <th>Notes</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Dave</td>
+                                                        <td>03/08/17</td>
+                                                        <td>Thornton, Joe - SJS</td>
+                                                        <td>Petan, Nic - WPG</td>
+                                                        <td>Pending</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="btn-group btn-group-lg pull-right" role="group" aria-label="...">
+                                                <a href="#" class="btn btn-lg btn-success" role="button"><span class="glyphicon glyphicon-ok"></span></a>
+                                                <a href="#" class="btn btn-lg btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span></a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tabPropose">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="row hidden-xs hidden-sm hidden-md propose-top">
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
-                                                        <strong>MY ASSETS</strong>
-                                                    </div>
-                                                </div>
-                                                <div class="row propose-middle">
-                                                    <div class="col-lg-12">
-                                                        <ul id="myAssets" class="droppable my">
-                                                            <li class="ui-state-default">Backstrom, Niclas - WAS</li>
-                                                            <li class="ui-state-default">Little, Bryan - WPG</li>
-                                                            <li class="ui-state-default">Stepan, Derek - NYR</li>
-                                                            <li class="ui-state-default">Lehtera, Jori - STL</li>
-                                                            <li class="ui-state-default">Bonino, Nick - PIT</li>
-                                                            <li class="ui-state-default">Schmaltz, Nick - CHI</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
-                                                        <strong>Offer:</strong>
-                                                    </div>
-                                                </div>
-                                                <div class="row propose-bottom">
-                                                    <div class="col-lg-12">
-                                                        <ul id="myAssetsOffered" class="droppable my"></ul>
-                                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tabPropose">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row hidden-xs hidden-sm hidden-md propose-top">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                                    <strong>MY ASSETS</strong>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="row propose-top">
-                                                    <div class="col-lg-12">
-                                                        <label for="selectTraderPartner">Trade Partner</label>
-                                                        <select id="selectTradeParnter" class="form-control">
-                                                            <option>Dave</option>
-                                                            <option>Watson</option>
-                                                            <option>Tyson</option>
-                                                            <option>Elleena</option>
-                                                            <option>Duncan</option>
-                                                        </select>
-                                                    </div>
+                                            <div class="row propose-middle">
+                                                <div class="col-lg-12">
+                                                    <ul id="myAssets" class="droppable my">
+                                                        <li class="ui-state-default">Backstrom, Niclas - WAS</li>
+                                                        <li class="ui-state-default">Little, Bryan - WPG</li>
+                                                        <li class="ui-state-default">Stepan, Derek - NYR</li>
+                                                        <li class="ui-state-default">Lehtera, Jori - STL</li>
+                                                        <li class="ui-state-default">Bonino, Nick - PIT</li>
+                                                        <li class="ui-state-default">Schmaltz, Nick - CHI</li>
+                                                    </ul>
                                                 </div>
-                                                <div class="row">
-                                                    <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody"><strong>PARTNER ASSETS</strong><br /></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                                    <strong>Offer:</strong>
                                                 </div>
-                                                <div class="row propose-middle">
-                                                    <div class="col-lg-12">
-                                                        <ul id="partnerAssets" class="droppable partner">
-                                                            <li class="ui-state-default" value="player123">Thornton, Joe - SJS</li>
-                                                        </ul>
-                                                    </div>
+                                            </div>
+                                            <div class="row propose-bottom">
+                                                <div class="col-lg-12">
+                                                    <ul id="myAssetsOffered" class="droppable my"></ul>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
-                                                        <strong>Request:</strong>
-                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="row propose-top">
+                                                <div class="col-lg-12">
+                                                    <label for="selectTraderPartner">Trade Partner</label>
+                                                    <select id="selectTradeParnter" class="form-control">
+                                                        <option>Dave</option>
+                                                        <option>Watson</option>
+                                                        <option>Tyson</option>
+                                                        <option>Elleena</option>
+                                                        <option>Duncan</option>
+                                                    </select>
                                                 </div>
-                                                <div class="row propose-bottom">
-                                                    <div class="col-lg-12">
-                                                        <ul id="partnerAssetsRequested" class="droppable partner"></ul>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody"><strong>PARTNER ASSETS</strong><br /></div>
+                                            </div>
+                                            <div class="row propose-middle">
+                                                <div class="col-lg-12">
+                                                    <ul id="partnerAssets" class="droppable partner">
+                                                        <li class="ui-state-default" value="player123">Thornton, Joe - SJS</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                                    <strong>Request:</strong>
+                                                </div>
+                                            </div>
+                                            <div class="row propose-bottom">
+                                                <div class="col-lg-12">
+                                                    <ul id="partnerAssetsRequested" class="droppable partner"></ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -172,10 +180,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-default" value="Send Offer" onclick="populatePlayerIds();selectAll();" />
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-default" value="Send Offer" onclick="populatePlayerIds();selectAll();" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
