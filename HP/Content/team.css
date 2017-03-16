@@ -110,3 +110,24 @@ ul.droppable > li {
     height: auto;
 }
 
+.table > tbody > tr.offers-row > td {    
+    font-size: .8em;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.offers-row > td > ul > li {
+    padding: 4px;
+}
+
+.table > tbody > tr.active > th,
+.table > tbody > tr.active > td,
+.table > tbody > tr.active > td > ul > li {
+    background-color: #123456;
+    color: white;
+    font-weight: bold;
+}
+
+.list-group {
+    margin-bottom: 0px;
+}
