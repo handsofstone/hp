@@ -58,7 +58,7 @@ namespace HP.Controllers
                                 from tt in tiat.DefaultIfEmpty()
                                 where ss.PoolId == poolId && ss.SeasonId == seasonId
                                 select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (tt == null ? 0 : tt.IntervalTotal), Total = ss.Total };
-                return standings.ToList();
+                return standings.OrderBy(s=>s.Rank).ToList();
             }
         }
         public ActionResult StandingRows(int poolId, int seasonId)
