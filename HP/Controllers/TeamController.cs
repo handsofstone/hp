@@ -322,5 +322,15 @@ namespace HP.Controllers
                 return Content(lineup, "application/json");//JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ContentResult TradeDashboard(int teamId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                //var userId = User.Identity.GetUserId();
+                var lineup = context.TradeDashboard(teamId);
+                return Content(lineup, "application/json");//JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
