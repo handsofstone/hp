@@ -224,42 +224,6 @@ function setupPlots() {
         }
     });
 }
-$(document).ready(function () {
-
-    $("#progressbar").progressbar({ value: false });
-
-    $(document)
-    .ajaxStart(function () {
-        $('#lineupTable').hide();
-        $("#progressbar").show();
-    })
-    .ajaxStop(function () {
-        $("#progressbar").hide();
-        $('#lineupTable').show();
-    });
-
-    setupPlots();
-
-    refreshLineup();
-
-    //Dropdownlist Selectedchange event
-    $("#SelectedIntervalId").change(function () {
-        waiting(true);
-        refreshLineup();
-        return false;
-    });
-
-    $("#showBench").change(function () {
-        validateLineup();
-    });
-
-    rosterDashboard();
-
-    //Trade Modal
-    //$('#trade').click(function () {
-    //    $('#tradeModal').Modal();
-    //})
-});
 
 function labelFormatter(label, series) {
     return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
@@ -478,4 +442,69 @@ $('#offersTable').on('click', '.clickable-row', function (event) {
     } else {
         $(this).addClass('active').siblings().removeClass('active');
     }
+});
+
+function tradeDashboard() {
+    $.ajax({
+        type: 'GET',
+        url: '/Team/TradeDashboard', // we are calling json method
+        dataType: 'json',
+        data: { teamId: $('#TeamId').val() },
+        success: function (data) {
+            Assets(data.TradableAssets)
+        },
+        error: function (ex) {
+            alert('Failed to retrieve Roster Dashboard.' + ex);
+        },
+        complete: function () {
+        }
+    });
+}
+
+function Assets(assets) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = assets.length; i < size; i++) {
+        r[++j] = '<li class="ui-state-default">';
+        r[++j] = assets[i].AssetName;
+        r[++j] = '</li>';
+    }
+    $('#myAssets').html(r.join(''));
+}
+
+$(document).ready(function () {
+
+    $("#progressbar").progressbar({ value: false });
+
+    $(document)
+    .ajaxStart(function () {
+        $('#lineupTable').hide();
+        $("#progressbar").show();
+    })
+    .ajaxStop(function () {
+        $("#progressbar").hide();
+        $('#lineupTable').show();
+    });
+
+    setupPlots();
+
+    refreshLineup();
+
+    //Dropdownlist Selectedchange event
+    $("#SelectedIntervalId").change(function () {
+        waiting(true);
+        refreshLineup();
+        return false;
+    });
+
+    $("#showBench").change(function () {
+        validateLineup();
+    });
+
+    rosterDashboard();
+    tradeDashboard();
+
+    //Trade Modal
+    //$('#trade').click(function () {
+    //    $('#tradeModal').Modal();
+    //})
 });
