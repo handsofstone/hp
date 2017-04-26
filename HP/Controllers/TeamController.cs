@@ -318,8 +318,8 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 //var userId = User.Identity.GetUserId();
-                var lineup = context.RosterDashboard(teamId);
-                return Content(lineup, "application/json");//JsonRequestBehavior.AllowGet);
+                var dashboard = context.RosterDashboard(teamId);
+                return Content(dashboard, "application/json");//JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -328,8 +328,16 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 //var userId = User.Identity.GetUserId();
-                var lineup = context.TradeDashboard(teamId);
-                return Content(lineup, "application/json");//JsonRequestBehavior.AllowGet);
+                var dashboard = context.TradeDashboard(teamId);
+                return Content(dashboard, "application/json");//JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ContentResult Assets(int teamId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var assets = context.Assets(teamId);
+                return Content(assets, "application/json");
             }
         }
     }

@@ -177,5 +177,13 @@ namespace HP.Models
                 new SqlParameter("teamId", teamId))
                 .FirstOrDefault();
         }
+
+        public string Assets(/*string userId,*/ int teamId)
+        {
+            return Database.SqlQuery<String>(
+                "select nlpool.TeamAssets(@teamId)",
+                new SqlParameter("teamId", teamId))
+                .FirstOrDefault();
+        }
     }
 }

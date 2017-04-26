@@ -451,7 +451,8 @@ function tradeDashboard() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
-            Assets(data.TradableAssets)
+            Partners(data.Teams);
+            Assets(data.TradableAssets);
         },
         error: function (ex) {
             alert('Failed to retrieve Roster Dashboard.' + ex);
@@ -459,6 +460,18 @@ function tradeDashboard() {
         complete: function () {
         }
     });
+}
+
+function Partners(teams) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = teams.length; i < size; i++) {
+        r[++j] = '<option value="';
+        r[++j] = teams[i].Id;
+        r[++j] = '">'
+        r[++j] = teams[i].Name;
+        r[++j] = '</option>';
+    }
+    $('#selectTradePartner').html(r.join(''));
 }
 
 function Assets(assets) {
@@ -469,6 +482,34 @@ function Assets(assets) {
         r[++j] = '</li>';
     }
     $('#myAssets').html(r.join(''));
+}
+
+function partnerAssets(assets) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = assets.length; i < size; i++) {
+        r[++j] = '<li class="ui-state-default">';
+        r[++j] = assets[i].AssetName;
+        r[++j] = '</li>';
+    }
+    $('#partnerAssets').html(r.join(''));
+}
+
+function refreshPartnerAssets() {
+    $.ajax({
+        type: 'GET',
+        url: '/Team/Assets', // we are calling json method
+        dataType: 'json',
+        data: { teamId: $('#selectTradePartner').val() },
+        success: function (data) {
+            partnerAssets(data)
+        },
+        error: function (ex) {
+            alert('Failed to retrieve partner assets.' + ex);
+        },
+        complete: function () {
+            waiting(false);
+        }
+    });
 }
 
 $(document).ready(function () {
@@ -498,6 +539,10 @@ $(document).ready(function () {
 
     $("#showBench").change(function () {
         validateLineup();
+    });
+
+    $("#selectTradePartner").change(function () {
+        refreshPartnerAssets();
     });
 
     rosterDashboard();
