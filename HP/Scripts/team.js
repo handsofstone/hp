@@ -451,8 +451,8 @@ function tradeDashboard() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
-            Partners(data.Teams);
-            Assets(data.TradableAssets);
+            partners(data.Teams);
+            assets($('#myAssets'),data.TradableAssets);
         },
         error: function (ex) {
             alert('Failed to retrieve Roster Dashboard.' + ex);
@@ -462,7 +462,7 @@ function tradeDashboard() {
     });
 }
 
-function Partners(teams) {
+function partners(teams) {
     var r = new Array(), j = -1;
     for (var i = 0, size = teams.length; i < size; i++) {
         r[++j] = '<option value="';
@@ -474,14 +474,24 @@ function Partners(teams) {
     $('#selectTradePartner').html(r.join(''));
 }
 
-function Assets(assets) {
+function assets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="ui-state-default">';
+        r[++j] = '<li class="ui-state-default" value=';
+        r[++j] = assets[i].Id;
+        r[++j] = '>';
         r[++j] = assets[i].AssetName;
         r[++j] = '</li>';
     }
-    $('#myAssets').html(r.join(''));
+    e.html(r.join(''));
+}
+
+function getAssets(e) {
+    var a = new Array();
+    e.children().each(function () {
+        a.push($(this).val());
+    })
+    return a;
 }
 
 function partnerAssets(assets) {
@@ -501,13 +511,28 @@ function refreshPartnerAssets() {
         dataType: 'json',
         data: { teamId: $('#selectTradePartner').val() },
         success: function (data) {
-            partnerAssets(data)
+            assets($('#partnerAssets'),data)
         },
         error: function (ex) {
             alert('Failed to retrieve partner assets.' + ex);
         },
         complete: function () {
             waiting(false);
+        }
+    });
+}
+
+function sendOffer() {
+    $.ajax({
+        type: 'POST',
+        url: '/Team/Assets',
+        dataType: 'json',
+        data: {},
+        success: function (data) {
+
+        },
+        error: function (ex) {
+
         }
     });
 }
