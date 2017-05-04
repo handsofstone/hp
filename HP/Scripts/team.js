@@ -522,12 +522,18 @@ function refreshPartnerAssets() {
     });
 }
 
+function getOffer() {
+    this.Offering = getAssets($('#myAssetsOffered'));
+    this.Requesting = getAssets($('#partnerAssetsRequested'));
+}
+
 function sendOffer() {
     $.ajax({
+        contentType: 'application/json, charset=utf-8',
         type: 'POST',
-        url: '/Team/Assets',
+        url: '/Team/SendOffer',
         dataType: 'json',
-        data: {},
+        data: JSON.stringify({ offer: new getOffer() }),
         success: function (data) {
 
         },

@@ -68,4 +68,10 @@ namespace HP.Models
         public IList<PlayerInterval> PlayerIntervals { get; set; }
         public bool CanSubmit { get; set; }
     }
+
+    public class Offer
+    {
+        public int[] Offering { get; set; }
+        public int[] Requesting { get; set; }
+    }
 }

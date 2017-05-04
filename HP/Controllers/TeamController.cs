@@ -340,5 +340,11 @@ namespace HP.Controllers
                 return Content(assets, "application/json");
             }
         }
+        [HttpPost]
+        public ActionResult SendOffer(Offer offer)
+        {
+            //SavePositions(model);
+            return Json(true);
+        }
     }
 }
