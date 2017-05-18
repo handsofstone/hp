@@ -71,6 +71,8 @@ namespace HP.Models
 
     public class Offer
     {
+        public int fromTeamId { get; set; }
+        public int toTeamId { get; set; }
         public int[] Offering { get; set; }
         public int[] Requesting { get; set; }
     }

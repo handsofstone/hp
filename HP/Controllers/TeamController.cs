@@ -341,7 +341,7 @@ namespace HP.Controllers
             }
         }
         [HttpPost]
-        public ActionResult SendOffer(Offer offer)
+        public ActionResult SendOffer(String json)
         {
             //SavePositions(model);
             return Json(true);

@@ -523,17 +523,20 @@ function refreshPartnerAssets() {
 }
 
 function getOffer() {
+    this.fromTeamId = $('#TeamId').val();
+    this.toTeamId = $('#selectTradePartner').val();
     this.Offering = getAssets($('#myAssetsOffered'));
     this.Requesting = getAssets($('#partnerAssetsRequested'));
 }
 
 function sendOffer() {
+    var data = { json: JSON.stringify({ offer: new getOffer() }) };
     $.ajax({
-        contentType: 'application/json, charset=utf-8',
+        //contentType: 'application/json, charset=utf-8',
         type: 'POST',
         url: '/Team/SendOffer',
         dataType: 'json',
-        data: JSON.stringify({ offer: new getOffer() }),
+        data:  data,
         success: function (data) {
 
         },
