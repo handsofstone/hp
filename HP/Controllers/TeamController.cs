@@ -343,8 +343,12 @@ namespace HP.Controllers
         [HttpPost]
         public ActionResult SendOffer(String json)
         {
-            //SavePositions(model);
-            return Json(true);
+            using (var context = new ApplicationDbContext())
+            {
+                var result = context.CreateOffer(json);
+
+                return Json(result == 0);
+            }
         }
     }
 }

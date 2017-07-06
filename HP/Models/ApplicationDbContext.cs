@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
@@ -184,6 +185,13 @@ namespace HP.Models
                 "select nlpool.TeamAssets(@teamId)",
                 new SqlParameter("teamId", teamId))
                 .FirstOrDefault();
+        }
+
+        public int CreateOffer(/*string userId,*/ string jsonOffer)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.CreateOffer @offer",
+                new SqlParameter("offer", jsonOffer));
         }
     }
 }
