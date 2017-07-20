@@ -115,6 +115,9 @@ ul.droppable > li {
     vertical-align: middle;
     text-align: center;
 }
+scroll-body {
+    overflow:scroll;
+}
 
 .offers-row > td > ul > li {
     padding: 4px;

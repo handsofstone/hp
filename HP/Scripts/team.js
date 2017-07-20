@@ -451,7 +451,7 @@ function tradeDashboard() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
-            //offers(data.Trades);
+            offers(data.Trades);
             partners(data.Teams);
             assets($('#myAssets'),data.TradableAssets);
         },
@@ -467,26 +467,29 @@ function offers(trades)
     var r = new Array(), j = -1;
 
     for (var i = 0, size = trades.length; i < size; i++) {
-        r[++j] = '<tr class="clickable-row offers-row">';
-        r[++j] = '<td>Dave</td>';
-        r[++j] = '<td>Joel</td>'
-        r[++j] = '<td>03/08/17</td>'
-        r[++j] = '<td>'
-        r[++j] = '<ul class="list-group">'
-        r[++j] = '<li class="list-group-item">Thornton, Joe</li>'
-        r[++j] = '<li class="list-group-item">Dave's 2017 1st Round</li>''
-        r[++j] = '</ul>'
-        r[++j] = '</td>'
-        r[++j] = '<td>'
-        r[++j] = '<ul class="list-group">'
-        r[++j] = '<li class="list-group-item">Petan, Nic</li>'
-        r[++j] = '<li class="list-group-item">Joel's 2017 1st Round</li>''
-        r[++j] = '</ul>'
-        r[++j] = '</td>'
-        r[++j] = '<td>Pending</td>'
-        r[++j] = '<td></td>'
-        r[++j] = '</tr>'
+        r[++j] = '<tr class="clickable-row offers-row"><td>';
+        r[++j] = trades[i].From;
+        r[++j] = '</td><td>';
+        r[++j] = trades[i].To;
+        r[++j] = '</td><td>';
+        r[++j] = trades[i].ExpirationDate;
+        r[++j] = '</td><td><ul class="list-group">';
+        for (var i2 = 0, sendingSize = trades[i].Sending.length; i2 < sendingSize; i2++) {
+            r[++j] = '<li class="list-group-item">';
+            r[++j] = trades[i].Sending[i2].AssetName;
+            r[++j] = '</li>';
+        }
+        r[++j] = '</ul></td><td><ul class="list-group">';
+        for (var i2 = 0, sendingSize = trades[i].Receiving.length; i2 < sendingSize; i2++) {
+            r[++j] = '<li class="list-group-item">';
+            r[++j] = trades[i].Receiving[i2].AssetName;
+            r[++j] = '</li>';
+        } 
+        r[++j] = '</ul></td><td>';
+        r[++j] = trades[i].Status;
+        r[++j] = '</td><td></td></tr>';
     }
+    $("#offersTable tbody").append(r.join(''));
 }
 
 function partners(teams) {
