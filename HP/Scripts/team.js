@@ -433,6 +433,11 @@ $(function () {
         scroll: true
     });
 
+    $("li.drag").draggable({
+        connectToSortable: "ul.my",
+        revert: "invalid"
+    });
+
     $(".droppable").disableSelection();
 });
 
@@ -451,9 +456,9 @@ function tradeDashboard() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
-            offers(data.Trades);
-            partners(data.Teams);
-            assets($('#myAssets'),data.TradableAssets);
+            if (typeof data.Trades != 'undefined') offers(data.Trades);
+            if (typeof data.Teams != 'undefined') partners(data.Teams);
+            if (typeof data.TradableAssets != 'undefined') assets($('#myAssets'),data.TradableAssets);
         },
         error: function (ex) {
             alert('Failed to retrieve Roster Dashboard.' + ex);
@@ -489,7 +494,7 @@ function offers(trades)
         r[++j] = trades[i].Status;
         r[++j] = '</td><td></td></tr>';
     }
-    $("#offersTable tbody").append(r.join(''));
+    $("#offersTable").append(r.join(''));
 }
 
 function partners(teams) {
@@ -507,7 +512,7 @@ function partners(teams) {
 function assets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="ui-state-default" value=';
+        r[++j] = '<li class="drag ui-state-default" value=';
         r[++j] = assets[i].Id;
         r[++j] = '>';
         r[++j] = assets[i].AssetName;
@@ -522,16 +527,6 @@ function getAssets(e) {
         a.push($(this).val());
     })
     return a;
-}
-
-function partnerAssets(assets) {
-    var r = new Array(), j = -1;
-    for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="ui-state-default">';
-        r[++j] = assets[i].AssetName;
-        r[++j] = '</li>';
-    }
-    $('#partnerAssets').html(r.join(''));
 }
 
 function refreshPartnerAssets() {
@@ -568,12 +563,20 @@ function sendOffer() {
         dataType: 'json',
         data:  data,
         success: function (data) {
-
+            alert('Trade submitted.');
+            resetTradeDashboard();
         },
         error: function (ex) {
 
         }
     });
+}
+function resetTradeDashboard()
+{
+    $('#myAssetsOffered').empty();
+    $('#partnerAssetsRequested').empty();
+    $('#offersTable tbody tr').remove();
+    tradeDashboard();
 }
 
 $(document).ready(function () {
@@ -612,8 +615,4 @@ $(document).ready(function () {
     rosterDashboard();
     tradeDashboard();
 
-    //Trade Modal
-    //$('#trade').click(function () {
-    //    $('#tradeModal').Modal();
-    //})
 });

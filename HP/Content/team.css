@@ -115,8 +115,11 @@ ul.droppable > li {
     vertical-align: middle;
     text-align: center;
 }
-scroll-body {
-    overflow:scroll;
+
+.scroll-tbody {    
+    background-color:#ddd;
+    height:400px;
+    overflow:auto;
 }
 
 .offers-row > td > ul > li {
