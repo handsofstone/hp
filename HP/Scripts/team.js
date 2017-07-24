@@ -423,22 +423,20 @@ $(function () {
 });
 
 $(function () {
-    $("ul.my").sortable({
-        connectWith: "ul.my",
-        scroll: true
+    $('#myAssets').on('click', 'li', function () {
+        $('#myAssetsOffered').append($(this));
+    });
+    $('#myAssetsOffered').on('click', 'li', function () {
+        $('#myAssets').append($(this));
     });
 
-    $("ul.partner").sortable({
-        connectWith: "ul.partner",
-        scroll: true
+    $('#partnerAssets').on('click', 'li', function () {
+        $('#partnerAssetsRequested').append($(this));
+    });
+    $('#partnerAssetsRequested').on('click', 'li', function () {
+        $('#partnerAssets').append($(this));
     });
 
-    $("li.drag").draggable({
-        connectToSortable: "ul.my",
-        revert: "invalid"
-    });
-
-    $(".droppable").disableSelection();
 });
 
 $('#offersTable').on('click', '.clickable-row', function (event) {
@@ -456,7 +454,12 @@ function tradeDashboard() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
-            if (typeof data.Trades != 'undefined') offers(data.Trades);
+            if (typeof data.Trades != 'undefined') {
+                offers(data.Trades);
+                $('#tradeCount, #trade span.badge').html(data.Trades.length);
+            }
+            else
+                $('#tradeCount, #trade span.badge').html('');
             if (typeof data.Teams != 'undefined') partners(data.Teams);
             if (typeof data.TradableAssets != 'undefined') assets($('#myAssets'),data.TradableAssets);
         },
@@ -530,6 +533,7 @@ function getAssets(e) {
 }
 
 function refreshPartnerAssets() {
+    $('#partnerAssetsRequested').empty();
     $.ajax({
         type: 'GET',
         url: '/Team/Assets', // we are calling json method
