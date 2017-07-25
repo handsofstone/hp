@@ -197,9 +197,9 @@ namespace HP.Models
         public int UpdateOffer(int tradeId, bool accept, string userId)
         {
             return Database.ExecuteSqlCommand(
-                "nlpool.UpdateOffer @tradeId @accept @userId",
+                "nlpool.UpdateOffer @tradeId, @accept, @userId",
                 new SqlParameter("tradeId", tradeId),
-                new SqlParameter("accept", accept), 
+                new SqlParameter("accept", accept ? 1 : 0), 
                 new SqlParameter("userId", userId));
         }
     }
