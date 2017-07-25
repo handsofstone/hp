@@ -193,5 +193,14 @@ namespace HP.Models
                 "nlpool.CreateOffer @offer",
                 new SqlParameter("offer", jsonOffer));
         }
+
+        public int UpdateOffer(int tradeId, bool accept, string userId)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.UpdateOffer @tradeId @accept @userId",
+                new SqlParameter("tradeId", tradeId),
+                new SqlParameter("accept", accept), 
+                new SqlParameter("userId", userId));
+        }
     }
 }

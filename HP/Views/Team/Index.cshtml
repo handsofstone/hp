@@ -92,8 +92,14 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="btn-group btn-group-lg pull-right" role="group" aria-label="...">
-                                                <a href="#" class="btn btn-lg btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span></a>
-                                                <a href="#" class="btn btn-lg btn-success" role="button"><span class="glyphicon glyphicon-ok"></span></a>                                               
+                                                <button id="rejectTrade" type="button" class="btn btn-lg btn-danger" onclick="updateOffer(false)" disabled >
+                                                    <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> 
+                                                </button>
+                                                <button id="acceptTrade" type="button" class="btn btn-lg btn-success" onclick="updateOffer(true)" disabled>
+                                                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i>
+                                                </button>
+                                                @*<button id="rejectTrade" href="#" class="btn btn-lg btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span></button>
+                                                <a id="acceptTrade" href="#" class="btn btn-lg btn-success" role="button"><span class="glyphicon glyphicon-ok"></span></a>*@                                               
                                             </div>
                                         </div>
                                     </div>
@@ -320,14 +326,14 @@
                     </table>
                 </div>
                 <div class="panel panel-default col-lg-6">
-                    @*<table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                    <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
                             <thead>
                                 <tr>
                                     <td>Pick</td>
                                 </tr>
                             </thead>
                             <tbody id="picks"></tbody>
-                        </table>*@
+                        </table>
                 </div>
             </div>
         </div>

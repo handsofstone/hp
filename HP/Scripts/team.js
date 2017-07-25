@@ -445,6 +445,12 @@ $('#offersTable').on('click', '.clickable-row', function (event) {
     } else {
         $(this).addClass('active').siblings().removeClass('active');
     }
+
+    var noneSelected = $('#offersTable tr.active').length == 0;
+    var ownTradeSelected = $('#offersTable tr.active .fromTeamId').val() == $('#TeamId').val();    
+
+    $('#rejectTrade').prop('disabled', noneSelected);
+    $('#acceptTrade').prop('disabled', noneSelected || ownTradeSelected);
 });
 
 function tradeDashboard() {
@@ -475,11 +481,17 @@ function offers(trades)
     var r = new Array(), j = -1;
 
     for (var i = 0, size = trades.length; i < size; i++) {
-        r[++j] = '<tr class="clickable-row offers-row"><td>';
+        r[++j] = '<tr id="trade';
+        r[++j] = trades[i].Id;
+        r[++j] = '" class="clickable-row offers-row" > <td>';
         r[++j] = trades[i].From;
-        r[++j] = '</td><td>';
+        r[++j] = '<input class="fromTeamId" type="hidden" value="';
+        r[++j] = trades[i].FromTeamId;
+        r[++j] = '"/></td><td>';
         r[++j] = trades[i].To;
-        r[++j] = '</td><td>';
+        r[++j] = '<input class="toTeamId" type="hidden" value="';
+        r[++j] = trades[i].ToTeamId;
+        r[++j] = '"/></td><td>';
         r[++j] = trades[i].ExpirationDate;
         r[++j] = '</td><td><ul class="list-group">';
         for (var i2 = 0, sendingSize = trades[i].Sending.length; i2 < sendingSize; i2++) {
@@ -575,6 +587,28 @@ function sendOffer() {
         }
     });
 }
+
+function updateOffer(isAccepted) {
+    var data = {
+        tradeId: $('[id^=trade] tr.active').attr('id').replace('trade', ''),
+        accept: isAccepted
+    };
+    $.ajax({
+        //contentType: 'application/json, charset=utf-8',
+        type: 'POST',
+        url: '/Team/UpdateOffer',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            alert('Trade accepted.');
+            resetTradeDashboard();
+        },
+        error: function (ex) {
+
+        }
+    });
+}
+
 function resetTradeDashboard()
 {
     $('#myAssetsOffered').empty();

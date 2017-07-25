@@ -350,5 +350,16 @@ namespace HP.Controllers
                 return Json(result == 0);
             }
         }
+        [HttpPost]
+        public ActionResult UpdateOffer(int tradeId, Boolean accept )
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userId = User.Identity.GetUserId();
+                var result = context.UpdateOffer(tradeId,accept,userId);
+
+                return Json(result == 0);
+            }
+        }
     }
 }
