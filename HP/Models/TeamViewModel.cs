@@ -19,6 +19,7 @@ namespace HP.Models
         public IList<LineupRow> LineupRows { get; set; }
         public bool CanSubmit { get; set; }
         public bool CanSave { get; set; }
+        public bool CanTrade { get; set; }
         public string SelectedStartTime { get; set; }
     }
     public class AddPlayersViewModel

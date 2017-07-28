@@ -446,7 +446,7 @@ $('#offersTable').on('click', '.clickable-row', function (event) {
         $(this).addClass('active').siblings().removeClass('active');
     }
 
-    var noneSelected = $('#offersTable tr.active').length == 0;
+    var noneSelected = $('#offersTable tr.active td.status').html() != 'Pending';
     var ownTradeSelected = $('#offersTable tr.active .fromTeamId').val() == $('#TeamId').val();    
 
     $('#rejectTrade').prop('disabled', noneSelected);
@@ -505,7 +505,7 @@ function offers(trades)
             r[++j] = trades[i].Receiving[i2].AssetName;
             r[++j] = '</li>';
         } 
-        r[++j] = '</ul></td><td>';
+        r[++j] = '</ul></td><td class="status">';
         r[++j] = trades[i].Status;
         r[++j] = '</td><td></td></tr>';
     }

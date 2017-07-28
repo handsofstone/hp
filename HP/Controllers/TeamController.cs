@@ -43,6 +43,7 @@ namespace HP.Controllers
                 //model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
                 model.SelectedIntervalId = GetCurrentInterval();
                 model.CanSubmit = GetCanSubmit(model.TeamId, model.SelectedIntervalId);
+                model.CanTrade = GetCanTrade(model.TeamId);
                 model.SelectedStartTime = GetIntervalStartTime(model.SelectedIntervalId).ToString();
             }
             return View(model);
@@ -165,9 +166,9 @@ namespace HP.Controllers
                                           orderby i.EndDate descending
                                           select i.Id).Take(1).Single();
                     var lineup = from lp in context.LineupPlayers
-                             join rp in context.RosterPlayers on new { lp.TeamId, lp.PlayerId } equals new { rp.TeamId, rp.PlayerId }
-                             where lp.TeamId == teamId && lp.IntervalId == lastIntervalId
-                             select lp;
+                                 join rp in context.RosterPlayers on new { lp.TeamId, lp.PlayerId } equals new { rp.TeamId, rp.PlayerId }
+                                 where lp.TeamId == teamId && lp.IntervalId == lastIntervalId
+                                 select lp;
                     result = lineup.ToList().Select(p => new PlayerInterval(p, intervalId));
 
                     var result2 = lineup.ToList().Select(p => new LineupRow(p, intervalId));
@@ -195,7 +196,7 @@ namespace HP.Controllers
                     var lineup = from lp in context.LineupPlayers
                                  join rp in context.RosterPlayers on new { lp.TeamId, lp.PlayerId } equals new { rp.TeamId, rp.PlayerId }
                                  where lp.TeamId == teamId && lp.IntervalId == lastIntervalId
-                                 select lp;                    
+                                 select lp;
 
                     result = lineup.ToList().Select(p => new LineupRow(p, intervalId));
                 }
@@ -237,6 +238,19 @@ namespace HP.Controllers
 
                 return interval.Id;
             }
+        }
+
+        public bool GetCanTrade(int teamId)
+        {
+            var isOwner = false;
+            if (User.IsInRole("admin"))
+                return true;
+            if (User.Identity.GetUserId() != null)
+            {
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                isOwner = (user.Teams.Where(u => u.TeamId == teamId).Count() > 0);
+            }
+            return isOwner;
         }
 
         public bool GetCanSave(int teamId, int intervalId)
@@ -351,12 +365,12 @@ namespace HP.Controllers
             }
         }
         [HttpPost]
-        public ActionResult UpdateOffer(int tradeId, Boolean accept )
+        public ActionResult UpdateOffer(int tradeId, Boolean accept)
         {
             using (var context = new ApplicationDbContext())
             {
                 var userId = User.Identity.GetUserId();
-                var result = context.UpdateOffer(tradeId,accept,userId);
+                var result = context.UpdateOffer(tradeId, accept, userId);
 
                 return Json(result == 0);
             }
