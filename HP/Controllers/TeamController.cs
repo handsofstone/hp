@@ -365,14 +365,17 @@ namespace HP.Controllers
             }
         }
         [HttpPost]
-        public ActionResult UpdateOffer(int tradeId, Boolean accept)
+        public ActionResult UpdateOffer(int teamId, int tradeId, Boolean accept)
         {
             using (var context = new ApplicationDbContext())
             {
-                var userId = User.Identity.GetUserId();
-                var result = context.UpdateOffer(tradeId, accept, userId);
+                if (GetCanTrade(teamId))
+                { 
+                        var result = context.UpdateOffer(teamId, tradeId, accept);
 
-                return Json(result == 0);
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
             }
         }
     }
