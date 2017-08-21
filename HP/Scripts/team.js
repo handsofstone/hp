@@ -494,17 +494,21 @@ function offers(trades)
         r[++j] = '"/></td><td>';
         r[++j] = trades[i].ExpirationDate;
         r[++j] = '</td><td><ul class="list-group">';
-        for (var i2 = 0, sendingSize = trades[i].Sending.length; i2 < sendingSize; i2++) {
-            r[++j] = '<li class="list-group-item">';
-            r[++j] = trades[i].Sending[i2].AssetName;
-            r[++j] = '</li>';
+        if (trades[i].Sending != undefined) {
+            for (var i2 = 0, sendingSize = trades[i].Sending.length; i2 < sendingSize; i2++) {
+                r[++j] = '<li class="list-group-item">';
+                r[++j] = trades[i].Sending[i2].AssetName;
+                r[++j] = '</li>';
+            }
         }
         r[++j] = '</ul></td><td><ul class="list-group">';
-        for (var i2 = 0, sendingSize = trades[i].Receiving.length; i2 < sendingSize; i2++) {
-            r[++j] = '<li class="list-group-item">';
-            r[++j] = trades[i].Receiving[i2].AssetName;
-            r[++j] = '</li>';
-        } 
+        if (trades[i].Receiving != undefined) {
+            for (var i2 = 0, sendingSize = trades[i].Receiving.length; i2 < sendingSize; i2++) {
+                r[++j] = '<li class="list-group-item">';
+                r[++j] = trades[i].Receiving[i2].AssetName;
+                r[++j] = '</li>';
+            }
+        }
         r[++j] = '</ul></td><td class="status">';
         r[++j] = trades[i].Status;
         r[++j] = '</td><td></td></tr>';
@@ -571,9 +575,11 @@ function getOffer() {
 }
 
 function sendOffer() {
-    var data = { json: JSON.stringify({ offer: new getOffer() }) };
-    $.ajax({
-        //contentType: 'application/json, charset=utf-8',
+    var data = {
+        teamId: $('#TeamId').val(),
+        json: JSON.stringify({ offer: new getOffer() })
+    };
+    $.ajax({        
         type: 'POST',
         url: '/Team/SendOffer',
         dataType: 'json',
@@ -590,11 +596,11 @@ function sendOffer() {
 
 function updateOffer(isAccepted) {
     var data = {
+        teamId: $('#TeamId').val(),
         tradeId: $('[id^=trade] tr.active').attr('id').replace('trade', ''),
         accept: isAccepted
     };
-    $.ajax({
-        //contentType: 'application/json, charset=utf-8',
+    $.ajax({        
         type: 'POST',
         url: '/Team/UpdateOffer',
         dataType: 'json',

@@ -355,13 +355,17 @@ namespace HP.Controllers
             }
         }
         [HttpPost]
-        public ActionResult SendOffer(String json)
+        public ActionResult SendOffer(int teamId, String json)
         {
             using (var context = new ApplicationDbContext())
             {
-                var result = context.CreateOffer(json);
+                if (GetCanTrade(teamId))
+                {
+                    var result = context.CreateOffer(json);
 
-                return Json(result == 0);
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
             }
         }
         [HttpPost]
