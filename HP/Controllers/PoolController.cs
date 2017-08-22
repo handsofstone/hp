@@ -57,7 +57,7 @@ namespace HP.Controllers
                                 join tt in context.TeamIntervalActiveTotal.Where(t=>t.IntervalId==currentIntervalId) on new { ss.SeasonId, ss.TeamId } equals new { tt.SeasonId, tt.TeamId } into tiat
                                 from tt in tiat.DefaultIfEmpty()
                                 where ss.PoolId == poolId && ss.SeasonId == seasonId
-                                select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (tt == null ? 0 : tt.IntervalTotal), Total = ss.Total };
+                                select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (tt == null ? 0 : tt.IntervalTotal), Total = ss.Total, TeamId = ss.TeamId };
                 return standings.OrderBy(s=>s.Rank).ToList();
             }
         }

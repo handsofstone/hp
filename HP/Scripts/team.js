@@ -391,9 +391,37 @@ function setSubmitted(flag) {
 var plotLE;
 var plotPD;
 
+function Roster(roster) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = roster.length; i < size; i++) {
+        r[++j] = '<tr><td>';
+        r[++j] = roster[i].PlayerNumber;
+        r[++j] = '</td><td>';
+        r[++j] = roster[i].Name;
+        r[++j] = '<input id="playerId" name="playerId" type="hidden" value="';
+        r[++j] = roster[i].PlayerId;
+        r[++j] = '"></td><td><select id="position" name="position">';
+        for (var i2 = 0; i2 < roster[i].EligiblePosition.length; i2++) 
+        {
+            r[++j] = '<option ';
+            if (roster[i].EligiblePosition.charAt(i2) == roster[i].Position) {
+                r[++j] = 'selected="selected"';
+            }
+            r[++j] = '>';
+            r[++j] = roster[i].EligiblePosition.charAt(i2);
+            r[++j] = '</option>';
+        }
+        r[++j] = '</td><td>';
+        r[++j] = roster[i].NHLTeamCode;
+        r[++j] = '</td><td>';
+        r[++j] = roster[i].Points;
+        r[++j] = '</td></tr > ';
+    }
+    $('#roster').html(r.join(''));
+}
 function DraftPicks(picks) {
     var r = new Array(), j = -1;
-    for (var i = 0, size = picks.length; i < size; i++) {        
+    for (var i = 0, size = picks.length; i < size; i++) {
         r[++j] = '<tr><td>';
         r[++j] = picks[i].Pick;
         r[++j] = '</td></tr>';
@@ -408,7 +436,8 @@ function rosterDashboard() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
-            DraftPicks(data.Picks)
+            Roster(data.Roster);
+            DraftPicks(data.Picks);
         },
         error: function (ex) {
             alert('Failed to retrieve Roster Dashboard.' + ex);
@@ -518,6 +547,7 @@ function offers(trades)
 
 function partners(teams) {
     var r = new Array(), j = -1;
+    r[++j] = '<option value="0"></option>';
     for (var i = 0, size = teams.length; i < size; i++) {
         r[++j] = '<option value="';
         r[++j] = teams[i].Id;
@@ -549,22 +579,29 @@ function getAssets(e) {
 }
 
 function refreshPartnerAssets() {
+    var partnerTeamId = $('#selectTradePartner').val();
     $('#partnerAssetsRequested').empty();
-    $.ajax({
-        type: 'GET',
-        url: '/Team/Assets', // we are calling json method
-        dataType: 'json',
-        data: { teamId: $('#selectTradePartner').val() },
-        success: function (data) {
-            assets($('#partnerAssets'),data)
-        },
-        error: function (ex) {
-            alert('Failed to retrieve partner assets.' + ex);
-        },
-        complete: function () {
-            waiting(false);
-        }
-    });
+    if (partnerTeamId == 0) {
+        $('#partnerAssets').empty();
+    }
+    else
+    {
+        $.ajax({
+            type: 'GET',
+            url: '/Team/Assets', // we are calling json method
+            dataType: 'json',
+            data: { teamId: partnerTeamId },
+            success: function (data) {
+                assets($('#partnerAssets'), data)
+            },
+            error: function (ex) {
+                alert('Failed to retrieve partner assets.' + ex);
+            },
+            complete: function () {
+                waiting(false);
+            }
+        });
+    }
 }
 
 function getOffer() {
@@ -607,6 +644,7 @@ function updateOffer(isAccepted) {
         data: data,
         success: function (data) {
             alert('Trade accepted.');
+            rosterDashboard();
             resetTradeDashboard();
         },
         error: function (ex) {
@@ -617,6 +655,7 @@ function updateOffer(isAccepted) {
 
 function resetTradeDashboard()
 {
+    $('#partnerAssets').empty();
     $('#myAssetsOffered').empty();
     $('#partnerAssetsRequested').empty();
     $('#offersTable tbody tr').remove();

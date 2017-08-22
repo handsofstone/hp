@@ -26,22 +26,22 @@
                     <table id="standingsTable" class="table table-striped table-responsive">
                         <thead>
                             <tr>
-                                <td class="text-center">@Html.DisplayNameFor(model => model.StandingRows[0].Rank)</tdclass="text-center">
+                                <td class="text-center">@Html.DisplayNameFor(model => model.StandingRows[0].Rank)</td>
                                 <td>@Html.DisplayNameFor(model => model.StandingRows[0].Name)</td>
-                                <td class="text-right">@Html.DisplayNameFor(model => model.StandingRows[0].Gain)</tdclass="text-right">
+                                <td class="text-right">@Html.DisplayNameFor(model => model.StandingRows[0].Gain)</td>
                                 <td class="text-right">@Html.DisplayNameFor(model => model.StandingRows[0].Total)</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (HP.Models.StandingRow row in Model.StandingRows)
+                            @*@foreach (HP.Models.StandingRow row in Model.StandingRows)
                             {
                                 <tr>
                                     <td class="text-center">@row.Rank.ToString()</td>
-                                    <td>@row.Name.ToString()</td>
+                                    <td>@Html.ActionLink( row.Name, "Index", "Team", new { id = row.TeamId }, null )</td>
                                     <td class="text-right">@row.Gain.ToString()</td>
                                     <td class="text-right">@row.Total.ToString()</td>
                                 </tr>
-                            }
+                            }*@
                         </tbody>
                     </table>
                 </div>

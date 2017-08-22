@@ -83,7 +83,8 @@ namespace HP.Models
         public int Gain { get; set; }
         [Display(Name = "Total")]
         public int Total { get; set; }
-
+        [Display(Name = "Team Id")]
+        public int TeamId { get; set; }
 
     }
     

@@ -17,7 +17,7 @@ function populateStandings(standings) {
 function standingsRow(obj) {
     var row = '<tr>' +
     '<td class="text-center">{{Rank}}</td>' +
-    '<td>{{Name}}</td>' +
+    '<td><a href="/Team/Index/{{TeamId}}">{{Name}}</a></td>' +
     '<td class="text-right">{{Gain}}</td>' +
     '<td class="text-right">{{Total}}</td>' +
     '</tr>';

@@ -98,8 +98,6 @@
                                                 <button id="acceptTrade" type="button" class="btn btn-lg btn-success" onclick="updateOffer(true)" disabled>
                                                     <i class="glyphicon glyphicon-ok" aria-hidden="true"></i>
                                                 </button>
-                                                @*<button id="rejectTrade" href="#" class="btn btn-lg btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span></button>
-                                                <a id="acceptTrade" href="#" class="btn btn-lg btn-success" role="button"><span class="glyphicon glyphicon-ok"></span></a>*@                                               
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +158,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="btn-group btn-group-lg pull-right" role="group" aria-label="...">
-                                                <a href="#" class="btn btn-lg btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span></a>
+                                                <a href="#" class="btn btn-lg btn-danger" role="button" onclick="resetTradeDashboard();"><span class="glyphicon glyphicon-remove"></span></a>
                                                 <a href="#" class="btn btn-lg btn-success" role="button" onclick="sendOffer();" ><span class="glyphicon glyphicon-send"></span></a>
                                             </div>
                                         </div>
@@ -301,8 +299,8 @@
                                 <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
                             </tr>
                         </thead>
-                        <tbody id="lineup">
-                            @foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
+                        <tbody id="roster">
+                            @*@foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
                             {
                                 var playerId = pi.PlayerId;
                                 var name = pi.Name;
@@ -321,7 +319,7 @@
                                     <td>@Html.DisplayFor(p => pi.Team)</td>
                                     <td>@Html.DisplayFor(p => pts)</td>
                                 </tr>
-                            }
+                            }*@
                         </tbody>
                     </table>
                 </div>
