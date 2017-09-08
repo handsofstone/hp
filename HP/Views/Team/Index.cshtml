@@ -9,7 +9,7 @@
 
     <div class="modal-dialog">
         <!-- Add Players Modal content-->
-        @*<div class="modal-content">
+        <div class="modal-content">
                 @using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
                 {
                 <div class="modal-header">
@@ -17,7 +17,7 @@
                     <h4 class="modal-title">Add Player(s)</h4>
                 </div>
                 <div class="modal-body">
-
+                    <input type="text" class="form-control type-ahead-textbox" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
                     <table celpadding=2 cellspacing=1 border=0 class="table">
                         <tr>
                             <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
@@ -46,7 +46,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
                 }
-            </div>*@
+            </div>
     </div>
 </div>
 
@@ -92,8 +92,8 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="btn-group btn-group-lg pull-right" role="group" aria-label="...">
-                                                <button id="rejectTrade" type="button" class="btn btn-lg btn-danger" onclick="updateOffer(false)" disabled >
-                                                    <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> 
+                                                <button id="rejectTrade" type="button" class="btn btn-lg btn-danger" onclick="updateOffer(false)" disabled>
+                                                    <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
                                                 </button>
                                                 <button id="acceptTrade" type="button" class="btn btn-lg btn-success" onclick="updateOffer(true)" disabled>
                                                     <i class="glyphicon glyphicon-ok" aria-hidden="true"></i>
@@ -157,9 +157,18 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label for="comment">Comment:</label>
+                                                <textarea class="form-control" rows="3" id="comment"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
                                             <div class="btn-group btn-group-lg pull-right" role="group" aria-label="...">
                                                 <a href="#" class="btn btn-lg btn-danger" role="button" onclick="resetTradeDashboard();"><span class="glyphicon glyphicon-remove"></span></a>
-                                                <a href="#" class="btn btn-lg btn-success" role="button" onclick="sendOffer();" ><span class="glyphicon glyphicon-send"></span></a>
+                                                <a href="#" class="btn btn-lg btn-success" role="button" onclick="sendOffer();"><span class="glyphicon glyphicon-send"></span></a>
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +283,7 @@
                                 </button>
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn btn-info disabled" data-target="#addPlayerModal" aria-label="Left Align">
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
                                 </button>
                             </div>
@@ -299,39 +308,39 @@
                                 <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
                             </tr>
                         </thead>
-                        <tbody id="roster">
+                        <tbody id="rosterBody">
                             @*@foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
-                            {
-                                var playerId = pi.PlayerId;
-                                var name = pi.Name;
-                                var num = pi.Number.ToString();
-                                var pts = pi.Points.ToString();
-                                var position = pi.Position.First();
-                                <tr>
-                                    <td>@Html.DisplayFor(p => num)</td>
-                                    <td>
-                                        @Html.DisplayFor(p => name)
-                                        @Html.HiddenFor(p => playerId)
-                                    </td>
-                                    <td>
-                                        @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
-                                    </td>
-                                    <td>@Html.DisplayFor(p => pi.Team)</td>
-                                    <td>@Html.DisplayFor(p => pts)</td>
-                                </tr>
-                            }*@
+                                {
+                                    var playerId = pi.PlayerId;
+                                    var name = pi.Name;
+                                    var num = pi.Number.ToString();
+                                    var pts = pi.Points.ToString();
+                                    var position = pi.Position.First();
+                                    <tr>
+                                        <td>@Html.DisplayFor(p => num)</td>
+                                        <td>
+                                            @Html.DisplayFor(p => name)
+                                            @Html.HiddenFor(p => playerId)
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
+                                        </td>
+                                        <td>@Html.DisplayFor(p => pi.Team)</td>
+                                        <td>@Html.DisplayFor(p => pts)</td>
+                                    </tr>
+                                }*@
                         </tbody>
                     </table>
                 </div>
                 <div class="panel panel-default col-lg-6">
                     <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
-                            <thead>
-                                <tr>
-                                    <td>Pick</td>
-                                </tr>
-                            </thead>
-                            <tbody id="picks"></tbody>
-                        </table>
+                        <thead>
+                            <tr>
+                                <td>Pick</td>
+                            </tr>
+                        </thead>
+                        <tbody id="picks"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
