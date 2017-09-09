@@ -667,11 +667,12 @@ var delayTimer;
 function searchNHLPlayer(searchString) {
     clearTimeout(delayTimer);
     delayTimer = setTimeout(function () {
-        var suggestURL = 'https://suggest.svc.nhl.com/svc/suggest/v1/min_all/' + searchString;
         $.ajax({
             type: 'GET',
             contentType: 'application/json, charset=utf-8',
-            url: suggestURL,
+            url: '/Team/AvailablePlayer',
+            dataType: 'json',
+            data: { searchString: searchString, teamId: $('#TeamId').val()},
             success: function (data) {
 
             },

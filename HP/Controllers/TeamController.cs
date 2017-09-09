@@ -1,10 +1,12 @@
-﻿using HP.Models;
+﻿using HP.Helpers;
+using HP.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
@@ -14,6 +16,7 @@ namespace HP.Controllers
 {
     public class TeamController : Controller
     {
+        const string suggestURL = "https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/{0}/99999";
         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
@@ -380,6 +383,21 @@ namespace HP.Controllers
                     return Json(result == 0);
                 }
                 return new HttpStatusCodeResult(401, "Unauthorised user.");
+            }
+        }
+
+        public ContentResult AvailablePlayer(string searchString, int teamId)
+        {
+            string html = String.Format(suggestURL, searchString);
+            string searchResults;
+            HTMLHelper.Origin = "www.nhl.com";
+            StreamReader reader = new StreamReader(HTMLHelper.GetResponseStream(html));
+            searchResults = reader.ReadToEnd();
+            using (var context = new ApplicationDbContext())
+            {
+                var team = context.Teams.Find(teamId);
+                var result = context.AvailablePlayers(searchResults, team.PoolId);
+                return Content(result, "application/json");
             }
         }
     }

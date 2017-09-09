@@ -202,5 +202,13 @@ namespace HP.Models
                 new SqlParameter("tradeId", tradeId),
                 new SqlParameter("accept", accept ? 1 : 0));
         }
+
+        public string AvailablePlayers(string searchString, int poolId)
+        {
+            return Database.SqlQuery<String>(
+                "select nlpool.AvailablePlayers(@searchString,@poolId)",
+                new SqlParameter("searchString", searchString),
+                new SqlParameter("poolId", poolId)).FirstOrDefault();
+        }
     }
 }
