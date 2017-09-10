@@ -433,6 +433,7 @@ function rosterDashboard() {
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
             Roster(data.Roster);
+            rosterAssets($('#rosterAssets'),data.Roster);
             DraftPicks(data.Picks);
         },
         error: function (ex) {
@@ -567,6 +568,33 @@ function assets(e, assets) {
     e.html(r.join(''));
 }
 
+function rosterAssets(e, assets) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = assets.length; i < size; i++) {
+        r[++j] = '<li class="drag ui-state-default" value=';
+        r[++j] = assets[i].PlayerId;
+        r[++j] = '>';
+        r[++j] = assets[i].Name;
+        r[++j] = '</li>';
+    }
+    e.html(r.join(''));
+}
+
+function searchAssets(e, assets) {
+    var r = new Array(), j = -1;
+    for (var i = 0, size = assets.length; i < size; i++) {
+        r[++j] = '<li class="drag ui-state-default" value=';
+        r[++j] = assets[i].Id;
+        r[++j] = '>';
+        r[++j] = '<img class="player-photo" src="https://nhl.bamcontent.com/images/headshots/current/168x168/';
+        r[++j] = assets[i].PlayerId;
+        r[++j] = '.jpg">'
+        r[++j] = assets[i].AssetName;
+        r[++j] = '</li>';
+    }
+    e.html(r.join(''));
+}
+
 function getAssets(e) {
     var a = new Array();
     e.children().each(function () {
@@ -674,13 +702,28 @@ function searchNHLPlayer(searchString) {
             dataType: 'json',
             data: { searchString: searchString, teamId: $('#TeamId').val()},
             success: function (data) {
-
+                searchAssets($('#searchResults'), convertSearchAssets(data));
             },
             error: function (ex) {
 
             }
         });
     }, 1000);
+}
+
+function convertSearchAssets(searchResult)
+{
+    var assets = new Array(searchResult.length);
+    for (var i = 0, size = searchResult.length; i < size; i++) {
+        var player = searchResult[i].Player.split('|');
+
+        assets[i] = {
+            Id: searchResult[i].Player,
+            PlayerId: player[0],
+            AssetName: player[2] + ' ' + player[1] + ' ' + player[11]
+        };
+    }
+    return assets;
 }
 
 $(document).ready(function () {

@@ -17,8 +17,70 @@
                     <h4 class="modal-title">Add Player(s)</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control type-ahead-textbox" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
-                    <table celpadding=2 cellspacing=1 border=0 class="table">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row propose-top">
+                                <div class="col-lg-12">
+                                    <label for="searchTerm">SEARCH</label>
+                                    <input type="text" class="form-control type-ahead-textbox" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody">
+                                <strong>RESULTS</strong><br /></div>
+                            </div>
+                            <div class="row propose-middle">
+                                <div class="col-lg-12">
+                                    <ul id="searchResults" class="droppable partner"></ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                    <strong>ADDITIONS</strong>
+                                </div>
+                            </div>
+                            <div class="row propose-bottom">
+                                <div class="col-lg-12">
+                                    <ul id="rosterAdditions" class="droppable partner"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row hidden-xs hidden-sm hidden-md propose-top">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                    <strong>ROSTER</strong>
+                                </div>
+                            </div>
+                            <div class="row propose-middle">
+                                <div class="col-lg-12">
+                                    <ul id="rosterAssets" class="droppable my"></ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                    <strong>DROPS</strong>
+                                </div>
+                            </div>
+                            <div class="row propose-bottom">
+                                <div class="col-lg-12">
+                                    <ul id="rosterDrops" class="droppable my"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="row">
+                        <div class="col-lg-12">
+                            <div class="btn-group btn-group-lg pull-right" role="group" aria-label="...">
+                                <a href="#" class="btn btn-lg btn-danger" role="button" onclick="resetTradeDashboard();"><span class="glyphicon glyphicon-remove"></span></a>
+                                <a href="#" class="btn btn-lg btn-success" role="button" onclick="sendOffer();"><span class="glyphicon glyphicon-send"></span></a>
+                            </div>
+                        </div>
+                    </div>*@
+                    
+                    @*<table celpadding=2 cellspacing=1 border=0 class="table">
                         <tr>
                             <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
                             <td>&nbsp;</td>
@@ -39,7 +101,7 @@
                                 @Html.Hidden("playerIds")
                             </td>
                         </tr>
-                    </table>
+                    </table>*@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-default" value="Save" onclick="populatePlayerIds();selectAll();" />

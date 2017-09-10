@@ -16,7 +16,7 @@ namespace HP.Controllers
 {
     public class TeamController : Controller
     {
-        const string suggestURL = "https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/{0}/99999";
+        const string suggestURL = "https://suggest.svc.nhl.com/svc/suggest/v1/minactiveplayers/{0}/99999";
         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
