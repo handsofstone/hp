@@ -449,6 +449,13 @@ $(function () {
 });
 
 $(function () {
+    $('.droppable').on('click', 'li', function () {
+        var sourceList = this.closest("ul");
+        var swapGroup = sourceList.getAttribute("data-list-swap-group");
+        var targetList = $("ul[data-list-swap-group=" + swapGroup + "]").not(sourceList);
+        targetList.append(this);
+    });
+
     $('#myAssets').on('click', 'li', function () {
         $('#myAssetsOffered').append($(this));
     });
@@ -464,6 +471,7 @@ $(function () {
     });
 
 });
+
 
 $('#offersTable').on('click', '.clickable-row', function (event) {
     if ($(this).hasClass('active')) {
@@ -559,7 +567,7 @@ function partners(teams) {
 function assets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="drag ui-state-default" value=';
+        r[++j] = '<li class="ui-state-default list-swap" value=';
         r[++j] = assets[i].Id;
         r[++j] = '>';
         r[++j] = assets[i].AssetName;
@@ -571,7 +579,7 @@ function assets(e, assets) {
 function rosterAssets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="drag ui-state-default" value=';
+        r[++j] = '<li class="ui-state-default list-swap" value=';
         r[++j] = assets[i].PlayerId;
         r[++j] = '>';
         r[++j] = assets[i].Name;
@@ -583,7 +591,7 @@ function rosterAssets(e, assets) {
 function searchAssets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="drag ui-state-default" value=';
+        r[++j] = '<li class="ui-state-default list-swap" value=';
         r[++j] = assets[i].Id;
         r[++j] = '>';
         r[++j] = '<img class="player-photo" src="https://nhl.bamcontent.com/images/headshots/current/168x168/';
