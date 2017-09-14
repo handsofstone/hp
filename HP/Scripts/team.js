@@ -1,46 +1,37 @@
 ﻿
 // Javascript for Add Players
-function moveDualList(srcList, destList, moveAll) {
+function getValues(selector) {
+    var values = []
+    selector.each(function () {
+        values.push(this.value);
+    })
+    return values;
+}
 
-    var keepers = false;
-    if (srcList.id == "roster") {
-        var pText = srcList.options[srcList.selectedIndex].innerHTML;
-        if (pText.indexOf("[K]") > -1) {
-            keepers = true;
+function AddDropPlayers() {
+    var data = JSON.stringify({
+        teamId: $('#TeamId').val(),
+        adds: getValues($('#rosterAdditions>li')),
+        drops: getValues($('#rosterDrops>li'))
+    });
+
+    $.ajax({
+        contentType: 'application/json, charset=utf-8',
+        type: 'POST',
+        url: '/Team/ChangePlayers', // we are calling json method
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            rosterDashboard();
+        },
+        error: function (ex) {
+            alert('Failed to retrieve states.' + ex);
+        },
+        complete: function () {
+            postLineupUpdate();
+            waiting(false);
         }
-    }
-
-    // Do nothing if nothing is selected
-    if ((srcList.selectedIndex == -1) && (moveAll === false)) {
-        return;
-    } else if (keepers) {
-        return;
-    } else {
-        copySelected(srcList, destList);
-        //sortSelect(destList);
-    }
-}
-
-function deleteOption(object, index) {
-    object.options[index] = null;
-}
-
-function addOption(object, text, value) {
-    var defaultSelected = true;
-    var selected = true;
-    var optionName = new Option(text, value, defaultSelected, selected);
-    object.options[object.length] = optionName;
-}
-
-function copySelected(fromObject, toObject) {
-    for (var i = 0, l = fromObject.options.length; i < l; i++) {
-        if (fromObject.options[i].selected)
-            addOption(toObject, fromObject.options[i].text, fromObject.options[i].value);
-    }
-    for (i = fromObject.options.length - 1; i > -1; i--) {
-        if (fromObject.options[i].selected)
-            deleteOption(fromObject, i);
-    }
+    });
 }
 function populatePlayerIds() {
     playerIds = "";
@@ -433,7 +424,7 @@ function rosterDashboard() {
         data: { teamId: $('#TeamId').val() },
         success: function (data) {
             Roster(data.Roster);
-            rosterAssets($('#rosterAssets'),data.Roster);
+            rosterAssets($('#rosterAssets'), data.Roster);
             DraftPicks(data.Picks);
         },
         error: function (ex) {
@@ -579,7 +570,7 @@ function assets(e, assets) {
 function rosterAssets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="ui-state-default list-swap" value=';
+        r[++j] = '<li class="ui-state-default list-swap" data-value=';
         r[++j] = assets[i].PlayerId;
         r[++j] = '>';
         r[++j] = assets[i].Name;
@@ -591,7 +582,7 @@ function rosterAssets(e, assets) {
 function searchAssets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="ui-state-default list-swap" value=';
+        r[++j] = '<li class="ui-state-default list-swap" data-value=';
         r[++j] = assets[i].Id;
         r[++j] = '>';
         r[++j] = '<img class="player-photo" src="https://nhl.bamcontent.com/images/headshots/current/168x168/';
@@ -708,7 +699,7 @@ function searchNHLPlayer(searchString) {
             contentType: 'application/json, charset=utf-8',
             url: '/Team/AvailablePlayer',
             dataType: 'json',
-            data: { searchString: searchString, teamId: $('#TeamId').val()},
+            data: { searchString: searchString, teamId: $('#TeamId').val() },
             success: function (data) {
                 searchAssets($('#searchResults'), convertSearchAssets(data));
             },
@@ -719,8 +710,7 @@ function searchNHLPlayer(searchString) {
     }, 1000);
 }
 
-function convertSearchAssets(searchResult)
-{
+function convertSearchAssets(searchResult) {
     var assets = new Array(searchResult.length);
     for (var i = 0, size = searchResult.length; i < size; i++) {
         var player = searchResult[i].Player.split('|');
