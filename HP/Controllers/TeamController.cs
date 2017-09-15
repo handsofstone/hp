@@ -400,5 +400,10 @@ namespace HP.Controllers
                 return Content(result, "application/json");
             }
         }
+        [HttpPost]
+        public ActionResult ChangePlayers(int teamId, string[] adds, string[] drops)
+        {
+            return Json(true);
+        }
     }
 }
