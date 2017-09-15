@@ -1,47 +1,4 @@
 ﻿
-// Javascript for Add Players
-function moveDualList(srcList, destList, moveAll) {
-
-    var keepers = false;
-    if (srcList.id == "roster") {
-        var pText = srcList.options[srcList.selectedIndex].innerHTML;
-        if (pText.indexOf("[K]") > -1) {
-            keepers = true;
-        }
-    }
-
-    // Do nothing if nothing is selected
-    if ((srcList.selectedIndex == -1) && (moveAll === false)) {
-        return;
-    } else if (keepers) {
-        return;
-    } else {
-        copySelected(srcList, destList);
-        //sortSelect(destList);
-    }
-}
-
-function deleteOption(object, index) {
-    object.options[index] = null;
-}
-
-function addOption(object, text, value) {
-    var defaultSelected = true;
-    var selected = true;
-    var optionName = new Option(text, value, defaultSelected, selected);
-    object.options[object.length] = optionName;
-}
-
-function copySelected(fromObject, toObject) {
-    for (var i = 0, l = fromObject.options.length; i < l; i++) {
-        if (fromObject.options[i].selected)
-            addOption(toObject, fromObject.options[i].text, fromObject.options[i].value);
-    }
-    for (i = fromObject.options.length - 1; i > -1; i--) {
-        if (fromObject.options[i].selected)
-            deleteOption(fromObject, i);
-    }
-}
 function populatePlayerIds() {
     playerIds = "";
     submittedPlayerIds = document.getElementById("roster");
@@ -582,17 +539,27 @@ function rosterAssets(e, assets) {
 
 function searchAssets(e, assets) {
     var r = new Array(), j = -1;
+    var frag = document.createDocumentFragment();
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="drag ui-state-default" value=';
-        r[++j] = assets[i].Id;
-        r[++j] = '>';
-        r[++j] = '<img class="player-photo" src="https://nhl.bamcontent.com/images/headshots/current/168x168/';
-        r[++j] = assets[i].PlayerId;
-        r[++j] = '.jpg">'
-        r[++j] = assets[i].AssetName;
-        r[++j] = '</li>';
+        var asset = document.createElement('li')
+        $(asset).data('asset', assets[i]);
+        asset.setAttribute('class', 'drag ui-state-default');
+        var headshot = document.createElement('img');
+        headshot.setAttribute('class', 'player-photo');
+        headshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
+        asset.appendChild(document.createTextNode(assets[i].AssetName));
+        frag.appendChild(asset);
+        //r[++j] = '<li class="drag ui-state-default" value=';
+        //r[++j] = assets[i].Id;
+        //r[++j] = '>';
+        //r[++j] = '<img class="player-photo" src="https://nhl.bamcontent.com/images/headshots/current/168x168/';
+        //r[++j] = assets[i].PlayerId;
+        //r[++j] = '.jpg">'
+        //r[++j] = assets[i].AssetName;
+        //r[++j] = '</li>';
     }
-    e.html(r.join(''));
+    // e.html(r.join(''));
+    e[0].appendChild(frag);
 }
 
 function getAssets(e) {
