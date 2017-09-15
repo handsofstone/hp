@@ -401,7 +401,7 @@ namespace HP.Controllers
             }
         }
         [HttpPost]
-        public ActionResult ChangePlayers(int teamId, string[] adds, string[] drops)
+        public ActionResult ChangePlayers(int teamId, string changes)
         {
             return Json(true);
         }

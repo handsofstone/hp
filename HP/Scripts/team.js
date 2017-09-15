@@ -8,12 +8,22 @@ function getValues(selector) {
     })
     return values;
 }
+function getDataValues(selector) {
+    var values = []
+    selector.each(function () {
+        values.push($(this).data('asset').Id);
+    })
+    return values;
+}
 
 function AddDropPlayers() {
     var data = JSON.stringify({
         teamId: $('#TeamId').val(),
-        adds: getValues($('#rosterAdditions>li')),
-        drops: getValues($('#rosterDrops>li'))
+        changes: JSON.stringify({
+            adds: getDataValues($('#rosterAdditions>li')),
+            drops: getValues($('#rosterDrops>li'))
+        })
+        
     });
 
     $.ajax({
@@ -571,7 +581,7 @@ function assets(e, assets) {
 function rosterAssets(e, assets) {
     var r = new Array(), j = -1;
     for (var i = 0, size = assets.length; i < size; i++) {
-        r[++j] = '<li class="ui-state-default list-swap" data-value=';
+        r[++j] = '<li class="ui-state-default list-swap" value=';
         r[++j] = assets[i].PlayerId;
         r[++j] = '>';
         r[++j] = assets[i].Name;
