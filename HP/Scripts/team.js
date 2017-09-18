@@ -596,22 +596,13 @@ function searchAssets(e, assets) {
     for (var i = 0, size = assets.length; i < size; i++) {
         var asset = document.createElement('li')
         $(asset).data('asset', assets[i]);
-        asset.setAttribute('class', 'drag ui-state-default');
+        asset.setAttribute('class', 'ui-state-default');
         var headshot = document.createElement('img');
         headshot.setAttribute('class', 'player-photo');
         headshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
         asset.appendChild(document.createTextNode(assets[i].AssetName));
         frag.appendChild(asset);
-        //r[++j] = '<li class="drag ui-state-default" value=';
-        //r[++j] = assets[i].Id;
-        //r[++j] = '>';
-        //r[++j] = '<img class="player-photo" src="https://nhl.bamcontent.com/images/headshots/current/168x168/';
-        //r[++j] = assets[i].PlayerId;
-        //r[++j] = '.jpg">'
-        //r[++j] = assets[i].AssetName;
-        //r[++j] = '</li>';
     }
-    // e.html(r.join(''));
     e[0].appendChild(frag);
 }
 
@@ -735,10 +726,11 @@ function convertSearchAssets(searchResult) {
     var assets = new Array(searchResult.length);
     for (var i = 0, size = searchResult.length; i < size; i++) {
         var player = searchResult[i].Player.split('|');
+        //playerId,LastName,FirstName,playerNo,?,height,weight,city,state,country,birthDate,teamCode,position,age,link
 
         assets[i] = {
-            Id: searchResult[i].Player,
-            PlayerId: player[0],
+            data: searchResult[i].Player,
+            PlayerId: player[0],            
             AssetName: player[2] + ' ' + player[1] + ' ' + player[11]
         };
     }
