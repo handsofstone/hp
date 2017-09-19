@@ -11,7 +11,7 @@ function getValues(selector) {
 function getDataValues(selector) {
     var values = []
     selector.each(function () {
-        values.push($(this).data('asset').Id);
+        values.push($(this).data('asset'));
     })
     return values;
 }
@@ -595,11 +595,17 @@ function searchAssets(e, assets) {
     var frag = document.createDocumentFragment();
     for (var i = 0, size = assets.length; i < size; i++) {
         var asset = document.createElement('li')
-        $(asset).data('asset', assets[i]);
+        $(asset).data('asset', assets[i].data);
         asset.setAttribute('class', 'ui-state-default');
-        var headshot = document.createElement('img');
-        headshot.setAttribute('class', 'player-photo');
-        headshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
+        var defheadshot = document.createElement('img');
+        defheadshot.setAttribute('class', 'player-photo');
+        defheadshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/skater.jpg');
+        var headshot = document.createElement('object');
+        headshot.setAttribute('data', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
+        headshot.setAttribute('type', 'image/jpg')
+        headshot.setAttribute('class', 'player-photo');        
+        headshot.appendChild(defheadshot);
+        asset.appendChild(headshot);
         asset.appendChild(document.createTextNode(assets[i].AssetName));
         frag.appendChild(asset);
     }
@@ -722,16 +728,37 @@ function searchNHLPlayer(searchString) {
     }, 1000);
 }
 
+var Player = function (delimitedString)
+{
+    var values = delimitedString.split('|');
+    this.PlayerId=values[0];
+    this.LastName=values[1];
+    this.FirstName=values[2];
+    this.Active=values[3];
+    this.Rookie=values[4];
+    this.Height=values[5];
+    this.Weight=values[6];
+    this.City=values[7];
+    this.State=values[8];
+    this.Country=values[9];
+    this.BirthDate=values[10];
+    this.TeamCode=values[11];
+    this.Position=values[12];
+    this.PlayerNo=values[13];
+    this.Link=values[14];
+}
+
+
 function convertSearchAssets(searchResult) {
     var assets = new Array(searchResult.length);
     for (var i = 0, size = searchResult.length; i < size; i++) {
-        var player = searchResult[i].Player.split('|');
-        //playerId,LastName,FirstName,playerNo,?,height,weight,city,state,country,birthDate,teamCode,position,age,link
-
+        var props = ['PlayerId', 'LastName', 'FirstName', 'Active', 'Rookie', 'Height', 'Weight', 'City', 'State', 'Country', 'BirthDate', 'TeamCode', 'Position', 'PlayerNo', 'Link'];
+        //playerId,LastName,FirstName,active,rookie,height,weight,city,state,country,birthDate,teamCode,position,playerNo,link
+        var player = new Player(searchResult[i].Player);
         assets[i] = {
-            data: searchResult[i].Player,
-            PlayerId: player[0],            
-            AssetName: player[2] + ' ' + player[1] + ' ' + player[11]
+            data: player,
+            PlayerId: player.PlayerId,            
+            AssetName: player.FirstName + ' ' + player.LastName + ' ' + player.TeamCode
         };
     }
     return assets;
