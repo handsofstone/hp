@@ -32,15 +32,13 @@ function AddDropPlayers() {
         url: '/Team/ChangePlayers', // we are calling json method
         dataType: 'json',
         data: data,
-        success: function (data) {
-            rosterDashboard();
+        success: function (data) {            
         },
         error: function (ex) {
             alert('Failed to retrieve states.' + ex);
         },
         complete: function () {
-            postLineupUpdate();
-            waiting(false);
+            rosterDashboard();
         }
     });
 }
@@ -427,7 +425,17 @@ function DraftPicks(picks) {
     $('#picks').html(r.join(''));
 }
 
+function resetRosterDashboard() {
+    $('#searchTerm').val('');
+    $('#searchResults').empty();
+    $('#rosterAdditions').empty();
+    $('#rosterAssets').empty();
+    $('#rosterDrops').empty();
+}
+
 function rosterDashboard() {
+    resetRosterDashboard();
+
     $.ajax({
         type: 'GET',
         url: '/Team/RosterDashboard', // we are calling json method
