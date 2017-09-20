@@ -210,5 +210,13 @@ namespace HP.Models
                 new SqlParameter("searchString", searchString),
                 new SqlParameter("poolId", poolId)).FirstOrDefault();
         }
+
+        public int ChangePlayers(int teamId, string changes)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.ChangePlayers @teamId, @changes",
+                new SqlParameter("teamId", teamId),
+                new SqlParameter("changes", changes));
+        }
     }
 }

@@ -403,7 +403,16 @@ namespace HP.Controllers
         [HttpPost]
         public ActionResult ChangePlayers(int teamId, string changes)
         {
-            return Json(true);
+            using (var context = new ApplicationDbContext())
+            {
+                if (GetCanTrade(teamId))
+                {
+                    var result = context.ChangePlayers(teamId, changes);
+
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
+            }
         }
     }
 }
