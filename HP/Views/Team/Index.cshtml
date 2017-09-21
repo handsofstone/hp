@@ -10,68 +10,69 @@
     <div class="modal-dialog">
         <!-- Add Players Modal content-->
         <div class="modal-content">
-                @*@using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
+            @*@using (Html.BeginForm("AddPlayers", "Team", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmAddPlayers" }))
                 {*@
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Player(s)</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="row propose-top">
-                                <div class="col-lg-12">
-                                    <label for="searchTerm">SEARCH</label>
-                                    <input type="text" class="form-control type-ahead-textbox" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody">
-                                <strong>RESULTS</strong><br /></div>
-                            </div>
-                            <div class="row propose-middle">
-                                <div class="col-lg-12">
-                                    <ul id="searchResults" class="droppable" data-list-swap-group="addPlayer"></ul>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
-                                    <strong>ADDITIONS</strong>
-                                </div>
-                            </div>
-                            <div class="row propose-bottom">
-                                <div class="col-lg-12">
-                                    <ul id="rosterAdditions" class="droppable" data-list-swap-group="addPlayer"></ul>
-                                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add/Drop Player(s)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row propose-top">
+                            <div class="col-lg-12">
+                                <label for="searchTerm">SEARCH</label>
+                                <input type="text" class="form-control type-ahead-textbox" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="row hidden-xs hidden-sm hidden-md propose-top">
+                        <div class="row">
+                            <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody">
+                                <strong>RESULTS</strong><br />
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
-                                    <strong>ROSTER</strong>
-                                </div>
+                        </div>
+                        <div class="row propose-middle">
+                            <div class="col-lg-12">
+                                <ul id="searchResults" class="droppable" data-list-swap-group="addPlayer"></ul>
                             </div>
-                            <div class="row propose-middle">
-                                <div class="col-lg-12">
-                                    <ul id="rosterAssets" class="droppable" data-list-swap-group="dropPlayer"></ul>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                <strong>ADDITIONS</strong>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
-                                    <strong>DROPS</strong>
-                                </div>
-                            </div>
-                            <div class="row propose-bottom">
-                                <div class="col-lg-12">
-                                    <ul id="rosterDrops" class="droppable" data-list-swap-group="dropPlayer"></ul>
-                                </div>
+                        </div>
+                        <div class="row propose-bottom">
+                            <div class="col-lg-12">
+                                <ul id="rosterAdditions" class="droppable" data-list-swap-group="addPlayer"></ul>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="row hidden-xs hidden-sm hidden-md propose-top">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                <strong>ROSTER</strong>
+                            </div>
+                        </div>
+                        <div class="row propose-middle">
+                            <div class="col-lg-12">
+                                <ul id="rosterAssets" class="droppable" data-list-swap-group="dropPlayer"></ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                <strong>DROPS</strong>
+                            </div>
+                        </div>
+                        <div class="row propose-bottom">
+                            <div class="col-lg-12">
+                                <ul id="rosterDrops" class="droppable" data-list-swap-group="dropPlayer"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    @*<div class="row">
+                @*<div class="row">
                         <div class="col-lg-12">
                             <div class="btn-group btn-group-lg pull-right" role="group" aria-label="...">
                                 <a href="#" class="btn btn-lg btn-danger" role="button" onclick="resetTradeDashboard();"><span class="glyphicon glyphicon-remove"></span></a>
@@ -79,8 +80,8 @@
                             </div>
                         </div>
                     </div>*@
-                    
-                    @*<table celpadding=2 cellspacing=1 border=0 class="table">
+
+                @*<table celpadding=2 cellspacing=1 border=0 class="table">
                         <tr>
                             <td valign=top bgcolor=#f4f1e8 class="colorNote tableBody"><strong>SELECT PLAYERS</strong><br></td>
                             <td>&nbsp;</td>
@@ -102,16 +103,15 @@
                             </td>
                         </tr>
                     </table>*@
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-default" value="Save" onclick="AddDropPlayers();" />
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-                @*}*@
             </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-default" value="Save" onclick="AddDropPlayers();" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            @*}*@
+        </div>
     </div>
 </div>
-
 <div id="tradeModal" class="modal fade" role="dialog">
 
     <div class="modal-dialog">
@@ -243,6 +243,7 @@
         </div>
     </div>
 </div>
+
 @using (Html.BeginForm("SubmitRoster", "Team", FormMethod.Post))
 {
     @Html.HiddenFor(p => Model.TeamId, new { @id = "TeamId" })
@@ -251,8 +252,7 @@
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
-            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
-            @*<li><a href="#tabTrade" data-toggle="tab"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>Trade<span class="badge">1</span></a></li>*@
+            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>            
         </ul>
     </div>
     <div class="panel-body">
@@ -277,13 +277,9 @@
                                             <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()" @(Model.CanSubmit ? "" : "disabled" )>
                                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> Reset
                                             </button>
-                                        </div>
-                                        <div class="form-group">
                                             <span id="intervalStart" class="label label-info">
                                                 @Html.DisplayTextFor(model => model.SelectedStartTime)
                                             </span>
-                                        </div>
-                                        <div class="form-group">
                                             <div class="checkbox">
                                                 <label><input id="showBench" type="checkbox">Show Bench</label>
                                             </div>
@@ -336,77 +332,84 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="tabRoster">
-                <div class="navbar navbar-default">
-                    <ul class="nav navbar-nav">
-                        <li class="navbar-form form-inline">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-success disabled" aria-label="Left Align">
-                                    <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Save
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Player
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <button id="trade" type="button" class="btn btn-primary" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align" @(Model.CanTrade ? "" : "disabled" )>
-                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Trade
-                                    <span class="badge">1</span>
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-success disabled btn-xs-text" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span><span class="hidden-xs">Save</span>
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> <span class="hidden-xs">Add/Drop</span>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs-text" aria-label="Left Align" onclick="importRoster()">
+                                                <span class="glyphicon glyphicon-import" aria-hidden="true"></span> <span class="hidden-xs">Position Import</span>
+                                            </button>
+                                            <button id="trade" type="button" class="btn btn-primary btn-xs-text" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align" @(Model.CanTrade ? "" : "disabled" )>
+                                                <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> <span class="hidden-xs">Trade</span>
+                                                <span class="badge">1</span>
+                                            </button>
+                                        </div>
+                                    </form>
 
-                <div class="panel panel-default col-lg-6">
-                    <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
-                        <thead>
-                            <tr>
-                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
-                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
-                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
-                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
-                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
-                            </tr>
-                        </thead>
-                        <tbody id="rosterBody">
-                            @*@foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
-                                {
-                                    var playerId = pi.PlayerId;
-                                    var name = pi.Name;
-                                    var num = pi.Number.ToString();
-                                    var pts = pi.Points.ToString();
-                                    var position = pi.Position.First();
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                                <thead>
                                     <tr>
-                                        <td>@Html.DisplayFor(p => num)</td>
-                                        <td>
-                                            @Html.DisplayFor(p => name)
-                                            @Html.HiddenFor(p => playerId)
-                                        </td>
-                                        <td>
-                                            @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
-                                        </td>
-                                        <td>@Html.DisplayFor(p => pi.Team)</td>
-                                        <td>@Html.DisplayFor(p => pts)</td>
+                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
+                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
+                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
+                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
+                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
                                     </tr>
-                                }*@
-                        </tbody>
-                    </table>
-                </div>
-                <div class="panel panel-default col-lg-6">
-                    <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
-                        <thead>
+                                </thead>
+                                <tbody id="rosterBody">
+                                    @*@foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
+                        {
+                            var playerId = pi.PlayerId;
+                            var name = pi.Name;
+                            var num = pi.Number.ToString();
+                            var pts = pi.Points.ToString();
+                            var position = pi.Position.First();
                             <tr>
-                                <td>Pick</td>
+                                <td>@Html.DisplayFor(p => num)</td>
+                                <td>
+                                    @Html.DisplayFor(p => name)
+                                    @Html.HiddenFor(p => playerId)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
+                                </td>
+                                <td>@Html.DisplayFor(p => pi.Team)</td>
+                                <td>@Html.DisplayFor(p => pts)</td>
                             </tr>
-                        </thead>
-                        <tbody id="picks"></tbody>
-                    </table>
+                        }*@
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                                <thead>
+                                    <tr>
+                                        <td>Pick</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="picks"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    @Scripts.Render("~/bundles/team")
-    @Styles.Render("~/Content/team")
+        @Scripts.Render("~/bundles/team")
+        @Styles.Render("~/Content/team")

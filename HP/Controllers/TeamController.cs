@@ -11,6 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using TSN;
 
 namespace HP.Controllers
 {
@@ -410,6 +411,21 @@ namespace HP.Controllers
                     var result = context.ChangePlayers(teamId, changes);
 
                     return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
+            }
+        }
+        [HttpPost]
+        public ActionResult ImportRoster(int teamId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (GetCanTrade(teamId))
+                {
+                    string listing = TSN.TSN.getPlayerListing();
+                    
+
+                    return Json(true);
                 }
                 return new HttpStatusCodeResult(401, "Unauthorised user.");
             }

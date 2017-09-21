@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP", "HP\HP.csproj", "{C49A73E6-D068-4BA5-A994-6E1DB3952252}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSN", "TSNDownload\TSN.csproj", "{C9338F97-615E-4401-9339-0484D70712B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Hydro|Any CPU = Debug Hydro|Any CPU
@@ -21,6 +23,14 @@ Global
 		{C49A73E6-D068-4BA5-A994-6E1DB3952252}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C49A73E6-D068-4BA5-A994-6E1DB3952252}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{C49A73E6-D068-4BA5-A994-6E1DB3952252}.Test|Any CPU.Build.0 = Test|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Debug Hydro|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Debug Hydro|Any CPU.Build.0 = Debug|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{C9338F97-615E-4401-9339-0484D70712B3}.Test|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

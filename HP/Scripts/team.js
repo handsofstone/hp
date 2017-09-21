@@ -1,5 +1,15 @@
-﻿
-// Javascript for Add Players
+﻿// Javascript to enable link to tab
+//var hash = document.location.hash;
+//var prefix = "tab_";
+//if (hash) {
+//    $('.nav-tabs a[href=' + hash.replace(prefix, "") + ']').tab('show');
+//}
+
+//// Change hash for page-reload
+//$('.nav-tabs a').on('shown.bs.tab', function (e) {
+//    window.location.hash = e.target.hash.replace("#", "#" + prefix);
+//});
+
 // Javascript for Add Players
 function getValues(selector) {
     var values = []
@@ -23,7 +33,7 @@ function AddDropPlayers() {
             adds: getDataValues($('#rosterAdditions>li')),
             drops: getValues($('#rosterDrops>li'))
         })
-        
+
     });
 
     $.ajax({
@@ -32,7 +42,7 @@ function AddDropPlayers() {
         url: '/Team/ChangePlayers', // we are calling json method
         dataType: 'json',
         data: data,
-        success: function (data) {            
+        success: function (data) {
         },
         error: function (ex) {
             alert('Failed to retrieve states.' + ex);
@@ -611,7 +621,7 @@ function searchAssets(e, assets) {
         var headshot = document.createElement('object');
         headshot.setAttribute('data', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
         headshot.setAttribute('type', 'image/jpg')
-        headshot.setAttribute('class', 'player-photo');        
+        headshot.setAttribute('class', 'player-photo');
         headshot.appendChild(defheadshot);
         asset.appendChild(headshot);
         asset.appendChild(document.createTextNode(assets[i].AssetName));
@@ -736,26 +746,24 @@ function searchNHLPlayer(searchString) {
     }, 1000);
 }
 
-var Player = function (delimitedString)
-{
+var Player = function (delimitedString) {
     var values = delimitedString.split('|');
-    this.PlayerId=values[0];
-    this.LastName=values[1];
-    this.FirstName=values[2];
-    this.Active=values[3];
-    this.Rookie=values[4];
-    this.Height=values[5];
-    this.Weight=values[6];
-    this.City=values[7];
-    this.State=values[8];
-    this.Country=values[9];
-    this.BirthDate=values[10];
-    this.TeamCode=values[11];
-    this.Position=values[12];
-    this.PlayerNo=values[13];
-    this.Link=values[14];
+    this.PlayerId = values[0];
+    this.LastName = values[1];
+    this.FirstName = values[2];
+    this.Active = values[3];
+    this.Rookie = values[4];
+    this.Height = values[5];
+    this.Weight = values[6];
+    this.City = values[7];
+    this.State = values[8];
+    this.Country = values[9];
+    this.BirthDate = values[10];
+    this.TeamCode = values[11];
+    this.Position = values[12];
+    this.PlayerNo = values[13];
+    this.Link = values[14];
 }
-
 
 function convertSearchAssets(searchResult) {
     var assets = new Array(searchResult.length);
@@ -765,17 +773,33 @@ function convertSearchAssets(searchResult) {
         var player = new Player(searchResult[i].Player);
         assets[i] = {
             data: player,
-            PlayerId: player.PlayerId,            
+            PlayerId: player.PlayerId,
             AssetName: player.FirstName + ' ' + player.LastName + ' ' + player.TeamCode
         };
     }
     return assets;
 }
 
+function importRoster() {
+    $.ajax({
+        type: 'POST',
+        url: '/Team/ImportRoster', // we are calling json method
+        dataType: 'json',
+        data: { teamId: $('#TeamId').val() },
+        success: function (data) {
+            rosterDashboard();
+        },
+        error: function (ex) {
+            alert('Failed to import roster.' + ex);
+        },
+        complete: function () {
+            waiting(false);
+        }
+    });
+}
+
 $(document).ready(function () {
-
     $("#progressbar").progressbar({ value: false });
-
     $(document)
         .ajaxStart(function () {
             $('#lineupTable').hide();
@@ -785,9 +809,7 @@ $(document).ready(function () {
             $("#progressbar").hide();
             $('#lineupTable').show();
         });
-
     setupPlots();
-
     refreshLineup();
 
     //Dropdownlist Selectedchange event
