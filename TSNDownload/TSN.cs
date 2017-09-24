@@ -34,7 +34,7 @@ namespace TSN
 
     public class TSN
     {
-        string HeaderUrl = "http://stats.tsn.ca/HGET/urn:tsn:nhl:player:{0}/header?type=json";
+        static string HeaderUrl = "http://stats.tsn.ca/HGET/urn:tsn:nhl:player:{0}/header?type=json";
         static string ListingUrl = "http://stats.tsn.ca/GET/urn:tsn:nhl:players?type=json";
         WebProxy proxy;
 
@@ -43,7 +43,7 @@ namespace TSN
             return null;
         }
 
-        public string getPlayerHeader(string seoId)
+        public static string getPlayerHeader(string seoId)
         {
             //HTMLHelper.Origin = "www.tsn.com";
             HTMLHelper.Referer = "http://www.tsn.ca/nhl/player-bio";

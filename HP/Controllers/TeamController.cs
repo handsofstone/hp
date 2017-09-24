@@ -420,6 +420,18 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
+                List<String> headers = new List<string>();
+                foreach (var seoId in context.SeoIds(teamId))
+                {
+                    try
+                    {
+                        headers.Add(TSN.TSN.getPlayerHeader(seoId));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Couldn't find: " + seoId);
+                    }
+                }
                 if (GetCanTrade(teamId))
                 {
                     string listing = TSN.TSN.getPlayerListing();

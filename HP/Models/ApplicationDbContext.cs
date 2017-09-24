@@ -218,5 +218,16 @@ namespace HP.Models
                 new SqlParameter("teamId", teamId),
                 new SqlParameter("changes", changes));
         }
+
+        public List<string> SeoIds(int teamId)
+        {
+            return Database.SqlQuery<String>(
+                @"select ISNULL(np.TSN_NAME, LOWER(np.FIRST_NAME + '-' + np.LAST_NAME))
+                  from dbo.NHL_PLAYER np
+                  join nlpool.RosterPlayer rp on np.ID = rp.PlayerId
+                  join nlpool.TeamAsset ta on (rp.Id = ta.AssetId and ta.AssetType = 'roster')
+                 where ta.TeamId = @teamId",
+                new SqlParameter("teamId", teamId)).ToList<string>();
+        }
     }
 }
