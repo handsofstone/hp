@@ -52,6 +52,7 @@ namespace HP.Models
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<RosterPlayer> RosterPlayers { get; set; }
+        public virtual DbSet<TeamAsset> TeamAssets { get; set; }
         public virtual DbSet<LineupPlayer> LineupPlayers { get; set; }
         public virtual DbSet<LineupPlayerTotal> LineupPlayerTotals { get; set; }
         public virtual DbSet<TeamSeasonStanding> TeamSeasonStanding { get; set; }
@@ -110,9 +111,21 @@ namespace HP.Models
             modelBuilder.Configurations.Add(new TeamSeasonStandingMap());
             modelBuilder.Configurations.Add(new TeamIntervalActiveTotalMap());
             modelBuilder.Configurations.Add(new GameInfoMap());
+            modelBuilder.Configurations.Add(new TeamAssetMap());
 
         }
 
+        public IList<NHLPlayer> PlayersByTeamId(int teamId)
+        {
+            var query = 
+                from p in Players 
+                join r in RosterPlayers on p.Id equals r.PlayerId
+                join ta in TeamAssets.Where(t=> t.AssetType == "roster") on r.Id equals ta.AssetId
+                join t in Teams.Where(t=> t.Id == teamId) on ta.TeamId equals t.Id               
+                select p;
+
+            return query.ToList<NHLPlayer>();
+        }
         public IList<Team> TeamsByPoolID(int PoolId)
         {
             return Teams.Where(t => t.PoolId == PoolId).ToList<Team>();

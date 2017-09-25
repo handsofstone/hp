@@ -31,6 +31,7 @@ namespace HP.Models
         public virtual ICollection<RosterPlayer> RosterPlayers { get; set; }        
 
         public virtual ICollection<TeamSeasonStanding> Standings { get; set; }
-             
+        public virtual ICollection<TeamAsset> Assets { get; set; }
+
     }
 }

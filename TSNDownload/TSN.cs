@@ -60,6 +60,7 @@ namespace TSN
             //HTMLHelper.Origin = "www.tsn.com";
             HTMLHelper.Referer = "http://www.tsn.ca/nhl/players";
             StreamReader reader = new StreamReader(HTMLHelper.GetResponseStream(ListingUrl));
+            //return HTMLHelper.GetResponseStream(ListingUrl);
             string searchResults = reader.ReadToEnd();
             return searchResults;
         }

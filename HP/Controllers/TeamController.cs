@@ -2,6 +2,8 @@
 using HP.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -378,8 +380,8 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 if (GetCanTrade(teamId))
-                { 
-                        var result = context.UpdateOffer(teamId, tradeId, accept);
+                {
+                    var result = context.UpdateOffer(teamId, tradeId, accept);
 
                     return Json(result == 0);
                 }
@@ -419,27 +421,47 @@ namespace HP.Controllers
         public ActionResult ImportRoster(int teamId)
         {
             using (var context = new ApplicationDbContext())
-            {
-                List<String> headers = new List<string>();
-                foreach (var seoId in context.SeoIds(teamId))
-                {
-                    try
-                    {
-                        headers.Add(TSN.TSN.getPlayerHeader(seoId));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Couldn't find: " + seoId);
-                    }
-                }
-                if (GetCanTrade(teamId))
-                {
-                    string listing = TSN.TSN.getPlayerListing();
-                    
+            {                             
+                JObject ListingPlayers = JObject.Parse(TSN.TSN.getPlayerListing());
 
-                    return Json(true);
+                //List<String> headers = new List<string>();
+
+                foreach (var p in context.PlayersByTeamId(teamId))
+                {
+                    HashSet<Char> EligiblePositions = new HashSet<char>();
+                    String positions, teamCode, SeoId;
+                    int playerNumber;
+                    var q = from pl in ((JArray)ListingPlayers["Players"])
+                            where ((string)pl["SeoId"] == p.TSNName) ||
+                            (((string)pl["CurrentTeam"]["Acronym"]).ToUpper() == p.NHLTeamCode &&
+                            (string)pl["LastName"] == p.LastName && ((string)pl["FirstName"])[0] == p.FirstName[0])
+                            select pl;
+                    JObject listPlayer = (JObject)q.First();
+                    if (listPlayer != null)
+                    {
+                        SeoId = (string)listPlayer["SeoId"];
+                        EligiblePositions.Add((char)((string)listPlayer["PositionAcronym"])[0]);
+
+                        // Check Profile
+                        JObject profilePlayer = JObject.Parse(TSN.TSN.getPlayerHeader(SeoId));
+                        foreach (var pos in ((String)profilePlayer["PositionAcronym"]).Split('/'))
+                        {
+                            EligiblePositions.Add(pos[0]);
+                        }
+                        teamCode = ((String)listPlayer["CurrentTeam"]["Acronym"]).ToUpper();
+                        playerNumber = (int)profilePlayer["JerseyNumber"];
+                        positions = new String(EligiblePositions.ToArray<char>());
+
+                        // Update the player
+                        //if (!p.NHLTeamCode.Equals(teamCode)) p.NHLTeamCode = teamCode;
+                        if (p.Number != playerNumber) p.Number = playerNumber;
+                        if (!p.EligiblePositionString.Equals(positions)) p.EligiblePositionString = positions;
+                        if (p.TSNName == null || !p.TSNName.Equals(SeoId)) p.TSNName = SeoId;
+                    }
+                    context.SaveChanges();
                 }
-                return new HttpStatusCodeResult(401, "Unauthorised user.");
+                return Json(true);
+                //return new HttpStatusCodeResult(401, "Unauthorised user.");
             }
         }
     }

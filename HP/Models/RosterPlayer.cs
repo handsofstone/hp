@@ -10,6 +10,7 @@ namespace HP.Models
     [Table("nlpool.RosterPlayer")]
     public class RosterPlayer
     {
+        public int Id { get; set; }
         public int TeamId { get; set; }
         public int PlayerId { get; set; }    
         public virtual Team Team { get;  set; }
@@ -21,15 +22,14 @@ namespace HP.Models
     {
         public RosterPlayerMap()
         {
-            this.HasKey(e => new { e.TeamId, e.PlayerId });
+            this.HasKey(e => e.Id);
             this.ToTable("nlpool.RosterPlayer");
             this.HasRequired<Team>(t => t.Team)
                 .WithMany(t => t.RosterPlayers)
                 .HasForeignKey<int>(t => t.TeamId);
             this.HasRequired<NHLPlayer>(t => t.Player)
                 .WithMany(t => t.RosterPlayers)
-                .HasForeignKey<int>(t => t.PlayerId);            
-
+                .HasForeignKey<int>(t => t.PlayerId);
         }
     }
 }
