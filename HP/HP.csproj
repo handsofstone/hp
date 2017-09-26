@@ -98,6 +98,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -311,6 +312,7 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\ui-anim_basic_32x32.gif" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\justified-nav.css" />
     <Content Include="Content\site.css" />
@@ -518,6 +520,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Scripts\standings.js" />
     <Content Include="Scripts\team.js" />
     <Content Include="Web.config">
@@ -608,6 +611,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHL\NHL.csproj">
+      <Project>{42a1ad74-6932-4b10-a61b-f6630674d537}</Project>
+      <Name>NHL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TSNDownload\TSN.csproj">
       <Project>{c9338f97-615e-4401-9339-0484d70712b3}</Project>
       <Name>TSN</Name>

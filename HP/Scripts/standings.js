@@ -35,18 +35,18 @@ function getPoolId() {
 
 $(document).ready(function () {
 
-    $("#progressbar").progressbar({ value: false });
+//    $("#progressbar").progressbar({ value: false });
 
-    $(document)
-.ajaxStart(function () {
-    $('#standingsTable').hide();
-    $("#progressbar")
-        .show();
-})
-.ajaxStop(function () {
-    $("#progressbar").hide();
-    $('#standingsTable').show();
-});
+//    $(document)
+//.ajaxStart(function () {
+//    $('#standingsTable').hide();
+//    $("#progressbar")
+//        .show();
+//})
+//.ajaxStop(function () {
+//    $("#progressbar").hide();
+//    $('#standingsTable').show();
+//});
 
     //Dropdownlist Selectedchange event
     $("#SelectedSeasonID").change(function () {

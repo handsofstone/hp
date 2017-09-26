@@ -421,7 +421,7 @@ namespace HP.Controllers
         public ActionResult ImportRoster(int teamId)
         {
             using (var context = new ApplicationDbContext())
-            {                             
+            {
                 JObject ListingPlayers = JObject.Parse(TSN.TSN.getPlayerListing());
 
                 //List<String> headers = new List<string>();
@@ -433,12 +433,13 @@ namespace HP.Controllers
                     int playerNumber;
                     var q = from pl in ((JArray)ListingPlayers["Players"])
                             where ((string)pl["SeoId"] == p.TSNName) ||
-                            (((string)pl["CurrentTeam"]["Acronym"]).ToUpper() == p.NHLTeamCode &&
+                            (((string)pl["CurrentTeam"]["Name"]).ToUpper() == p.Team &&
                             (string)pl["LastName"] == p.LastName && ((string)pl["FirstName"])[0] == p.FirstName[0])
                             select pl;
-                    JObject listPlayer = (JObject)q.First();
-                    if (listPlayer != null)
+                    if (q.Count() > 0)
                     {
+                        JObject listPlayer = (JObject)q.First();
+
                         SeoId = (string)listPlayer["SeoId"];
                         EligiblePositions.Add((char)((string)listPlayer["PositionAcronym"])[0]);
 
@@ -446,9 +447,15 @@ namespace HP.Controllers
                         JObject profilePlayer = JObject.Parse(TSN.TSN.getPlayerHeader(SeoId));
                         foreach (var pos in ((String)profilePlayer["PositionAcronym"]).Split('/'))
                         {
-                            EligiblePositions.Add(pos[0]);
+                            if (pos[0] == 'W')
+                            {
+                                EligiblePositions.Add('R');
+                                EligiblePositions.Add('L');
+                            }
+                            else
+                                EligiblePositions.Add(pos[0]);
                         }
-                        teamCode = ((String)listPlayer["CurrentTeam"]["Acronym"]).ToUpper();
+                        //teamCode = ((String)listPlayer["CurrentTeam"]["Acronym"]).ToUpper();
                         playerNumber = (int)profilePlayer["JerseyNumber"];
                         positions = new String(EligiblePositions.ToArray<char>());
 
@@ -458,8 +465,11 @@ namespace HP.Controllers
                         if (!p.EligiblePositionString.Equals(positions)) p.EligiblePositionString = positions;
                         if (p.TSNName == null || !p.TSNName.Equals(SeoId)) p.TSNName = SeoId;
                     }
-                    context.SaveChanges();
+                    JObject nhlPlayer = JObject.Parse(NHL.NHL.getPlayerProfile(p.Id));
+                    teamCode = (string)nhlPlayer["people"][0]["currentTeam"]["abbreviation"];
+                    if (!p.NHLTeamCode.Equals(teamCode)) p.NHLTeamCode = teamCode;
                 }
+                context.SaveChanges();
                 return Json(true);
                 //return new HttpStatusCodeResult(401, "Unauthorised user.");
             }

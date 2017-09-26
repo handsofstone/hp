@@ -4,6 +4,7 @@
     ViewBag.Title = "Standings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="loading-modal"></div>
 <div class="container-fluid">
     <div class="row">
         <div class="col">
@@ -22,7 +23,6 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <div id="progressbar"><div class="progress-label">Loading...</div></div>
                     <table id="standingsTable" class="table table-striped table-responsive">
                         <thead>
                             <tr>

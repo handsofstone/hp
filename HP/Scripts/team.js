@@ -97,7 +97,6 @@ function getModel(id) {
 
 
 function submitLineup() {
-    waiting(true);
     $.ajax({
         contentType: 'application/json, charset=utf-8',
         type: 'POST',
@@ -112,7 +111,6 @@ function submitLineup() {
         },
         complete: function () {
             postLineupUpdate();
-            waiting(false);
         }
     });
 }
@@ -132,20 +130,19 @@ function resetLineup() {
         },
         complete: function (ex) {
             postLineupUpdate();
-            waiting(false);
         }
     });
 }
 
-function waiting(data) {
-    if (data) {
-        $("body").css("cursor", "progress");
-        enableButtons(!data);
-    } else {
-        $("body").css("cursor", "default");
-    }
+//function waiting(data) {
+//    if (data) {
+//        $("body").css("cursor", "progress");
+//        enableButtons(!data);
+//    } else {
+//        $("body").css("cursor", "default");
+//    }
 
-}
+//}
 
 function enableButtons(data) {
     $('#lineupSubmit').prop('disabled', !data);
@@ -277,10 +274,6 @@ function refreshLineup() {
         },
         error: function (ex) {
             alert('Failed to retrieve lineup.' + ex);
-        },
-        complete: function () {
-
-            waiting(false);
         }
     });
 }
@@ -358,6 +351,7 @@ function lineupRow(rows) {
     //$('#lineupTable').DataTable();
 }
 function ScheduleCell(games) {
+    if (games != null) {
     var r = new Array(), j = -1;
     r[++j] = '<ul class="list-inline">';
     for (var i = 0, size = games.length; i < size; i++) {
@@ -372,6 +366,7 @@ function ScheduleCell(games) {
     }
     r[++j] = '</ul>';
     return r.join('');
+    }
 }
 function postLineupUpdate() {
     $("input.playerActive").change(function (event) {
@@ -655,9 +650,6 @@ function refreshPartnerAssets() {
             },
             error: function (ex) {
                 alert('Failed to retrieve partner assets.' + ex);
-            },
-            complete: function () {
-                waiting(false);
             }
         });
     }
@@ -791,9 +783,6 @@ function importRoster() {
         },
         error: function (ex) {
             alert('Failed to import roster.' + ex);
-        },
-        complete: function () {
-            waiting(false);
         }
     });
 }
@@ -814,7 +803,6 @@ $(document).ready(function () {
 
     //Dropdownlist Selectedchange event
     $("#SelectedIntervalId").change(function () {
-        waiting(true);
         refreshLineup();
         return false;
     });

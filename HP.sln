@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP", "HP\HP.csproj", "{C49A73E6-D068-4BA5-A994-6E1DB3952252}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSN", "TSNDownload\TSN.csproj", "{C9338F97-615E-4401-9339-0484D70712B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHL", "NHL\NHL.csproj", "{42A1AD74-6932-4B10-A61B-F6630674D537}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{C9338F97-615E-4401-9339-0484D70712B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C9338F97-615E-4401-9339-0484D70712B3}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{C9338F97-615E-4401-9339-0484D70712B3}.Test|Any CPU.Build.0 = Release|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Debug Hydro|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Debug Hydro|Any CPU.Build.0 = Debug|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{42A1AD74-6932-4B10-A61B-F6630674D537}.Test|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

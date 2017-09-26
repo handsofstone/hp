@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Hands of Stone</title>    
+    <title>@ViewBag.Title - Hands of Stone</title>
     <link rel="shortcut icon" type="image/x-icon" href="../../Content/images/favicon.ico" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -34,10 +34,12 @@
             <p>&copy; @DateTime.Now.Year - handsofstone.ca</p>
         </footer>
     </div>
+    
 
     @Scripts.Render("~/bundles/jqueryajax")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/site")
     @RenderSection("scripts", required: false)
 
 
