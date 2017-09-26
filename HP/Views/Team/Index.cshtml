@@ -6,7 +6,7 @@
 }
 <div class="loading-modal"></div>
 <div id="addPlayerModal" class="modal fade" role="dialog">
-
+    <div class="loading-modal"></div>
     <div class="modal-dialog">
         <!-- Add Players Modal content-->
         <div class="modal-content">
@@ -17,12 +17,16 @@
                 <h4 class="modal-title">Add/Drop Player(s)</h4>
             </div>
             <div class="modal-body">
+
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row propose-top">
                             <div class="col-lg-12">
-                                <label for="searchTerm">SEARCH</label>
-                                <input type="text" class="form-control type-ahead-textbox" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
+                                <div class="form-group has-feedback">
+                                    <label for="searchTerm">SEARCH</label>
+                                    <input type="text" class="form-control type-ahead-textbox" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
+                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -32,7 +36,9 @@
                         </div>
                         <div class="row propose-middle">
                             <div class="col-lg-12">
-                                <ul id="searchResults" class="droppable" data-list-swap-group="addPlayer"></ul>
+                                <ul id="searchResults" class="droppable" data-list-swap-group="addPlayer">
+                                    <li><div class="loading-modal"></div></li>
+                                </ul>
                             </div>
                         </div>
                         <div class="row">
@@ -113,7 +119,7 @@
     </div>
 </div>
 <div id="tradeModal" class="modal fade" role="dialog">
-
+    <div class="loading-modal"></div>
     <div class="modal-dialog">
         <!-- Trade Players Modal content-->
         <div class="modal-content">
@@ -252,7 +258,7 @@
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
-            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>            
+            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
         </ul>
     </div>
     <div class="panel-body">
@@ -373,25 +379,25 @@
                                 </thead>
                                 <tbody id="rosterBody">
                                     @*@foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
-                        {
-                            var playerId = pi.PlayerId;
-                            var name = pi.Name;
-                            var num = pi.Number.ToString();
-                            var pts = pi.Points.ToString();
-                            var position = pi.Position.First();
-                            <tr>
-                                <td>@Html.DisplayFor(p => num)</td>
-                                <td>
-                                    @Html.DisplayFor(p => name)
-                                    @Html.HiddenFor(p => playerId)
-                                </td>
-                                <td>
-                                    @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
-                                </td>
-                                <td>@Html.DisplayFor(p => pi.Team)</td>
-                                <td>@Html.DisplayFor(p => pts)</td>
-                            </tr>
-                        }*@
+                                        {
+                                            var playerId = pi.PlayerId;
+                                            var name = pi.Name;
+                                            var num = pi.Number.ToString();
+                                            var pts = pi.Points.ToString();
+                                            var position = pi.Position.First();
+                                            <tr>
+                                                <td>@Html.DisplayFor(p => num)</td>
+                                                <td>
+                                                    @Html.DisplayFor(p => name)
+                                                    @Html.HiddenFor(p => playerId)
+                                                </td>
+                                                <td>
+                                                    @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
+                                                </td>
+                                                <td>@Html.DisplayFor(p => pi.Team)</td>
+                                                <td>@Html.DisplayFor(p => pts)</td>
+                                            </tr>
+                                        }*@
                                 </tbody>
                             </table>
                         </div>

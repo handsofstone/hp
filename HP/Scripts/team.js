@@ -722,17 +722,24 @@ var delayTimer;
 function searchNHLPlayer(searchString) {
     clearTimeout(delayTimer);
     delayTimer = setTimeout(function () {
+        $('#searchResults').empty();        
         $.ajax({
             type: 'GET',
             contentType: 'application/json, charset=utf-8',
             url: '/Team/AvailablePlayer',
             dataType: 'json',
             data: { searchString: searchString, teamId: $('#TeamId').val() },
+            beforeSend: function (data) {
+                $('#addPlayerModal').addClass('loading');
+            },
             success: function (data) {
                 searchAssets($('#searchResults'), convertSearchAssets(data));
             },
             error: function (ex) {
 
+            },
+            complete: function () {
+                $('#addPlayerModal').removeClass('loading');
             }
         });
     }, 1000);
@@ -759,10 +766,16 @@ var Player = function (delimitedString) {
 
 function convertSearchAssets(searchResult) {
     var assets = new Array(searchResult.length);
-    for (var i = 0, size = searchResult.length; i < size; i++) {
+    var addedAssets = $('#rosterAdditions>li')
+    player: for (var i = 0, size = searchResult.length; i < size; i++) {
         var props = ['PlayerId', 'LastName', 'FirstName', 'Active', 'Rookie', 'Height', 'Weight', 'City', 'State', 'Country', 'BirthDate', 'TeamCode', 'Position', 'PlayerNo', 'Link'];
         //playerId,LastName,FirstName,active,rookie,height,weight,city,state,country,birthDate,teamCode,position,playerNo,link
         var player = new Player(searchResult[i].Player);
+        addedAssets.each(function (i, e) {
+            if ($(e).data("asset").PlayerId == player.PlayerId) {
+                continue player;
+            }
+        });
         assets[i] = {
             data: player,
             PlayerId: player.PlayerId,

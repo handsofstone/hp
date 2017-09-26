@@ -56,14 +56,15 @@ input[type="checkbox"].input-validation-error {
     font-weight: bold;
     text-shadow: 1px 1px 0 #fff;
 }
- .ui-progressbar-value {
+
+.ui-progressbar-value {
     background-color: #ccc;
-  }
+}
 
 thead {
-   background-color: steelblue;
-   color: white;
- }
+    background-color: steelblue;
+    color: white;
+}
 
 .table-striped > tbody > tr:nth-child(even) > td {
     background-color: #99ccff;
@@ -71,57 +72,69 @@ thead {
 
 /* Small devices (tablets, 768px and up) */
 @media ( max-width : 768px ) {
-  .btn-xs-text.btn-default:not(span) {
-    font-size: 0pt !important;
-  }
-  .btn-xs-text.btn-default.btn-lg .glyphicon {
-    font-size: 18pt !important;
-  }
-  .btn-xs-text.btn-default .glyphicon {
-    font-size: 14pt !important;
-  }
-  .btn-xs-text.btn-default.btn-sm .glyphicon {
-    font-size: 12pt !important;
-  }
-  .btn-xs-text.btn-default.btn-xs .glyphicon {
-    font-size: 12pt !important;
-  }
+    .btn-xs-text.btn-default:not(span) {
+        font-size: 0pt !important;
+    }
+
+    .btn-xs-text.btn-default.btn-lg .glyphicon {
+        font-size: 18pt !important;
+    }
+
+    .btn-xs-text.btn-default .glyphicon {
+        font-size: 14pt !important;
+    }
+
+    .btn-xs-text.btn-default.btn-sm .glyphicon {
+        font-size: 12pt !important;
+    }
+
+    .btn-xs-text.btn-default.btn-xs .glyphicon {
+        font-size: 12pt !important;
+    }
 }
 /* Medium devices (desktops, 992px and up) */
 @media ( max-width : 992px ) {
-  .btn-md-text.btn-default:not(span) {
-    font-size: 0pt !important;
-  }
-  .btn-md-text.btn-default.btn-lg .glyphicon {
-    font-size: 18pt !important;
-  }
-  .btn-md-text.btn-default .glyphicon {
-    font-size: 14pt !important;
-  }
-  .btn-md-text.btn-default.btn-sm .glyphicon {
-    font-size: 12pt !important;
-  }
-  .btn-md-text.btn-default.btn-xs .glyphicon {
-    font-size: 12pt !important;
-  }
+    .btn-md-text.btn-default:not(span) {
+        font-size: 0pt !important;
+    }
+
+    .btn-md-text.btn-default.btn-lg .glyphicon {
+        font-size: 18pt !important;
+    }
+
+    .btn-md-text.btn-default .glyphicon {
+        font-size: 14pt !important;
+    }
+
+    .btn-md-text.btn-default.btn-sm .glyphicon {
+        font-size: 12pt !important;
+    }
+
+    .btn-md-text.btn-default.btn-xs .glyphicon {
+        font-size: 12pt !important;
+    }
 }
 /* Large devices (large desktops, 1200px and up) */
 @media ( max-width : 1200px ) {
-  .btn-lg-text.btn-default:not(span) {
-    font-size: 0pt !important;
-  }
-  .btn-lg-text.btn-default.btn-lg .glyphicon {
-    font-size: 18pt !important;
-  }
-  .btn-lg-text.btn-default .glyphicon {
-    font-size: 14pt !important;
-  }
-  .btn-lg-text.btn-default.btn-sm .glyphicon {
-    font-size: 12pt !important;
-  }
-  .btn-lg-text.btn-default.btn-xs .glyphicon {
-    font-size: 12pt !important;
-  }
+    .btn-lg-text.btn-default:not(span) {
+        font-size: 0pt !important;
+    }
+
+    .btn-lg-text.btn-default.btn-lg .glyphicon {
+        font-size: 18pt !important;
+    }
+
+    .btn-lg-text.btn-default .glyphicon {
+        font-size: 14pt !important;
+    }
+
+    .btn-lg-text.btn-default.btn-sm .glyphicon {
+        font-size: 12pt !important;
+    }
+
+    .btn-lg-text.btn-default.btn-xs .glyphicon {
+        font-size: 12pt !important;
+    }
 }
 
 /* Start by setting display:none to make this hidden.
@@ -130,27 +143,25 @@ thead {
    for themselves. Background we set to 80% white with
    our animation centered, and no-repeating */
 .loading-modal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 ) 
-                url('images/ui-anim_basic_32x32.gif') 
-                50% 50% 
-                no-repeat;
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8 ) url('images/ui-anim_basic_32x32.gif') 50% 50% no-repeat;
 }
 
 /* When the body has the loading class, we turn
    the scrollbar off with overflow:hidden */
-body.loading {
-    overflow: hidden;   
+body.loading,
+div.loading {
+    overflow: hidden;
 }
 
 /* Anytime the body has the loading class, our
-   modal element will be visible */
-body.loading .loading-modal {
-    display: block;
-}
+modal element will be visible */
+body.loading .loading-modal{
+        display: block;
+    }
