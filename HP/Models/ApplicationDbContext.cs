@@ -242,5 +242,52 @@ namespace HP.Models
                  where ta.TeamId = @teamId",
                 new SqlParameter("teamId", teamId)).ToList<string>();
         }
+
+        public Interval GetCurrentInterval
+        {
+            get
+            {
+                var today = DateTime.Now.Date;
+                var current_intervals = Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
+                var future_intervals = Intervals.Where(i => (today <= i.StartDate)).OrderBy(i => i.StartDate);
+                var interval = Intervals.OrderByDescending(i => i.EndDate).First(); //latest interval
+
+                if (current_intervals.Count() > 0)
+                    interval = current_intervals.First();
+                else if (future_intervals.Count() > 0)
+                    interval = future_intervals.First();
+
+                return interval;
+            }
+        }
+
+        public Season GetCurrentSeason
+        {
+            get
+            {
+                return GetCurrentInterval.Season;
+            }
+        }
+
+        public DateTime GetCurrentSeasonStartTime
+        {
+            get
+            {
+                var seasonStart = GetCurrentSeason.Intervals.OrderBy(i => i.StartDate).First().StartDate;
+                var query = from g in Games
+                            where g.StartTime >= seasonStart
+                            orderby g.StartTime
+                            select g.StartTime;
+                return (DateTime)query.First<DateTime?>();
+            }
+        }
+        public RosterPlayer GetRosterPlayer(int teamId, int playerId)
+        {
+            var query = from ta in TeamAssets.Where(t => t.AssetType == "roster")
+                        join rp in RosterPlayers on ta.AssetId equals rp.Id
+                        where ta.TeamId == teamId && rp.PlayerId == playerId
+                        select rp;
+            return query.First();
+        }
     }
 }

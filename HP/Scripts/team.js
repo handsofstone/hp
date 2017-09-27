@@ -134,16 +134,6 @@ function resetLineup() {
     });
 }
 
-//function waiting(data) {
-//    if (data) {
-//        $("body").css("cursor", "progress");
-//        enableButtons(!data);
-//    } else {
-//        $("body").css("cursor", "default");
-//    }
-
-//}
-
 function enableButtons(data) {
     $('#lineupSubmit').prop('disabled', !data);
     $('#lineupReset').prop('disabled', !data);
@@ -186,10 +176,10 @@ function saveRoster() {
         dataType: 'json',
         data: JSON.stringify({ model: new getModel('#rosterTable') }),
         success: function () {
-            alert('success');
+            rosterDashboard();
         },
         error: function (ex) {
-            alert('Failed to retrieve states.' + ex);
+            alert('Failed to save.' + ex);
         }
     });
     refreshLinup();
@@ -346,26 +336,23 @@ function lineupRow(rows) {
         r[++j] = '</td></tr>';
     }
     $('#lineup').html(r.join(''));
-
-
-    //$('#lineupTable').DataTable();
 }
 function ScheduleCell(games) {
     if (games != null) {
-    var r = new Array(), j = -1;
-    r[++j] = '<ul class="list-inline">';
-    for (var i = 0, size = games.length; i < size; i++) {
-        var gameDate = new Date(games[i].StartDate);
-        r[++j] = '<li><span data-toggle="tooltip" data-placement="bottom" title="';
-        r[++j] = gameDate.toDateString();
-        r[++j] = '"><a  target="_blank" href="https://www.nhl.com/gamecenter/';
-        r[++j] = games[i].GameId;
-        r[++j] = '">'
-        r[++j] = games[i].OpponentTeamCode;
-        r[++j] = '</a></span></li>';
-    }
-    r[++j] = '</ul>';
-    return r.join('');
+        var r = new Array(), j = -1;
+        r[++j] = '<ul class="list-inline">';
+        for (var i = 0, size = games.length; i < size; i++) {
+            var gameDate = new Date(games[i].StartDate);
+            r[++j] = '<li><span data-toggle="tooltip" data-placement="bottom" title="';
+            r[++j] = gameDate.toDateString();
+            r[++j] = '"><a  target="_blank" href="https://www.nhl.com/gamecenter/';
+            r[++j] = games[i].GameId;
+            r[++j] = '">'
+            r[++j] = games[i].OpponentTeamCode;
+            r[++j] = '</a></span></li>';
+        }
+        r[++j] = '</ul>';
+        return r.join('');
     }
 }
 function postLineupUpdate() {
@@ -722,30 +709,33 @@ var delayTimer;
 function searchNHLPlayer(searchString) {
     clearTimeout(delayTimer);
     delayTimer = setTimeout(function () {
-        $('#searchResults').empty();        
-        $.ajax({
-            type: 'GET',
-            contentType: 'application/json, charset=utf-8',
-            url: '/Team/AvailablePlayer',
-            dataType: 'json',
-            data: { searchString: searchString, teamId: $('#TeamId').val() },
-            beforeSend: function (data) {
-                $('#addPlayerModal').addClass('loading');
-            },
-            success: function (data) {
-                searchAssets($('#searchResults'), convertSearchAssets(data));
-            },
-            error: function (ex) {
+        $('#searchResults').empty();
+        if (searchString)
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json, charset=utf-8',
+                url: '/Team/AvailablePlayer',
+                dataType: 'json',
+                data: { searchString: searchString, teamId: $('#TeamId').val() },
+                beforeSend: function (data) {
+                    $('#addPlayerModal').addClass('loading');
+                },
+                success: function (data) {
+                    searchAssets($('#searchResults'), convertSearchAssets(data));
+                },
+                error: function (ex) {
 
-            },
-            complete: function () {
-                $('#addPlayerModal').removeClass('loading');
-            }
-        });
+                },
+                complete: function () {
+                    $('#addPlayerModal').removeClass('loading');
+                }
+            });
     }, 1000);
 }
 
 var Player = function (delimitedString) {
+    // Format of | delimted search result
+    //'PlayerId', 'LastName', 'FirstName', 'Active', 'Rookie', 'Height', 'Weight', 'City', 'State', 'Country', 'BirthDate', 'TeamCode', 'Position', 'PlayerNo', 'Link'
     var values = delimitedString.split('|');
     this.PlayerId = values[0];
     this.LastName = values[1];
@@ -765,24 +755,29 @@ var Player = function (delimitedString) {
 }
 
 function convertSearchAssets(searchResult) {
-    var assets = new Array(searchResult.length);
-    var addedAssets = $('#rosterAdditions>li')
-    player: for (var i = 0, size = searchResult.length; i < size; i++) {
-        var props = ['PlayerId', 'LastName', 'FirstName', 'Active', 'Rookie', 'Height', 'Weight', 'City', 'State', 'Country', 'BirthDate', 'TeamCode', 'Position', 'PlayerNo', 'Link'];
-        //playerId,LastName,FirstName,active,rookie,height,weight,city,state,country,birthDate,teamCode,position,playerNo,link
+    var assets = [];
+    for (var i = 0, size = searchResult.length; i < size; i++) {
         var player = new Player(searchResult[i].Player);
-        addedAssets.each(function (i, e) {
-            if ($(e).data("asset").PlayerId == player.PlayerId) {
-                continue player;
-            }
-        });
-        assets[i] = {
-            data: player,
-            PlayerId: player.PlayerId,
-            AssetName: player.FirstName + ' ' + player.LastName + ' ' + player.TeamCode
-        };
+        if (!isFound('#rosterAdditions>li',
+            function (element, value) {
+                return $(element).data("asset").PlayerId == value;
+            }, player.PlayerId))
+            assets.push({
+                data: player,
+                PlayerId: player.PlayerId,
+                AssetName: player.FirstName + ' ' + player.LastName + ' ' + player.TeamCode
+            });
     }
     return assets;
+}
+
+function isFound(e, checkfunc, val) {
+    var found = false;
+    $(e).each(function (index, elem) {
+        if (checkfunc(elem, val))
+            return found = true;
+    });
+    return found;
 }
 
 function importRoster() {
@@ -801,16 +796,16 @@ function importRoster() {
 }
 
 $(document).ready(function () {
-    $("#progressbar").progressbar({ value: false });
-    $(document)
-        .ajaxStart(function () {
-            $('#lineupTable').hide();
-            $("#progressbar").show();
-        })
-        .ajaxStop(function () {
-            $("#progressbar").hide();
-            $('#lineupTable').show();
-        });
+    //$("#progressbar").progressbar({ value: false });
+    //$(document)
+    //    .ajaxStart(function () {
+    //        $('#lineupTable').hide();
+    //        $("#progressbar").show();
+    //    })
+    //    .ajaxStop(function () {
+    //        $("#progressbar").hide();
+    //        $('#lineupTable').show();
+    //    });
     setupPlots();
     refreshLineup();
 

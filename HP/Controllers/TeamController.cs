@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -41,13 +42,16 @@ namespace HP.Controllers
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 var team = context.Teams.Find(id);
+                var interval = context.GetCurrentInterval;
                 model.TeamId = id;
-                model.RosterPlayersToAdd = new SelectList(team.RosterPlayers.Select(p => p.Player).ToList(), "Id", "LexicalName").ToList();
-                //model.RosterPlayers = team.RosterPlayers.Select(p => new PlayerInterval(p)).OrderBy(p => p, new PlayerIntervalComparer()).ToList();
-                model.AvailablePlayers = AvailablePlayers(team.PoolId);
-                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, 2), "Id", "Name").ToList();
-                //model.PlayerIntervals = GetPlayerIntervals(id, context.IntervalsByPoolSeason(team.PoolId, 1).First().Id).ToList();
-                model.SelectedIntervalId = GetCurrentInterval();
+                //model.RosterPlayersToAdd = new SelectList(team.RosterPlayers.Select(p => p.Player).ToList(), "Id", "LexicalName").ToList();
+                model.SelectedIntervalId = interval.Id;
+                //model.AvailablePlayers = AvailablePlayers(team.PoolId);
+                var currentSeasonId = interval.SeasonId;
+                model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, interval.SeasonId), "Id", "Name").ToList();
+                
+                
+                model.CanSave = GetCanSave(model.TeamId);
                 model.CanSubmit = GetCanSubmit(model.TeamId, model.SelectedIntervalId);
                 model.CanTrade = GetCanTrade(model.TeamId);
                 model.SelectedStartTime = GetIntervalStartTime(model.SelectedIntervalId).ToString();
@@ -92,7 +96,7 @@ namespace HP.Controllers
             {
                 foreach (var player in model.Players)
                 {
-                    context.RosterPlayers.Find(model.TeamId, player.PlayerId).Position = player.Position;
+                    context.GetRosterPlayer(model.TeamId, player.PlayerId).Position = player.Position;
                 }
                 context.SaveChanges();
             }
@@ -227,6 +231,24 @@ namespace HP.Controllers
             }
         }
 
+        public int GetCurrentSeasonId()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var today = DateTime.Now;
+
+                var current_intervals = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
+                var future_intervals = context.Intervals.Where(i => (today <= i.StartDate)).OrderBy(i => i.StartDate);
+                var interval = context.Intervals.OrderByDescending(i => i.EndDate).First(); //latest interval
+
+                if (current_intervals.Count() > 0)
+                    interval = current_intervals.First();
+                else if (future_intervals.Count() > 0)
+                    interval = future_intervals.First();
+
+                return interval.Id;
+            }
+        }
         public int GetCurrentInterval()
         {
             using (var context = new ApplicationDbContext())
@@ -259,10 +281,12 @@ namespace HP.Controllers
             return isOwner;
         }
 
-        public bool GetCanSave(int teamId, int intervalId)
+        public bool GetCanSave(int teamId)
         {
             var today = DateTime.Now;
             var isOwner = false;
+            if (User.IsInRole("admin"))
+                return true;
 
             if (User.Identity.GetUserId() != null)
             {
@@ -271,13 +295,8 @@ namespace HP.Controllers
             }
 
             using (var context = new ApplicationDbContext())
-            {
-                var query = from g in context.Games
-                            from i in context.Intervals
-                            where i.Id == intervalId && DbFunctions.TruncateTime(g.StartTime) >= i.StartDate && DbFunctions.TruncateTime(g.StartTime) <= i.EndDate
-                            orderby g.StartTime
-                            select g;
-                return isOwner && today < query.First().StartTime;
+            {                
+                return isOwner && today < context.GetCurrentSeasonStartTime;
             }
         }
 
@@ -421,7 +440,7 @@ namespace HP.Controllers
         public ActionResult ImportRoster(int teamId)
         {
             using (var context = new ApplicationDbContext())
-            {
+            {                
                 JObject ListingPlayers = JObject.Parse(TSN.TSN.getPlayerListing());
 
                 //List<String> headers = new List<string>();
@@ -429,7 +448,7 @@ namespace HP.Controllers
                 foreach (var p in context.PlayersByTeamId(teamId))
                 {
                     HashSet<Char> EligiblePositions = new HashSet<char>();
-                    String positions, teamCode, SeoId;
+                    String positions, teamCode, seoId, teamName;
                     int playerNumber;
                     var q = from pl in ((JArray)ListingPlayers["Players"])
                             where ((string)pl["SeoId"] == p.TSNName) ||
@@ -440,11 +459,11 @@ namespace HP.Controllers
                     {
                         JObject listPlayer = (JObject)q.First();
 
-                        SeoId = (string)listPlayer["SeoId"];
+                        seoId = (string)listPlayer["SeoId"];
                         EligiblePositions.Add((char)((string)listPlayer["PositionAcronym"])[0]);
 
                         // Check Profile
-                        JObject profilePlayer = JObject.Parse(TSN.TSN.getPlayerHeader(SeoId));
+                        JObject profilePlayer = JObject.Parse(TSN.TSN.getPlayerHeader(seoId));
                         foreach (var pos in ((String)profilePlayer["PositionAcronym"]).Split('/'))
                         {
                             if (pos[0] == 'W')
@@ -455,23 +474,24 @@ namespace HP.Controllers
                             else
                                 EligiblePositions.Add(pos[0]);
                         }
-                        //teamCode = ((String)listPlayer["CurrentTeam"]["Acronym"]).ToUpper();
-                        playerNumber = (int)profilePlayer["JerseyNumber"];
                         positions = new String(EligiblePositions.ToArray<char>());
 
                         // Update the player
-                        //if (!p.NHLTeamCode.Equals(teamCode)) p.NHLTeamCode = teamCode;
-                        if (p.Number != playerNumber) p.Number = playerNumber;
+                        if (int.TryParse((string)profilePlayer["JerseyNumber"], out playerNumber)) p.Number = playerNumber;
                         if (!p.EligiblePositionString.Equals(positions)) p.EligiblePositionString = positions;
-                        if (p.TSNName == null || !p.TSNName.Equals(SeoId)) p.TSNName = SeoId;
+                        if (p.TSNName == null || !p.TSNName.Equals(seoId)) p.TSNName = seoId;
                     }
                     JObject nhlPlayer = JObject.Parse(NHL.NHL.getPlayerProfile(p.Id));
-                    teamCode = (string)nhlPlayer["people"][0]["currentTeam"]["abbreviation"];
-                    if (!p.NHLTeamCode.Equals(teamCode)) p.NHLTeamCode = teamCode;
+                    JObject nhlTeam = (JObject) nhlPlayer["people"][0]["currentTeam"];
+                    teamCode = nhlTeam != null ? (string)nhlTeam["abbreviation"] : null;
+                    teamName = nhlTeam != null ? ((string)nhlTeam["name"]).ToUpper() : null;
+                    if ((p.NHLTeamCode != null && !p.NHLTeamCode.Equals(teamCode)) ||
+                        (p.NHLTeamCode == null && teamCode != null)) p.NHLTeamCode = teamCode;
+                    if ((p.Team != null && !p.Team.Equals(teamName)) ||
+                        (p.Team == null && teamName != null)) p.Team = teamName;                    
                 }
                 context.SaveChanges();
                 return Json(true);
-                //return new HttpStatusCodeResult(401, "Unauthorised user.");
             }
         }
     }
