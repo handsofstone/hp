@@ -116,7 +116,7 @@ function submitLineup() {
 }
 
 function resetLineup() {
-    waiting(true);
+
     $.ajax({
         type: 'GET',
         url: '/Team/ResetLineup', // we are calling json method
