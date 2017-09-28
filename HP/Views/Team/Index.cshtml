@@ -242,10 +242,10 @@
                                             @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
                                         </div>
                                         <div class="form-group">
-                                            <button id="lineupSubmit" type="button" class="btn btn-default btn-success btn-xs-text" onclick="submitLineup()" @(Model.CanSubmit ? "" : "disabled" )>
+                                            <button id="lineupSubmit" type="button" class="btn btn-default btn-success btn-xs-text" onclick="submitLineup()">
                                                 <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
                                             </button>
-                                            <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()" @(Model.CanSubmit ? "" : "disabled" )>
+                                            <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()">
                                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> Reset
                                             </button>
                                             <span id="intervalStart" class="label label-info">
@@ -303,33 +303,41 @@
             </div>
             <div class="tab-pane fade" id="tabRoster">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <form class="form-inline">
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-success btn-xs-text" aria-label="Left Align" onclick="saveRoster()" @(Model.CanSave ? "" : "disabled" )>
-                                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span><span class="hidden-xs">Save</span>
-                                            </button>
-                                            <button type="button" class="btn btn-info btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align" @(Model.CanSave ? "" : "disabled" )>
-                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> <span class="hidden-xs">Add/Drop</span>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-xs-text" aria-label="Left Align" onclick="importRoster()">
-                                                <span class="glyphicon glyphicon-import" aria-hidden="true"></span> <span class="hidden-xs">Position Import</span>
-                                            </button>
-                                            <button id="trade" type="button" class="btn btn-primary btn-xs-text" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align" @(Model.CanTrade ? "" : "disabled" )>
-                                                <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> <span class="hidden-xs">Trade</span>
-                                                <span class="badge">1</span>
-                                            </button>
-                                        </div>
-                                    </form>
-
+                    @if (Model.CanSave || Model.CanTrade)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <form class="form-inline">
+                                            <div class="form-group">
+                                                @if (Model.CanSave)
+                                                {
+                                                    <button type="button" class="btn btn-success btn-xs-text" aria-label="Left Align" onclick="saveRoster()">
+                                                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span><span class="hidden-xs">Save</span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-info btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> <span class="hidden-xs">Add/Drop</span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-xs-text" aria-label="Left Align" onclick="importRoster()">
+                                                        <span class="glyphicon glyphicon-import" aria-hidden="true"></span> <span class="hidden-xs">Position Import</span>
+                                                    </button>
+                                                }
+                                                @if (Model.CanTrade)
+                                                {
+                                                    <button id="trade" type="button" class="btn btn-primary btn-xs-text" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align">
+                                                        <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> <span class="hidden-xs">Trade</span>
+                                                        <span class="badge">1</span>
+                                                    </button>
+                                                }
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                     <div class="row">
                         <div class="col-lg-6">
                             <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
