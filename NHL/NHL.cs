@@ -11,13 +11,21 @@ namespace NHL
 {
     public class NHL
     {
+        static string suggestURL = "https://suggest.svc.nhl.com/svc/suggest/v1/minactiveplayers/{0}/99999";
         static string PlayerUrl = "https://statsapi.web.nhl.com/api/v1/people/{0}?expand=person.currentTeam";
 
         public string getEligiblePositions()
         {
             return null;
         }
-
+        
+        public static string getAvailablePlayers(string searchString)
+        {
+            string html = String.Format(suggestURL, searchString);          
+            HTMLHelper.Origin = "www.nhl.com";
+            StreamReader reader = new StreamReader(HTMLHelper.GetResponseStream(html));
+            return reader.ReadToEnd();
+        }
         public static string getPlayerProfile(int playerId)
         {
             //HTMLHelper.Origin = "www.tsn.com";

@@ -20,8 +20,7 @@ namespace HP.Controllers
 {
     public class TeamController : Controller
     {
-        const string suggestURL = "https://suggest.svc.nhl.com/svc/suggest/v1/minactiveplayers/{0}/99999";
-        private ApplicationUserManager _userManager;
+         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
         {
@@ -410,11 +409,7 @@ namespace HP.Controllers
 
         public ContentResult AvailablePlayer(string searchString, int teamId)
         {
-            string html = String.Format(suggestURL, searchString);
-            string searchResults;
-            HTMLHelper.Origin = "www.nhl.com";
-            StreamReader reader = new StreamReader(HTMLHelper.GetResponseStream(html));
-            searchResults = reader.ReadToEnd();
+            string searchResults = NHL.NHL.getAvailablePlayers(searchString);
             using (var context = new ApplicationDbContext())
             {
                 var team = context.Teams.Find(teamId);

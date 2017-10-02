@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net.Mail;
+using System.Text;
+using System.Collections.Concurrent;
 
 namespace HP.Models
 {
@@ -84,10 +87,48 @@ namespace HP.Models
 
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        readonly ConcurrentQueue<SmtpClient> _clients = new ConcurrentQueue<SmtpClient>();
+
+        public async Task SendAsync(IdentityMessage message)
         {
+            var client = GetOrCreateSmtpClient();
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            //SmtpClient client = new SmtpClient();
+            //return client.SendMailAsync("admin@handsofstone.ca",
+            //                            message.Destination,
+            //                            message.Subject,
+            //                            message.Body);
+            try
+            {
+                MailMessage mailMessage = new MailMessage();
+
+                mailMessage.To.Add(new MailAddress(message.Destination));
+                mailMessage.Subject = message.Subject;
+                mailMessage.Body = message.Body;
+
+                mailMessage.BodyEncoding = Encoding.UTF8;
+                mailMessage.SubjectEncoding = Encoding.UTF8;
+                mailMessage.IsBodyHtml = true;
+
+                await client.SendMailAsync(mailMessage);
+            }
+            finally
+            {
+                _clients.Enqueue(client);
+            }
+
+        }
+
+        private SmtpClient GetOrCreateSmtpClient()
+        {
+            SmtpClient client = null;
+            if (_clients.TryDequeue(out client))
+            {
+                return client;
+            }
+
+            client = new SmtpClient();
+            return client;
         }
     }
 

@@ -20,6 +20,7 @@
         @*@Html.Partial("_Menu")*@
         @if (Request.IsAuthenticated)
         {
+            @*@Html.Partial("_Menu", new HP.Models.MenuViewModel());*@
             Html.RenderAction("Index", "Menu");
         }
 
