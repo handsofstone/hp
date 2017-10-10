@@ -314,7 +314,18 @@ function lineupRow(rows) {
         r[++j] = '</a>';
         r[++j] = '</span><input data-val="true" id="playerId" name="playerId" type="hidden" value="';
         r[++j] = rows[i].PlayerId;
-        r[++j] = '"/></td><td class="text-center submit-show">'
+        r[++j] = '"/>'
+        if (rows[i].Injury != undefined) {
+            r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="'
+            r[++j] = rows[i].Injury.ReportedDate;
+            r[++j] = ' ';
+            r[++j] = rows[i].Injury.Status.replace("day-to-day","DTD");
+            r[++j] = ' ';
+            r[++j] = rows[i].Injury.Description;
+            r[++j] = '">';
+            r[++j] = '<span class="glyphicon glyphicon-tint" style="color:red; padding-left:2px"></span>';
+        }
+        r[++j] = '</td><td class="text-center submit-show">'
         r[++j] = rows[i].GP;
         r[++j] = '</td><td class="text-right submit-show">';
         r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
@@ -452,7 +463,7 @@ $(function () {
 
 $(function () {
     $('.droppable').on('click', 'li', function () {
-        var sourceList = this.closest("ul");
+        var sourceList = $(this).closest("ul")[0];
         var swapGroup = sourceList.getAttribute("data-list-swap-group");
         var targetList = $("ul[data-list-swap-group=" + swapGroup + "]").not(sourceList);
         targetList.append(this);
