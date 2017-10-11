@@ -110,17 +110,16 @@ ul.droppable > li {
     height: auto;
 }
 
-.table > tbody > tr.offers-row > td {    
+.table > tbody > tr.offers-row > td
+{    
     font-size: .8em;
-    vertical-align: middle;
     text-align: center;
 }
 
-.scroll-tbody {    
-    background-color:#ddd;
-    height:400px;
-    overflow:auto;
-}
+.table > tbody > tr.offers-row > td,
+.table > tbody > tr.playerRow > td {
+        vertical-align: middle;
+    }
 
 .offers-row > td > ul > li {
     padding: 4px;

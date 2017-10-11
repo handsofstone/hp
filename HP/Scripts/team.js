@@ -807,16 +807,7 @@ function importRoster() {
 }
 
 $(document).ready(function () {
-    //$("#progressbar").progressbar({ value: false });
-    //$(document)
-    //    .ajaxStart(function () {
-    //        $('#lineupTable').hide();
-    //        $("#progressbar").show();
-    //    })
-    //    .ajaxStop(function () {
-    //        $("#progressbar").hide();
-    //        $('#lineupTable').show();
-    //    });
+
     setupPlots();
     refreshLineup();
 
