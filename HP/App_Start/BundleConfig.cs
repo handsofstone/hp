@@ -41,6 +41,12 @@ namespace HP
                       "~/Content/site.css",
                       "~/Content/justified-nav.css"));
 
+            BundleTable.EnableOptimizations = true;
+            BundleTable.Bundles.UseCdn = true;
+
+            bundles.Add(new StyleBundle("~/Content/materials", "https://fonts.googleapis.com/icon?family=Material+Icons").Include(
+                        "~/Content/material_icon.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
                       "~/Scripts/DataTables/jquery.dataTables.js",
                       "~/Scripts/DataTables/dataTables.bootstrap.js"));

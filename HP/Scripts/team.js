@@ -323,7 +323,7 @@ function lineupRow(rows) {
             r[++j] = ' ';
             r[++j] = rows[i].Injury.Description;
             r[++j] = '">';
-            r[++j] = '<span class="glyphicon glyphicon-tint" style="color:red; padding-left:2px"></span>';
+            r[++j] = '<i class="material-icons md-18 flesh">healing</i>';
         }
         r[++j] = '</td><td class="text-center submit-show">'
         r[++j] = rows[i].GP;
