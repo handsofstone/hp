@@ -97,7 +97,7 @@
                     <div class="panel with-nav-tabs panel-primary">
                         <div class="panel-heading">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tabOffers" data-toggle="tab">Offers <span id="tradeCount" class="badge">1</span></a></li>
+                                <li class="active"><a href="#tabOffers" data-toggle="tab">Offers <span id="tradeBadge" class="badge"></span></a></li>
                                 <li><a href="#tabPropose" data-toggle="tab">Propose</a></li>
                             </ul>
                         </div>
@@ -223,7 +223,15 @@
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
-            <li><a href="#tabRoster" data-toggle="tab">Roster</a></li>
+            <li>
+                <a href="#tabRoster" data-toggle="tab">
+                    Roster
+                    @if (Model.CanTrade)
+                    {
+                        <span id="rosterBadge" class="badge"></span>
+                    }
+                </a>
+            </li>
         </ul>
     </div>
     <div class="panel-body">
@@ -328,7 +336,7 @@
                                                 {
                                                     <button id="trade" type="button" class="btn btn-primary btn-xs-text" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align">
                                                         <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> <span class="hidden-xs">Trade</span>
-                                                        <span class="badge">1</span>
+                                                        <span id="tradeBadge" class="badge"></span>
                                                     </button>
                                                 }
                                             </div>

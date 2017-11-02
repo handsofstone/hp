@@ -509,7 +509,7 @@ function tradeDashboard() {
         success: function (data) {
             if (typeof data.Trades != 'undefined') {
                 offers(data.Trades);
-                $('#tradeCount, #trade span.badge').html(data.Trades.length);
+                $('#tradeBadge, #rosterBadge').html(data.Trades.length);
             }
             else
                 $('#tradeCount, #trade span.badge').html('');
