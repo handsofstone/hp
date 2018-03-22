@@ -1,20 +1,17 @@
 ﻿@model HP.Models.LoginViewModel
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("handsofstone", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "navbar-brand" })
-        </div>
-        <div class="navbar-collapse collapse navbar-right">
-            @if (Request.IsAuthenticated)
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    @Html.ActionLink("handsofstone", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "navbar-brand" })
+    <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbarAccount" aria-expanded="false" aria-controls="navbarAccount" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navbarAccount">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" />
+        </ul>
+        @if (Request.IsAuthenticated)
             {
-                using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-form" }))
+                using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline" }))
                 {
                     var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
                     var claim = claimsIdentity.FindFirst("Name");
@@ -23,34 +20,30 @@
                     {
                         name = claim.Value;
                     }
-                    <span class="glyphicon glyphicon-user grey" aria-hidden="true"></span>
-                    @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
-                    <button type="submit" class="btn btn-success" title="Sign Out">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                    <span class="fas fa-user grey mr-sm-2" aria-hidden="true"></span>
+                    @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage", @class = "mr-sm-2" })
+                    <button type="submit" class="btn btn-success my-2 my-sm-0" title="Sign Out">
+                        <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
                     </button>
-                }
             }
-            else
+        }
+        else
+        {
+            using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "loginForm", @class = "form-inline" }))
             {
-                using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "loginForm", @class = "navbar-form" }))
-                {
-                    @Html.AntiForgeryToken()
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control mr-sm-2" })
+                </div>
                     <div class="form-group">
-                        @*<i class="glyphicon glyphicon-envelope " style="color:white"></i>*@
-                        @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control" })
+                        @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control mr-sm-2" })
                     </div>
-                    <div class="form-group">
-                        @*<i class="glyphicon glyphicon-lock " style="color:white"></i>*@
-                        @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control" })
-                    </div>
-
-                    <button type="submit" class="btn btn-success" title="Sign In">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    <button type="submit" class="btn btn-success my-2 my-sm-0" title="Sign In">
+                        <span class="fas fa-sign-in-alt" aria-hidden="true"></span>
                     </button>
-                }
             }
-        </div>
+        }
     </div>
-</div>
+</nav>
 
 
