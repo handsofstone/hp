@@ -94,14 +94,14 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="panel with-nav-tabs panel-primary">
-                        <div class="panel-heading">
+                    <div class="card with-nav-tabs bg-primary">
+                        <div class="card-heading">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#tabOffers" data-toggle="tab">Offers <span id="tradeBadge" class="badge"></span></a></li>
                                 <li><a href="#tabPropose" data-toggle="tab">Propose</a></li>
                             </ul>
                         </div>
-                        <div class="panel-body">
+                        <div class="card-body">
                             <div class="tab-content">
                                 <div class="tab-pane in active fade" id="tabOffers">
                                     <div class="row">
@@ -219,183 +219,192 @@
 {
     @Html.HiddenFor(p => Model.TeamId, new { @id = "TeamId" })
 }
-<div class="panel with-nav-tabs panel-primary">
-    <div class="panel-heading">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabLineup" data-toggle="tab">Lineup</a></li>
-            <li>
-                <a href="#tabRoster" data-toggle="tab">
-                    Roster
-                    @if (Model.CanTrade)
-                    {
-                        <span id="rosterBadge" class="badge"></span>
-                    }
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="panel-body">
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="tabLineup">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <form class="form-inline">
-                                        <div class="form-group">
-                                            <span class="control-label hidden-xs">
-                                                @Html.LabelFor(model => model.SelectedIntervalId)
-                                            </span>
-                                            @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control" })
-                                        </div>
-                                        <div class="form-group">
-                                            <button id="lineupSubmit" type="button" class="btn btn-default btn-success btn-xs-text" onclick="submitLineup()">
-                                                <i class="glyphicon glyphicon-save" aria-hidden="true"></i> Submit
-                                            </button>
-                                            <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()">
-                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> Reset
-                                            </button>
-                                            <span id="intervalStart" class="label label-info">
-                                                @Html.DisplayTextFor(model => model.SelectedStartTime)
-                                            </span>
-                                            <div class="checkbox">
-                                                <label><input id="showBench" type="checkbox">Show Bench</label>
-                                            </div>
-                                        </div>
-                                    </form>
+@*<div class="card with-nav-tabs">
+    <div class="card-heading">*@
+<ul class="nav nav-tabs" id="teamTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="lineup-tab" href="#tabLineup" data-toggle="tab" aria-controls="tabLineup" aria-selected="true">Lineup</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="roster-tab" href="#tabRoster" data-toggle="tab" aria-controls="tabRoster" aria-selected="false">
+            Roster
+            @if (Model.CanTrade)
+            {
+                <span id="rosterBadge" class="badge"></span>
+            }
+        </a>
+    </li>
+</ul>
+@*</div>
+    <div class="card-body">*@
+<div class="tab-content" id="teamTabContent">
+    <div class="tab-pane fade show active" id="tabLineup" role="tabpanel" aria-labelledby="lineup-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <div class="card my-sm-2">
+                        <div class="card-body">
+                            <div class="input-group">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SelectedIntervalId, new { @class = "d-none d-sm-block" })
+                                    @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control mx-sm-1" })
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <table id="lineupTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="2"><span id="submitted" class="label label-success">Submitted</span><span id="unsubmitted" class="label label-danger">Unsubmitted</span></th>
-                                        <th rowspan="2" class="text-capitalize">@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().Position)</th>
-                                        <th rowspan="2" class="text-capitalize">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Name)</th>
-                                        <th rowspan="2" class="text-capitalize submit-show">GP</th>
-                                        <th colspan="3" class="text-capitalize text-center submit-show">@Html.DisplayDescriptionFor(model => model.LineupRows.FirstOrDefault().DayPoints)</th>
-                                        <th rowspan="2" class="text-capitalize submit-hide hidden-xs">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Schedule)</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().DayPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().DayPoints)</span></th>
-                                        <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().IntervalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().IntervalPoints)</span></th>
-                                        <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().TotalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().TotalPoints)</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="lineup"></tbody>
-                            </table>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="well-lg">
-                                        <div id="efficiency" class="pie"></div>
-                                        <div id="efficiency-label" class="pie-label"></div>
-                                        <h4 class="text-center">lineup efficiency</h4>
+                                <div class="btn-group" role="group" aria-label="Lineup toolbar">
+                                    <div class="btn-group" role="group">
+                                        <button id="lineupSubmit" type="button" class="btn btn-default btn-success btn-xs-text" onclick="submitLineup()">
+                                            <i class="material-icons" aria-hidden="true">publish</i> Submit
+                                        </button>
+                                        <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()">
+                                            <i class="material-icons" aria-hidden="true">delete</i> Reset
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="well-lg">
-                                        <div id="distribution" class="pie"></div>
-                                        <h4 class="text-center">points distribution</h4>
+                                    <div class="btn-group-toggle mx-1" data-toggle="buttons">
+                                        <label class="btn btn-outline-primary" id="benchToggle">
+                                            <input id="showBench" type="checkbox" autocomplete="on"/>
+                                            <i class="material-icons" id="benchVisible" aria-hidden="true">visibility</i>
+                                            <i class="material-icons" id="benchHidden" aria-hidden="true">visibility_off</i>
+                                            <span class="d-none d-sm-block">Bench</span>
+                                        </label>
                                     </div>
-                                </div>
+
+                                <span id="intervalStart" class="badge badge-pill badge-info mx-1">
+                                    @Html.DisplayTextFor(model => model.SelectedStartTime)
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="tabRoster">
-                <div class="container-fluid">
-                    @if (Model.CanSave || Model.CanTrade)
-                    {
-                        <div class="row">
-                            <div class="col">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <form class="form-inline">
-                                            <div class="form-group">
-                                                @if (Model.CanSave)
-                                                {
-                                                    <button type="button" class="btn btn-success btn-xs-text" aria-label="Left Align" onclick="saveRoster()">
-                                                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span><span class="hidden-xs">Save</span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-info btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
-                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> <span class="hidden-xs">Add/Drop</span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-xs-text" aria-label="Left Align" onclick="importRoster()">
-                                                        <span class="glyphicon glyphicon-import" aria-hidden="true"></span> <span class="hidden-xs">Position Import</span>
-                                                    </button>
-                                                }
-                                                @if (Model.CanTrade)
-                                                {
-                                                    <button id="trade" type="button" class="btn btn-primary btn-xs-text" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align">
-                                                        <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> <span class="hidden-xs">Trade</span>
-                                                        <span id="tradeBadge" class="badge"></span>
-                                                    </button>
-                                                }
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
+            <div class="row">
+                <div class="col-lg-6">
+                    <table id="lineupTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                        <thead>
+                            <tr>
+                                <th rowspan="2"><span id="submitted" class="badge badge-success">Submitted</span><span id="unsubmitted" class="badge badge-danger">Unsubmitted</span></th>
+                                <th rowspan="2" class="text-capitalize">@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().Position)</th>
+                                <th rowspan="2" class="text-capitalize">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Name)</th>
+                                <th rowspan="2" class="text-capitalize submit-show">GP</th>
+                                <th colspan="3" class="text-capitalize text-center submit-show">@Html.DisplayDescriptionFor(model => model.LineupRows.FirstOrDefault().DayPoints)</th>
+                                <th rowspan="2" class="text-capitalize submit-hide d-none d-sm-block">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Schedule)</th>
+                            </tr>
+                            <tr>
+                                <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().DayPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().DayPoints)</span></th>
+                                <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().IntervalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().IntervalPoints)</span></th>
+                                <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().TotalPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().TotalPoints)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="lineup"></tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6">
                     <div class="row">
                         <div class="col-lg-6">
-                            <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
-                                <thead>
-                                    <tr>
-                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
-                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
-                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
-                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
-                                        <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="rosterBody">
-                                    @*@foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
-                                        {
-                                            var playerId = pi.PlayerId;
-                                            var name = pi.Name;
-                                            var num = pi.Number.ToString();
-                                            var pts = pi.Points.ToString();
-                                            var position = pi.Position.First();
-                                            <tr>
-                                                <td>@Html.DisplayFor(p => num)</td>
-                                                <td>
-                                                    @Html.DisplayFor(p => name)
-                                                    @Html.HiddenFor(p => playerId)
-                                                </td>
-                                                <td>
-                                                    @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
-                                                </td>
-                                                <td>@Html.DisplayFor(p => pi.Team)</td>
-                                                <td>@Html.DisplayFor(p => pts)</td>
-                                            </tr>
-                                        }*@
-                                </tbody>
-                            </table>
+                            <div class="well-lg">
+                                <div id="efficiency" class="pie"></div>
+                                <div id="efficiency-label" class="pie-label"></div>
+                                <h4 class="text-center">lineup efficiency</h4>
+                            </div>
                         </div>
                         <div class="col-lg-6">
-                            <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
-                                <thead>
-                                    <tr>
-                                        <td>Pick</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="picks"></tbody>
-                            </table>
+                            <div class="well-lg">
+                                <div id="distribution" class="pie"></div>
+                                <h4 class="text-center">points distribution</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="tab-pane fade" id="tabRoster" role="tabpanel" aria-labelledby="roster-tab">
+        <div class="container-fluid">
+            @if (Model.CanSave || Model.CanTrade)
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        @if (Model.CanSave)
+                                        {
+                                            <button type="button" class="btn btn-success btn-xs-text" aria-label="Left Align" onclick="saveRoster()">
+                                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span><span class="d-none d-sm-block">Save</span>
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> <span class="d-none d-sm-block">Add/Drop</span>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs-text" aria-label="Left Align" onclick="importRoster()">
+                                                <span class="glyphicon glyphicon-import" aria-hidden="true"></span> <span class="d-none d-sm-block">Position Import</span>
+                                            </button>
+                                        }
+                                        @if (Model.CanTrade)
+                                        {
+                                            <button id="trade" type="button" class="btn btn-primary btn-xs-text" data-toggle="modal" data-target="#tradeModal" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> <span class="d-none d-sm-block">Trade</span>
+                                                <span id="tradeBadge" class="badge"></span>
+                                            </button>
+                                        }
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-lg-6">
+                    <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                        <thead>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
+                                <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
+                            </tr>
+                        </thead>
+                        <tbody id="rosterBody">
+                            @*@foreach (HP.Models.PlayerInterval pi in Model.RosterPlayers)
+                                {
+                                    var playerId = pi.PlayerId;
+                                    var name = pi.Name;
+                                    var num = pi.Number.ToString();
+                                    var pts = pi.Points.ToString();
+                                    var position = pi.Position.First();
+                                    <tr>
+                                        <td>@Html.DisplayFor(p => num)</td>
+                                        <td>
+                                            @Html.DisplayFor(p => name)
+                                            @Html.HiddenFor(p => playerId)
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(p => position, new SelectList(pi.EligiblePositions, position))
+                                        </td>
+                                        <td>@Html.DisplayFor(p => pi.Team)</td>
+                                        <td>@Html.DisplayFor(p => pts)</td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table" style="width:auto">
+                        <thead>
+                            <tr>
+                                <td>Pick</td>
+                            </tr>
+                        </thead>
+                        <tbody id="picks"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        @Scripts.Render("~/bundles/team")
-        @Styles.Render("~/Content/team")
+@Scripts.Render("~/bundles/flot")
+@Scripts.Render("~/bundles/team")
+@Styles.Render("~/Content/team")

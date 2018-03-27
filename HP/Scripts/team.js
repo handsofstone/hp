@@ -276,10 +276,14 @@ function validateLineup() {
         var activeCount = $("#lineupTable .playerRow:has(:checked):has(td .position[value=" + k + "])").length;
         var benchToggles = $("#lineupTable .playerRow:not(:has(:checked)):has(td .position[value=" + k + "]) .playerActive");
         var benchRows = $("#lineupTable .playerRow:not(:has(:checked)):has(td .position[value=" + k + "])");
+        var visibleIcon = $('#benchVisible');
+        var hiddenIcon = $('#benchHidden');
         var showBench = $("#showBench").prop('checked');
         if (activeCount >= v) {
             benchToggles.bootstrapToggle('disable')
             benchRows.toggle(showBench)
+            visibleIcon.toggle(showBench)
+            hiddenIcon.toggle(!showBench)
         }
         else {
             benchToggles.bootstrapToggle('enable')
@@ -804,6 +808,21 @@ function importRoster() {
             alert('Failed to import roster.' + ex);
         }
     });
+}
+
+function toggleBench() {
+    $("#showBench").prop('checked', !$("#showBench").prop('checked'));
+    if ($("#showBench").prop('checked')) {
+        $("#benchToggle").removeClass('btn-outline-primary')
+        $("#benchToggle").addClass('btn-primary')
+    }
+    else {
+        $("#benchToggle").removeClass('btn-primary')
+        $("#benchToggle").addClass('btn-outline-primary')
+    }
+    $('#benchVisible').toggle($("#showBench").prop('checked'));
+    $('#benchHidden').toggle(!$("#showBench").prop('checked'));
+    validateLineup();
 }
 
 $(document).ready(function () {

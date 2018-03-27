@@ -7,39 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Hands of Stone</title>
     <link rel="shortcut icon" type="image/x-icon" href="../../Content/images/favicon.ico" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/materials")
+    @Scripts.Render("~/bundles/solid")
+    @Scripts.Render("~/bundles/fontawesome")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/datatables")
-    @Scripts.Render("~/bundles/flot")
+    @*@Scripts.Render("~/bundles/flot")*@
 </head>
 <body>
-        @Html.Partial("_Login", new HP.Models.LoginViewModel())
-        @*@{Html.RenderAction("Login", "Account");}*@
-        @*@Html.Partial("_Menu")*@
-        @if (Request.IsAuthenticated)
-        {
-            @*@Html.Partial("_Menu", new HP.Models.MenuViewModel());*@
-            Html.RenderAction("Index", "Menu");
-        }
+    @Html.Partial("_Login", new HP.Models.LoginViewModel())
+    @*@{Html.RenderAction("Login", "Account");}*@
+    @*@Html.Partial("_Menu")*@
+    @if (Request.IsAuthenticated)
+    {
+        @*@Html.Partial("_Menu", new HP.Models.MenuViewModel());*@
+        Html.RenderAction("Index", "Menu");
+    }
 
 
 
-    <div class="container body-content">
+    <div class="container-fluid body-content">
 
         @RenderBody()
+
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - handsofstone.ca</p>
         </footer>
     </div>
-    
 
-    @Scripts.Render("~/bundles/jqueryajax")
+
+
+    @*@Scripts.Render("~/bundles/jqueryajax")*@
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/popper")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/site")
     @RenderSection("scripts", required: false)

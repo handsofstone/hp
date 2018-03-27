@@ -1,12 +1,19 @@
 body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+.footer {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -165,6 +172,21 @@ modal element will be visible */
 body.loading .loading-modal{
         display: block;
     }
+.material-icons.md-dark {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+    color: rgba(0, 0, 0, 0.26);
+}
+
+.material-icons.md-light {
+    color: rgba(255, 255, 255, 1);
+}
+
+.material-icons.md-light.md-inactive {
+        color: rgba(255, 255, 255, 0.3);
+}
 
 .material-icons.flesh {
     color: #FAB97A;
@@ -183,4 +205,8 @@ body.loading .loading-modal{
 
 .material-icons.md-48 {
     font-size: 48px;
+}
+
+.btn > .material-icons {
+    vertical-align: middle;
 }
