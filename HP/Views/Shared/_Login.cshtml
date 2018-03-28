@@ -20,8 +20,7 @@
             {
                 name = claim.Value;
             }
-            <i class="material-icons md-light" aria-hidden="true">account_circle</i>
-            <span class="fas fa-user grey mr-sm-2" aria-hidden="true"></span>
+            <i class="material-icons md-light" aria-hidden="true">account_circle</i>            
             @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage", @class = "mr-sm-2" })
             <button type="submit" class="btn btn-success my-2 my-sm-0" title="Sign Out">
                 <span class="fas fa-sign-out-alt" aria-hidden="true"></span>

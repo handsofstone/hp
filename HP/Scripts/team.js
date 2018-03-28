@@ -358,7 +358,7 @@ function ScheduleCell(games) {
         r[++j] = '<ul class="list-inline">';
         for (var i = 0, size = games.length; i < size; i++) {
             var gameDate = new Date(games[i].StartDate);
-            r[++j] = '<li><span data-toggle="tooltip" data-placement="bottom" title="';
+            r[++j] = '<li class="list-inline-item"><span data-toggle="tooltip" data-placement="bottom" title="';
             r[++j] = gameDate.toDateString();
             r[++j] = '"><a  target="_blank" href="https://www.nhl.com/gamecenter/';
             r[++j] = games[i].GameId;

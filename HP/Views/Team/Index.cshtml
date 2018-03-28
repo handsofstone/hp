@@ -244,34 +244,42 @@
                 <div class="col">
                     <div class="card my-sm-2">
                         <div class="card-body">
-                            <div class="input-group">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SelectedIntervalId, new { @class = "d-none d-sm-block" })
-                                    @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "form-control mx-sm-1" })
-                                </div>
-                                <div class="btn-group" role="group" aria-label="Lineup toolbar">
-                                    <div class="btn-group" role="group">
-                                        <button id="lineupSubmit" type="button" class="btn btn-default btn-success btn-xs-text" onclick="submitLineup()">
-                                            <i class="material-icons" aria-hidden="true">publish</i> Submit
-                                        </button>
-                                        <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()">
-                                            <i class="material-icons" aria-hidden="true">delete</i> Reset
-                                        </button>
+                            <form>
+                                <div class="form-row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                @Html.LabelFor(model => model.SelectedIntervalId, new { @class = "input-group-text d-none d-sm-block" })
+                                            </div>
+                                            @Html.DropDownListFor(model => model.SelectedIntervalId, Model.Intervals, new { @class = "custom-select" })
+                                        </div>
                                     </div>
-                                </div>
-                                    <div class="btn-group-toggle mx-1" data-toggle="buttons">
-                                        <label class="btn btn-outline-primary" id="benchToggle">
-                                            <input id="showBench" type="checkbox" autocomplete="on"/>
-                                            <i class="material-icons" id="benchVisible" aria-hidden="true">visibility</i>
-                                            <i class="material-icons" id="benchHidden" aria-hidden="true">visibility_off</i>
-                                            <span class="d-none d-sm-block">Bench</span>
-                                        </label>
-                                    </div>
+                                    <div class="col-auto">
+                                        <div class="form-inline">
+                                            <button id="lineupSubmit" type="button" class="btn btn-default btn-success btn-xs-text" onclick="submitLineup()">
+                                                <i class="material-icons" aria-hidden="true">publish</i> Submit
+                                            </button>
+                                            <button id="lineupReset" type="button" class="btn btn-default btn-danger btn-xs-text" onclick="resetLineup()">
+                                                <i class="material-icons" aria-hidden="true">delete</i> Reset
+                                            </button>
+                                            <div class="btn-group-toggle" data-toggle="buttons">
+                                                <label class="btn btn-outline-primary" id="benchToggle">
+                                                    <input id="showBench" type="checkbox" autocomplete="on" />
+                                                    <i class="material-icons" id="benchVisible" aria-hidden="true">visibility</i>
+                                                    <i class="material-icons" id="benchHidden" aria-hidden="true">visibility_off</i>
+                                                    <span class="d-none d-sm-block">Bench</span>
+                                                </label>
+                                            </div>
+                                        </div>
 
-                                <span id="intervalStart" class="badge badge-pill badge-info mx-1">
-                                    @Html.DisplayTextFor(model => model.SelectedStartTime)
-                                </span>
-                            </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span id="intervalStart" class="badge badge-pill badge-info">
+                                            @Html.DisplayTextFor(model => model.SelectedStartTime)
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -286,7 +294,7 @@
                                 <th rowspan="2" class="text-capitalize">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Name)</th>
                                 <th rowspan="2" class="text-capitalize submit-show">GP</th>
                                 <th colspan="3" class="text-capitalize text-center submit-show">@Html.DisplayDescriptionFor(model => model.LineupRows.FirstOrDefault().DayPoints)</th>
-                                <th rowspan="2" class="text-capitalize submit-hide d-none d-sm-block">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Schedule)</th>
+                                <th rowspan="2" class="text-capitalize submit-hide d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.LineupRows.FirstOrDefault().Schedule)</th>
                             </tr>
                             <tr>
                                 <th class="submit-show"><span data-toggle="tooltip" data-placement="bottom" title=@Html.DisplayNameFor(model=>model.LineupRows.FirstOrDefault().DayPoints)>@Html.DisplayShortNameFor(model => model.LineupRows.FirstOrDefault().DayPoints)</span></th>

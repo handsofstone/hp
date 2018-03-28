@@ -209,4 +209,5 @@ body.loading .loading-modal{
 
 .btn > .material-icons {
     vertical-align: middle;
+    font-size: 20px;
 }
