@@ -321,7 +321,12 @@
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\justified-nav.css" />
     <Content Include="Content\material_icon.css" />
-    <Content Include="Content\site.css" />
+    <Content Include="Content\site.css">
+      <DependentUpon>site.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\site.min.css">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
     <Content Include="Content\team.css" />
     <Content Include="Content\autocomplete.css" />
     <Content Include="Content\images\ui-anim_basic_16x16.gif" />
@@ -395,6 +400,11 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\site.scss" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Properties\PublishProfiles\GRIMLOCK FS.pubxml" />
     <None Include="Properties\PublishProfiles\GRIMLOCK.pubxml" />
     <Content Include="Scripts\bootstrap-toggle.js" />

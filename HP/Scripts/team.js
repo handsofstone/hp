@@ -137,7 +137,8 @@ function resetLineup() {
 function enableButtons(data) {
     $('#lineupSubmit').prop('disabled', !data);
     $('#lineupReset').prop('disabled', !data);
-    $('.playerActive').bootstrapToggle(data ? 'enable' : 'disable');
+    $('.playerActive').prop('disabled', !data);
+    //$('.playerActive').bootstrapToggle(data ? 'enable' : 'disable');
 }
 
 function showButtons(data) {
@@ -150,24 +151,24 @@ function showButtons(data) {
     }
 }
 
-function checkButtons() {
-    $.ajax({
-        type: 'GET',
-        contentType: "application/json; charset=utf-8",
-        url: '/Team/EnableSubmit', // we are calling json method
-        data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-        dataType: 'json',
-        success: function (data) {
-            enableButtons(data);
-            showButtons(data);
-            $('th.submit-show, td.submit-show').toggleClass("hidden-xs", data);
-            $('th.submit-hide, td.submit-hide').toggleClass("hidden-xs", !data);
-        },
-        error: function (ex) {
-            alert('Failed to enable/disable submit.' + ex);
-        }
-    });
-}
+//function checkButtons() {
+//    $.ajax({
+//        type: 'GET',
+//        contentType: "application/json; charset=utf-8",
+//        url: '/Team/EnableSubmit', // we are calling json method
+//        data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
+//        dataType: 'json',
+//        success: function (data) {
+//            enableButtons(data);
+//            showButtons(data);
+//            $('th.submit-show, td.submit-show').toggleClass("d-none d-sm-table-cell", data);
+//            $('th.submit-hide, td.submit-hide').toggleClass("d-none d-sm-table-cell", !data);
+//        },
+//        error: function (ex) {
+//            alert('Failed to enable/disable submit.' + ex);
+//        }
+//    });
+//}
 function saveRoster() {
     $.ajax({
         contentType: 'application/json, charset=utf-8',
@@ -258,8 +259,8 @@ function refreshLineup() {
             postLineupUpdate();
             enableButtons(data.CanSubmitLineup);
             showButtons(data.CanSubmitLineup);
-            $('th.submit-show, td.submit-show').toggleClass("hidden-xs", data.CanSubmitLineup);
-            $('th.submit-hide, td.submit-hide').toggleClass("hidden-xs", !data.CanSubmitLineup);
+            $('th.submit-show, td.submit-show').toggleClass("d-none d-sm-table-cell", data.CanSubmitLineup);
+            $('th.submit-hide, td.submit-hide').toggleClass("d-none d-sm-table-cell", !data.CanSubmitLineup);
             lineupAnalysis(data);
         },
         error: function (ex) {
@@ -280,13 +281,15 @@ function validateLineup() {
         var hiddenIcon = $('#benchHidden');
         var showBench = $("#showBench").prop('checked');
         if (activeCount >= v) {
-            benchToggles.bootstrapToggle('disable')
+            benchToggles.prop('disabled', true);
+            //benchToggles.bootstrapToggle('disable')
             benchRows.toggle(showBench)
             visibleIcon.toggle(showBench)
             hiddenIcon.toggle(!showBench)
         }
         else {
-            benchToggles.bootstrapToggle('enable')
+            benchToggles.prop('disabled', false);
+            //benchToggles.bootstrapToggle('enable')
             benchRows.toggle(true)
         }
     });
@@ -299,8 +302,11 @@ function lineupRow(rows) {
         r[++j] = rows[i].PlayerId;
         r[++j] = '><td class="text-center"><input ';
         r[++j] = rows[i].Active ? "checked" : "";
-        r[++j] = ' class="playerActive" data-toggle="toggle" data-size="mini" type="checkbox" value="true" data-width="90%" data-height="22px"/>';
-        r[++j] = '<input class="lineupPlayerId" type="hidden" value="';
+        r[++j] = ' class="playerActive tgl tgl-slide" type="checkbox" id="cb';
+        r[++j] = i;
+        r[++j] = '"/><label class="tgl-btn" data-tg-off="Bench" data-tg-on="Active" for="cb';
+        r[++j] = i;
+        r[++j] = '"></label><input class="lineupPlayerId" type="hidden" value="';
         r[++j] = rows[i].LineupPlayerId;
         r[++j] = '"/></td><td class="text-center">';
         r[++j] = rows[i].Position;
@@ -346,7 +352,7 @@ function lineupRow(rows) {
         r[++j] = rows[i].Points.T.Description;
         r[++j] = '">';
         r[++j] = rows[i].Points.T.Value;
-        r[++j] = '</span></td><td class="submit-hide hidden-xs">';
+        r[++j] = '</span></td><td class="submit-hide d-none d-sm-table-cell">';
         r[++j] = ScheduleCell(rows[i].Games);
         r[++j] = '</td></tr>';
     }
@@ -377,11 +383,11 @@ function postLineupUpdate() {
     });
 
     $('[data-toggle="tooltip"]').tooltip();
-    $('[data-toggle="toggle"]').bootstrapToggle({
-        on: "Active",
-        off: "Bench",
+    //$('[data-toggle="toggle"]').bootstrapToggle({
+    //    on: "Active",
+    //    off: "Bench",
 
-    });
+    //});
 
     validateLineup();
     setSubmitted();
