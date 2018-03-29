@@ -234,18 +234,21 @@ function lineupAnalysis(data) {
     if (data.ActivePoints != null) {
         plotLE.setData([{ 'data': data.ActivePoints, color: '#5bc0de' }, { 'data': data.MaxPoints - data.ActivePoints, color: '#ddd' }]);
         $('#efficiency-label').html(Math.round(data.ActivePoints / data.MaxPoints * 100));
+        plotLE.draw();
+        $('#lineupAnalytics').show();
     }
     else {
         plotLE.setData([]);
-        $('#efficiency-label').html('N/A');
+        $('#lineupAnalytics').hide();        
     }
 
-    if (data.Distribution)
+    if (data.Distribution) {
         plotPD.setData(data.Distribution);
-    else
-        plotPD.setData([]);
-    plotLE.draw();
-    plotPD.draw();
+        plotPD.draw();
+    }
+    
+    
+    
 }
 function refreshLineup() {
     $.ajax({
@@ -410,7 +413,7 @@ function Roster(roster) {
         r[++j] = roster[i].Name;
         r[++j] = '<input id="playerId" name="playerId" type="hidden" value="';
         r[++j] = roster[i].PlayerId;
-        r[++j] = '"></td><td><select id="position" name="position">';
+        r[++j] = '"></td><td class="form-group"><select class="form-control" id="position" name="position">';
         for (var i2 = 0; i2 < roster[i].EligiblePosition.length; i2++) {
             r[++j] = '<option ';
             if (roster[i].EligiblePosition.charAt(i2) == roster[i].Position) {

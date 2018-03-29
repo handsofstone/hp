@@ -90,7 +90,7 @@ namespace HP.Controllers
             {
                 case SignInStatus.Success:
                     var user = await UserManager.FindAsync(model.Email, model.Password);
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await SignInManager.SignInAsync(user, isPersistent: true, rememberBrowser: false);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

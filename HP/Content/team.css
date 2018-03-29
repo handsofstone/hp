@@ -1,14 +1,14 @@
-﻿.card.with-nav-tabs .card-heading {
-    padding: 5px 5px 0 5px;
+﻿.card-header.with-nav-tabs {
+    padding: 0.5em 0.5em 0em;
 }
 
-.card.with-nav-tabs .nav-tabs {
-    border-bottom: none;
-}
+    .card-header.with-nav-tabs .nav-tabs {
+        border-bottom: none;
+    }
 
-.card.with-nav-tabs .nav-justified {
-    margin-bottom: -1px;
-}
+    .card-header.with-nav-tabs .nav-justified {
+        margin-bottom: 0em;
+    }
 
 /********************************************************************/
 /*** PANEL PRIMARY ***/
@@ -28,14 +28,14 @@
         border-color: transparent;
     }
 
-.with-nav-tabs.bg-primary .nav-tabs > li.active > a,
-.with-nav-tabs.bg-primary .nav-tabs > li.active > a:hover,
-.with-nav-tabs.bg-primary .nav-tabs > li.active > a:focus {
-    color: #428bca;
-    background-color: #fff;
-    border-color: #428bca;
-    border-bottom-color: transparent;
-}
+    .with-nav-tabs.bg-primary .nav-tabs > li > a.active,
+    .with-nav-tabs.bg-primary .nav-tabs > li > a.active:hover,
+    .with-nav-tabs.bg-primary .nav-tabs > li > a.active:focus {
+        color: #428bca;
+        background-color: #fff;
+        border-color: #428bca;
+        border-bottom-color: transparent;
+    }
 
 .with-nav-tabs.bg-primary .nav-tabs > li.dropdown .dropdown-menu {
     background-color: #428bca;
@@ -62,22 +62,23 @@ td > ul {
 }
 
 .table > thead > tr > th {
-    vertical-align:middle;
+    vertical-align: middle;
 }
 
 .pie {
-  width:100%;
-  height:200px;
+    width: 100%;
+    height: 200px;
 }
+
 .pie-label {
-  position:absolute;
-  left:0;
-  top:32%;
-  font-size:36pt;
-  color:#5bc0de;
-  width:100%;
-  height:120px;
-  text-align:center;
+    position: absolute;
+    left: 0;
+    top: 32%;
+    font-size: 36pt;
+    color: #5bc0de;
+    width: 100%;
+    height: 120px;
+    text-align: center;
 }
 
 ul.droppable {
@@ -92,11 +93,11 @@ ul.droppable {
     overflow: auto;
 }
 
-ul.droppable > li {
-    margin: 2px;
-    padding: 2px;
-    font-size: 1em;
-}
+    ul.droppable > li {
+        margin: 2px;
+        padding: 2px;
+        font-size: 1em;
+    }
 
 .propose-top {
     height: 70px;
@@ -110,16 +111,15 @@ ul.droppable > li {
     height: auto;
 }
 
-.table > tbody > tr.offers-row > td
-{    
+.table > tbody > tr.offers-row > td {
     font-size: .8em;
     text-align: center;
 }
 
 .table > tbody > tr.offers-row > td,
 .table > tbody > tr.playerRow > td {
-        vertical-align: middle;
-    }
+    vertical-align: middle;
+}
 
 .offers-row > td > ul > li {
     padding: 4px;

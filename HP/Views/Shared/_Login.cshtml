@@ -32,13 +32,13 @@ else
     using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "loginForm", @class = "form-inline" }))
     {
         @Html.AntiForgeryToken()
-        <div class="form-group">
-            @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control mr-sm-2" })
-        </div>
-        <div class="form-group">
-            @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control mr-sm-2" })
-        </div>
-        <button type="submit" class="btn btn-success my-2 my-sm-0" title="Sign In">
+        
+            @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control m-sm-1" })
+
+
+            @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control m-sm-1" })
+
+        <button type="submit" class="btn btn-success m-sm-1" title="Sign In">
             <span class="fas fa-sign-in-alt" aria-hidden="true"></span>
         </button>
 }
