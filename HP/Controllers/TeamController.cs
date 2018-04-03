@@ -361,7 +361,7 @@ namespace HP.Controllers
             }
         }
 
-        public ContentResult TradeDashboard(int teamId)
+        public ContentResult TradeDashboard(int? teamId = null)
         {
             using (var context = new ApplicationDbContext())
             {

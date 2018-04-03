@@ -1,0 +1,31 @@
+﻿@model HP.Models.StandingsViewModel
+
+@*<div class="card my-sm-2">
+    <div class="card-header">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
+            </div>
+            @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
+        </div>
+    </div>
+</div>*@
+<div class="row">
+    <div class="col">
+        <table id="tradesTable" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>Receive</th>
+                    <th>To</th>
+                    <th>Send</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody class="scroll-tbody"></tbody>
+        </table>
+    </div>
+    <div class="col-sm-6"></div>
+</div>

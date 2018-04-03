@@ -24,9 +24,24 @@ namespace HP.Controllers
             }
         }
         // GET: Pool
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            using (var context = new ApplicationDbContext())
+            {
+                var model = new StandingsViewModel();
+
+                if (ModelState.IsValid)
+                {
+                    var pool = context.Pools.Find(id);
+                    var currentSeason = GetCurrentSeason();
+                    model.SelectedPoolID = id;
+                    model.Seasons = new SelectList(context.Seasons, "Id", "Name").ToList();
+                    model.SelectedSeasonID = currentSeason.Id;
+                    model.StandingRows = new List<StandingRow>();
+                }
+
+                return View(model);
+            }
         }
 
         public ActionResult Standings(int id)

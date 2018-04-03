@@ -184,11 +184,12 @@ namespace HP.Models
                 .FirstOrDefault();
         }
 
-        public string TradeDashboard(/*string userId,*/ int teamId)
+        public string TradeDashboard(/*string userId,*/ int? teamId)
         {
             return Database.SqlQuery<String>(
-                "select nlpool.TradeDashboard(@teamId)",
-                new SqlParameter("teamId", teamId))
+                "select nlpool.TradeDashboard(@teamId,@seasonId)",
+                new SqlParameter("teamId", teamId ??  (object)DBNull.Value),
+                new SqlParameter("seasonId", DBNull.Value))
                 .FirstOrDefault();
         }
 

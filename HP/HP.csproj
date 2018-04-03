@@ -582,6 +582,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\Pool\Index.cshtml" />
+    <Content Include="Views\Pool\_Trades.cshtml" />
     <None Include="Web.Debug Hydro.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -634,7 +636,7 @@
     <Content Include="packages.config" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Pool\Standings.cshtml" />
+    <Content Include="Views\Pool\_Standings.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Account\Error.cshtml" />
@@ -655,8 +657,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\themes\start\" />
     <Folder Include="ViewModel\" />
-    <Folder Include="Views\Login\" />
-    <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

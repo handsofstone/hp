@@ -44,7 +44,7 @@
                         }
                     </div>
                 </li>
-                    <li class="nav-item">@Html.ActionLink("Standings", "Standings", "Pool", new { id = Model.SelectedPoolId }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Pool", "Index", "Pool", new { id = Model.SelectedPoolId }, new { @class = "nav-link" })</li>
             }
         </ul>
         @*@if (Request.IsAuthenticated)
