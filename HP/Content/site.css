@@ -15,8 +15,7 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
   max-width: 280px; }
 
 /* styles for validation helpers */
@@ -67,17 +66,17 @@ thead {
 
 /* Small devices (tablets, 768px and up) */
 @media (max-width: 768px) {
-  .btn-xs-text.btn-default:not(span) {
+  .btn-xs-text.btn-default:not(svg):not(span) {
     font-size: 0pt !important; } }
 
 /* Medium devices (desktops, 992px and up) */
 @media (max-width: 992px) {
-  .btn-md-text.btn-default:not(span) {
+  .btn-md-text.btn-default:not(span):not(svg) {
     font-size: 0pt !important; } }
 
 /* Large devices (large desktops, 1200px and up) */
 @media (max-width: 1200px) {
-  .btn-lg-text.btn-default:not(span) {
+  .btn-lg-text.btn-default:not(span):not(svg) {
     font-size: 0pt !important; } }
 
 /* Start by setting display:none to make this hidden.
@@ -138,9 +137,15 @@ body.loading .loading-modal {
   min-width: 38px;
   padding: 0em 0.2em; }
 
+.btn > .material-icons, .btn > .badge, .btn > .svg-inline--fa {
+  vertical-align: middle; }
+
 .btn > .material-icons {
-  vertical-align: middle;
-  line-height: unset; }
+  font-size: xx-large;
+  line-height: 1; }
+
+.btn > .svg-inline--fa {
+  font-size: x-large; }
 
 .tgl {
   display: none; }

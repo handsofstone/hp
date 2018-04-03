@@ -18,8 +18,7 @@ body {
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
 }
 
@@ -72,152 +71,162 @@ thead {
     background-color: steelblue;
     color: white;
 }
+
 .table th, .table td {
     font-size: smaller;
     padding: 0.25em;
 }
 
-    .table-striped > tbody > tr:nth-child(even) > td {
-        background-color: #99ccff;
+.table-striped > tbody > tr:nth-child(even) > td {
+    background-color: #99ccff;
+}
+/* Small devices (tablets, 768px and up) */
+@media ( max-width : 768px ) {
+    .btn-xs-text.btn-default:not(svg):not(span) {
+        font-size: 0pt !important;
     }
-    /* Small devices (tablets, 768px and up) */
-    @media ( max-width : 768px ) {
-        .btn-xs-text.btn-default:not(span) {
-            font-size: 0pt !important;
-        }
+}
+/* Medium devices (desktops, 992px and up) */
+@media ( max-width : 992px ) {
+    .btn-md-text.btn-default:not(span):not(svg) {
+        font-size: 0pt !important;
     }
-    /* Medium devices (desktops, 992px and up) */
-    @media ( max-width : 992px ) {
-        .btn-md-text.btn-default:not(span) {
-            font-size: 0pt !important;
-        }
+}
+/* Large devices (large desktops, 1200px and up) */
+@media ( max-width : 1200px ) {
+    .btn-lg-text.btn-default:not(span):not(svg) {
+        font-size: 0pt !important;
     }
-    /* Large devices (large desktops, 1200px and up) */
-    @media ( max-width : 1200px ) {
-        .btn-lg-text.btn-default:not(span) {
-            font-size: 0pt !important;
-        }
-    }
-    /* Start by setting display:none to make this hidden.
+}
+/* Start by setting display:none to make this hidden.
    Then we position it in relation to the viewport window
    with position:fixed. Width, height, top and left speak
    for themselves. Background we set to 80% white with
    our animation centered, and no-repeating */
-    .loading-modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba( 255, 255, 255, .8 ) url('images/ui-anim_basic_32x32.gif') 50% 50% no-repeat;
-    }
-    /* When the body has the loading class, we turn
+.loading-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8 ) url('images/ui-anim_basic_32x32.gif') 50% 50% no-repeat;
+}
+/* When the body has the loading class, we turn
    the scrollbar off with overflow:hidden */
-    body.loading,
-    div.loading {
-        overflow: hidden;
-    }
-    /* Anytime the body has the loading class, our
+body.loading,
+div.loading {
+    overflow: hidden;
+}
+/* Anytime the body has the loading class, our
 modal element will be visible */
-    body.loading .loading-modal {
+body.loading .loading-modal {
+    display: block;
+}
+
+.material-icons.md-dark {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+    color: rgba(0, 0, 0, 0.26);
+}
+
+.material-icons.md-light {
+    color: rgba(255, 255, 255, 1);
+}
+
+.material-icons.md-light.md-inactive {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.material-icons.flesh {
+    color: #FAB97A;
+}
+
+.material-icons.md-18 {
+    font-size: 18px;
+}
+
+.material-icons.md-24 {
+    font-size: 24px;
+}
+
+.material-icons.md-36 {
+    font-size: 36px;
+}
+
+.material-icons.md-48 {
+    font-size: 48px;
+}
+
+.btn {
+    min-height: 38px;
+    min-width: 38px;
+    padding: 0em 0.2em;
+}
+.btn>.material-icons, .btn>.badge, .btn>.svg-inline--fa {
+    vertical-align: middle;
+}
+
+.btn > .material-icons {
+    font-size: xx-large;
+    line-height: 1;
+}
+
+.btn > .svg-inline--fa {
+    font-size: x-large;
+}
+
+.tgl {
+    display: none;
+    // add default box-sizing for this scope
+    &,
+    &:after,
+    &:before,
+    & *,
+    & *:after,
+    & *:before,
+    & + .tgl-btn {
+        box-sizing: border-box;
+
+        &::selection {
+            background: none;
+        }
+    }
+
+    + .tgl-btn {
+        outline: 0;
         display: block;
-    }
+        width: 4em;
+        height: 2em;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
 
-    .material-icons.md-dark {
-        color: rgba(0, 0, 0, 0.54);
-    }
-
-    .material-icons.md-dark.md-inactive {
-        color: rgba(0, 0, 0, 0.26);
-    }
-
-    .material-icons.md-light {
-        color: rgba(255, 255, 255, 1);
-    }
-
-    .material-icons.md-light.md-inactive {
-        color: rgba(255, 255, 255, 0.3);
-    }
-
-    .material-icons.flesh {
-        color: #FAB97A;
-    }
-
-    .material-icons.md-18 {
-        font-size: 18px;
-    }
-
-    .material-icons.md-24 {
-        font-size: 24px;
-    }
-
-    .material-icons.md-36 {
-        font-size: 36px;
-    }
-
-    .material-icons.md-48 {
-        font-size: 48px;
-    }
-    .btn {
-        min-height: 38px;
-        min-width: 38px;
-        padding: 0em 0.2em;
-    }
-    .btn > .material-icons {
-        vertical-align: middle;
-        line-height: unset;
-    }
-
-    .tgl {
-        display: none;
-        // add default box-sizing for this scope
-        &,
         &:after,
-        &:before,
-        & *,
-        & *:after,
-        & *:before,
-        & + .tgl-btn {
-            box-sizing: border-box;
-
-            &::selection {
-                background: none;
-            }
-        }
-
-        + .tgl-btn {
-            outline: 0;
-            display: block;
-            width: 4em;
-            height: 2em;
+        &:before {
             position: relative;
-            cursor: pointer;
-            user-select: none;
-
-            &:after,
-            &:before {
-                position: relative;
-                display: block;
-                content: "";
-                width: 50%;
-                height: 100%;
-            }
-
-            &:after {
-                left: 0;
-            }
-
-            &:before {
-                display: none;
-            }
+            display: block;
+            content: "";
+            width: 50%;
+            height: 100%;
         }
 
-        &:checked + .tgl-btn:after {
-            left: 50%;
+        &:after {
+            left: 0;
+        }
+
+        &:before {
+            display: none;
         }
     }
+
+    &:checked + .tgl-btn:after {
+        left: 50%;
+    }
+}
 
 .tgl-slide {
     + .tgl-btn {
