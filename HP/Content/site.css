@@ -59,7 +59,12 @@ thead {
 
 .table th, .table td {
   font-size: smaller;
-  padding: 0.25em; }
+  padding: 0.25em; 
+  vertical-align: middle;
+}
+td > ul.list-group > li.list-group-item {
+    padding: 0.25em;
+}
 
 .table-striped > tbody > tr:nth-child(even) > td {
   background-color: #99ccff; }

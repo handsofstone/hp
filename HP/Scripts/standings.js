@@ -80,17 +80,17 @@ function offers(trades) {
     for (var i = 0, size = trades.length; i < size; i++) {
         r[++j] = '<tr id="trade';
         r[++j] = trades[i].Id;
-        r[++j] = '" class="clickable-row offers-row" > <td>';
+        r[++j] = '"><td>';
         r[++j] = trades[i].StatusDate;
         r[++j] = '</td><td>';
         r[++j] = trades[i].From;
         r[++j] = '<input class="fromTeamId" type="hidden" value="';
         r[++j] = trades[i].FromTeamId;
         r[++j] = '"/></td><td><ul class="list-group">';
-        if (trades[i].Sending != undefined) {
-            for (var i2 = 0, sendingSize = trades[i].Sending.length; i2 < sendingSize; i2++) {
-                r[++j] = '<li class="list-group-item">';
-                r[++j] = trades[i].Sending[i2].AssetName;
+        if (trades[i].Receiving != undefined) {
+            for (var i2 = 0, receivingSize = trades[i].Receiving.length; i2 < receivingSize; i2++) {
+                r[++j] = '<li class="list-group-item mx-1">';
+                r[++j] = trades[i].Receiving[i2].AssetName;
                 r[++j] = '</li>';
             }
         }
@@ -99,10 +99,10 @@ function offers(trades) {
         r[++j] = '<input class="toTeamId" type="hidden" value="';
         r[++j] = trades[i].ToTeamId;
         r[++j] = '"/></td><td><ul class="list-group">';
-        if (trades[i].Receiving != undefined) {
-            for (var i2 = 0, sendingSize = trades[i].Receiving.length; i2 < sendingSize; i2++) {
-                r[++j] = '<li class="list-group-item">';
-                r[++j] = trades[i].Receiving[i2].AssetName;
+        if (trades[i].Sending != undefined) {
+            for (var i2 = 0, sendingSize = trades[i].Sending.length; i2 < sendingSize; i2++) {
+                r[++j] = '<li class="list-group-item mx-1">';
+                r[++j] = trades[i].Sending[i2].AssetName;
                 r[++j] = '</li>';
             }
         }
