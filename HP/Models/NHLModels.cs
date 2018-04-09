@@ -96,7 +96,7 @@ namespace HP.Models
         }
     }
 
-    [Table("dbo.GAME_INFO")]
+    [Table("nlpool.GAME_INFO")]
     public partial class GameInfo
     {
         public int Id { get; set; }
@@ -118,7 +118,7 @@ namespace HP.Models
         public GameInfoMap()
         {
             this.HasKey(t => t.Id);
-            this.ToTable("dbo.GAME_INFO");
+            this.ToTable("nlpool.GAME_INFO");
             this.Property(t => t.Id).HasColumnName("ID");
             this.Property(t => t.HomeTeam).HasColumnName("HOME_TEAM").IsRequired().HasMaxLength(50);
             this.Property(t => t.VisitorTeam).HasColumnName("VISITOR_TEAM").IsRequired().HasMaxLength(50);
