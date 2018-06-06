@@ -8,7 +8,7 @@ using System.Web;
 
 namespace HP.Models
 {
-    [Table("dbo.NHL_PLAYER")]
+    [Table("nlpool.NHL_PLAYER")]
     public partial class NHLPlayer
     {
         public int Id { get; set; }
@@ -47,7 +47,7 @@ namespace HP.Models
         {
             this.HasKey(t => t.Id);
             this.Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            this.ToTable("dbo.NHL_PLAYER");
+            this.ToTable("nlpool.NHL_PLAYER");
             this.Property(t => t.Id).HasColumnName("ID");
             this.Property(t => t.LastName).HasColumnName("LAST_NAME").IsRequired().HasMaxLength(50);
             this.Property(t => t.FirstName).HasColumnName("FIRST_NAME").IsRequired().HasMaxLength(50);
@@ -64,7 +64,7 @@ namespace HP.Models
         }
     }
 
-    [Table("dbo.NHLTeam")]
+    [Table("nlpool.NHLTeam")]
     public partial class NHLTeam
     {
         public string Code { get; set; }
@@ -88,7 +88,7 @@ namespace HP.Models
         {
             this.HasKey(t => t.Code);
             this.Property(t => t.Code).HasMaxLength(5).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            this.ToTable("dbo.NHLTeam");
+            this.ToTable("nlpool.NHLTeam");
             this.Property(t => t.Name).HasMaxLength(50);
             this.HasMany<NHLPlayer>(t => t.Players)
                 .WithOptional(t => t.NHLTeam)

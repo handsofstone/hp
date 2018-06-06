@@ -11,14 +11,20 @@
             <li class="nav-item">
                 <a class="nav-link" id="trades-tab" href="#tabTrades" data-toggle="tab" aria-controls="tagTrades" aria-selected="false">Trades</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="draft-tab" href="#tabDraft" data-toggle="tab" aria-controls="tagDraft" aria-selected="false">Draft</a>
+            </li>
         </ul>
     </div>
     <div class="tab-content" id="poolTabContent">
-        <div class="tab-pane fade show active" id="tabStandings">
+        <div class="tab-pane fade show active px-sm-2" id="tabStandings">
             @Html.Partial("_Standings", Model)
         </div>
-        <div class="tab-pane fade" id="tabTrades">
+        <div class="tab-pane fade px-sm-2" id="tabTrades">
             @Html.Partial("_Trades", Model)
+        </div>
+        <div class="tab-pane fade px-sm-2" id="tabDraft">
+            @Html.Partial("_Draft", Model)
         </div>
     </div>
 </div>
