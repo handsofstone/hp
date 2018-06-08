@@ -487,6 +487,8 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\doT\doT.js" />
+    <Content Include="Scripts\doT\doT.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -584,6 +586,7 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\Pool\Index.cshtml" />
     <Content Include="Views\Pool\_Trades.cshtml" />
+    <Content Include="Views\Pool\_Draft.cshtml" />
     <None Include="Web.Debug Hydro.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

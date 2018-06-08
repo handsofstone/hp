@@ -76,6 +76,9 @@ namespace HP
                 "~/Scripts/flot/jquery.flot.*"));
             bundles.Add(new ScriptBundle("~/bundles/popper", "//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js").Include(
                 "~/Scripts/umd/popper.js"));
+            bundles.Add(new ScriptBundle("~/bundles/doT", "https://cdnjs.cloudflare.com/ajax/libs/dot/1.1.2/doT.min.js").Include(
+                "~/Scripts/doT/doT.js"));
+
         }
     }
 }
