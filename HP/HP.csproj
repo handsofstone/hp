@@ -587,6 +587,7 @@
     <Content Include="Views\Pool\Index.cshtml" />
     <Content Include="Views\Pool\_Trades.cshtml" />
     <Content Include="Views\Pool\_Draft.cshtml" />
+    <Content Include="Views\Pool\_Rosters.cshtml" />
     <None Include="Web.Debug Hydro.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

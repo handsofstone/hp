@@ -1,0 +1,78 @@
+﻿
+
+@*<div class="row">
+    <div class="col">
+        <div class="card my-sm-2">
+            <div class="card-header">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
+                    </div>
+                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div class="row">
+    <div class="col-sm-3">
+        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+            <thead>
+                <tr>
+                    <th colspan="2">Joel</th>
+                </tr>
+            <tbody class="scroll-tbody">
+                <tr>
+                    <td>C</td>
+                    <td>
+                    <span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="21, ARIZONA COYOTES">
+                        <a target="_blank" href="https://www.nhl.com/player/8474613">Stepan, Derek</a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-3">
+        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+            <thead>
+                <tr>
+                    <th colspan="2">Dave</th>
+                </tr>
+            <tbody class="scroll-tbody">
+                <tr>
+                    <td>C</td>
+                    <td>Thornton, Joe</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-3">
+        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+            <thead>
+                <tr>
+                    <th colspan="2">Tyson "The Champ"</th>
+                </tr>
+            <tbody class="scroll-tbody">
+                <tr>
+                    <td>C</td>
+                    <td>Schenn, Brayden</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-3">
+        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+            <thead>
+                <tr>
+                    <th colspan="2">Wats</th>
+                </tr>
+            <tbody class="scroll-tbody">
+                <tr>
+                    <td>C</td>
+                    <td>Malkin, Evgeni</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

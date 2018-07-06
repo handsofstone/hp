@@ -9,7 +9,7 @@ namespace HP
         public static void RegisterBundles(BundleCollection bundles)
         {
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery", "//code.jquery.com/jquery-3.2.1.slim.min.js").Include(
+            bundles.Add(new ScriptBundle("~/bundles/jquery", "//code.jquery.com/jquery-3.2.1.min.js").Include(
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -51,9 +51,9 @@ namespace HP
 
             bundles.Add(new StyleBundle("~/Content/materials", "https://fonts.googleapis.com/icon?family=Material+Icons").Include(
                         "~/Content/material_icon.css"));
-            bundles.Add(new ScriptBundle("~/bundles/fontawesome", "use.fontawesome.com/releases/v5.0.8/js/fontawesome.js").Include(
+            bundles.Add(new ScriptBundle("~/bundles/fontawesome", "https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js").Include(
                         "~/Scripts/fontawesome.js"));
-            bundles.Add(new ScriptBundle("~/bundles/solid", "use.fontawesome.com/releases/v5.0.8/js/solid.js").Include(
+            bundles.Add(new ScriptBundle("~/bundles/solid", "https://use.fontawesome.com/releases/v5.0.8/js/solid.js").Include(
                         "~/Scripts/fa-solid.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(

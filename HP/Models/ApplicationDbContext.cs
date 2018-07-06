@@ -193,13 +193,18 @@ namespace HP.Models
                 .FirstOrDefault();
         }
 
-        public string Assets(/*string userId,*/ int teamId)
+        public string Assets(int? teamId, int? poolId = null)
         {
+            if (teamId != null)
+                return Database.SqlQuery<String>(
+                    "select nlpool.TeamAssets(@teamId)",
+                    new SqlParameter("teamId", teamId))
+                    .FirstOrDefault();
             return Database.SqlQuery<String>(
-                "select nlpool.TeamAssets(@teamId)",
-                new SqlParameter("teamId", teamId))
+                "select nlpool.PoolAssets(@poolId)",
+                new SqlParameter("poolId", poolId))
                 .FirstOrDefault();
-        }
+        }        
 
         public int CreateOffer(/*string userId,*/ string jsonOffer)
         {
