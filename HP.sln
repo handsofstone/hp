@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP", "HP\HP.csproj", "{C49A73E6-D068-4BA5-A994-6E1DB3952252}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSN", "TSNDownload\TSN.csproj", "{C9338F97-615E-4401-9339-0484D70712B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHL", "NHL\NHL.csproj", "{42A1AD74-6932-4B10-A61B-F6630674D537}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "nlpool", "nlpool\nlpool.sqlproj", "{D9CE1516-8BC9-4159-B385-A8B355B34B7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +43,23 @@ Global
 		{42A1AD74-6932-4B10-A61B-F6630674D537}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42A1AD74-6932-4B10-A61B-F6630674D537}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{42A1AD74-6932-4B10-A61B-F6630674D537}.Test|Any CPU.Build.0 = Release|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Debug Hydro|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Debug Hydro|Any CPU.Build.0 = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Debug Hydro|Any CPU.Deploy.0 = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{D9CE1516-8BC9-4159-B385-A8B355B34B7A}.Test|Any CPU.Deploy.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8635D59-7D6C-499E-8B01-220DFEF3551E}
 	EndGlobalSection
 EndGlobal

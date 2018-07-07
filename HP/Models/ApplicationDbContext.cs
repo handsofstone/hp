@@ -193,13 +193,18 @@ namespace HP.Models
                 .FirstOrDefault();
         }
 
-        public string Assets(/*string userId,*/ int teamId)
+        public string Assets(int? teamId, int? poolId = null)
         {
+            if (teamId != null)
+                return Database.SqlQuery<String>(
+                    "select nlpool.TeamAssets(@teamId)",
+                    new SqlParameter("teamId", teamId))
+                    .FirstOrDefault();
             return Database.SqlQuery<String>(
-                "select nlpool.TeamAssets(@teamId)",
-                new SqlParameter("teamId", teamId))
+                "select nlpool.PoolAssets(@poolId)",
+                new SqlParameter("poolId", poolId))
                 .FirstOrDefault();
-        }
+        }        
 
         public int CreateOffer(/*string userId,*/ string jsonOffer)
         {
@@ -237,7 +242,7 @@ namespace HP.Models
         {
             return Database.SqlQuery<String>(
                 @"select ISNULL(np.TSN_NAME, LOWER(np.FIRST_NAME + '-' + np.LAST_NAME))
-                  from dbo.NHL_PLAYER np
+                  from nlpool.NHL_PLAYER np
                   join nlpool.RosterPlayer rp on np.ID = rp.PlayerId
                   join nlpool.TeamAsset ta on (rp.Id = ta.AssetId and ta.AssetType = 'roster')
                  where ta.TeamId = @teamId",

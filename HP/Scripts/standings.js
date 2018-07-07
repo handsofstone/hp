@@ -55,6 +55,8 @@ $(document).ready(function () {
 
     $("#SelectedSeasonID").trigger('change');
     tradeDashboard();
+
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 function tradeDashboard() {

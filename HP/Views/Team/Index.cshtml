@@ -244,8 +244,8 @@
         </ul>
     </div>
     <div class="tab-content" id="teamTabContent">
-        <div class="tab-pane fade show active" id="tabLineup" role="tabpanel" aria-labelledby="lineup-tab">
-            <div class="container-fluid">
+        <div class="tab-pane fade show active px-sm-2" id="tabLineup" role="tabpanel" aria-labelledby="lineup-tab">
+
                 <div class="row">
                     <div class="col">
                         <div class="card my-sm-2">
@@ -337,15 +337,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
         </div>
-        <div class="tab-pane fade" id="tabRoster" role="tabpanel" aria-labelledby="roster-tab">
-            <div class="container-fluid">
+        <div class="tab-pane fade px-sm-2" id="tabRoster" role="tabpanel" aria-labelledby="roster-tab">
                 @if (Model.CanSave || Model.CanTrade)
                 {
                     <div class="row">
                         <div class="col">
-                            <div class="card">
+                            <div class="card my-sm-2">
                                 <div class="card-header">
                                     <div class="btn-group form-inline" role="group" aria-label="Roster Toolbar">
                                         @if (Model.CanSave)
@@ -421,7 +420,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
