@@ -34,7 +34,7 @@
         </table>
     </div>
     <div class="col-sm-3">
-        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+        <table id="roster2" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
             <thead>
                 <tr>
                     <th colspan="2">Dave</th>
@@ -48,7 +48,7 @@
         </table>
     </div>
     <div class="col-sm-3">
-        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+        <table id="roster3" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
             <thead>
                 <tr>
                     <th colspan="2">Tyson "The Champ"</th>
@@ -62,7 +62,7 @@
         </table>
     </div>
     <div class="col-sm-3">
-        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+        <table id="roster4" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
             <thead>
                 <tr>
                     <th colspan="2">Wats</th>
@@ -76,3 +76,14 @@
         </table>
     </div>
 </div>
+
+<script type="text/plain" id="tmpl_asset">
+    <tr>
+        <td>{{=it.Position}}</td>
+        <td>
+            <span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=it.AssetTooltip}}">
+                <a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{=it.AssetName}}</a>
+            </span>
+        </td>
+    </tr>
+</script>

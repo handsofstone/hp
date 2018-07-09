@@ -115,5 +115,13 @@ namespace HP.Controllers
                 return interval.Season;
             }
         }
+        public ContentResult Assets(int poolId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var assets = context.Assets(null, poolId);
+                return Content(assets, "application/json");
+            }
+        }
     }
 }

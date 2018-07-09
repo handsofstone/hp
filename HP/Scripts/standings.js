@@ -33,6 +33,8 @@ function getPoolId() {
     return id;
 }
 
+
+
 $(document).ready(function () {
 
     //Dropdownlist Selectedchange event
@@ -57,7 +59,32 @@ $(document).ready(function () {
     tradeDashboard();
 
     $('[data-toggle="tooltip"]').tooltip();
+
+    rosters();
+    
 });
+
+function rosters() {
+    var asset_tmpl = doT.template($('#tmpl_asset').text());
+
+    $.ajax({
+        type: 'GET',
+        url: '/Pool/Assets', // we are calling json method
+        dataType: 'json',
+        data: { poolId: getPoolId() },
+        success: function (data) {
+            data[0].Assets.forEach(function (e) {
+                $('#roster1 tr:last').after(asset_tmpl(e));
+            });
+        },
+        complete: function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        },
+        error: function (ex) {
+            alert('Failed to retrieve Pool Rosters.' + ex);
+        }
+    });
+}
 
 function tradeDashboard() {
     $.ajax({
