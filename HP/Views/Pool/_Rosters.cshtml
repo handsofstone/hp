@@ -1,89 +1,32 @@
 ﻿
+<div id="rosters" class="row my-2"></div>
 
-@*<div class="row">
-    <div class="col">
-        <div class="card my-sm-2">
-            <div class="card-header">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
-                    </div>
-                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-    </div>
-</div>*@
-<div class="row">
-    <div class="col-sm-3">
-        <table id="roster1" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+<script type="text/plain" id="tmpl_rosters">
+    {{~it: Team}}
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 table-responsive">
+        <table id="roster{{=Team.Id}}" class="table table-striped" data-toggle="table">
             <thead>
                 <tr>
-                    <th colspan="2">Joel</th>
+                    <th colspan="2" class="text-center"><a class="text-light" href="/Team/Index/{{=Team.Id}}">{{=Team.Name}}</a></th>
                 </tr>
-            <tbody class="scroll-tbody">
+            </thead>
+            <tbody>
+                {{~Team.Assets: Asset}}
                 <tr>
-                    <td>C</td>
+                    {{?Asset.Position}}
+                    <td class="text-center">{{=Asset.Position}}</td>
                     <td>
-                    <span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="21, ARIZONA COYOTES">
-                        <a target="_blank" href="https://www.nhl.com/player/8474613">Stepan, Derek</a>
+                        <span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=Asset.AssetTooltip}}">
+                            <a target="_blank" href="https://www.nhl.com/player/{{=Asset.PlayerId}}">{{=Asset.AssetName}}</a>
                         </span>
                     </td>
+                    {{?? true}}
+                    <td colspan="2" class="text-center bg-info">{{=Asset.AssetName}}</td>
+                    {{?}}
                 </tr>
+                {{~}}
             </tbody>
         </table>
     </div>
-    <div class="col-sm-3">
-        <table id="roster2" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
-            <thead>
-                <tr>
-                    <th colspan="2">Dave</th>
-                </tr>
-            <tbody class="scroll-tbody">
-                <tr>
-                    <td>C</td>
-                    <td>Thornton, Joe</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-sm-3">
-        <table id="roster3" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
-            <thead>
-                <tr>
-                    <th colspan="2">Tyson "The Champ"</th>
-                </tr>
-            <tbody class="scroll-tbody">
-                <tr>
-                    <td>C</td>
-                    <td>Schenn, Brayden</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-sm-3">
-        <table id="roster4" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
-            <thead>
-                <tr>
-                    <th colspan="2">Wats</th>
-                </tr>
-            <tbody class="scroll-tbody">
-                <tr>
-                    <td>C</td>
-                    <td>Malkin, Evgeni</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script type="text/plain" id="tmpl_asset">
-    <tr>
-        <td>{{=it.Position}}</td>
-        <td>
-            <span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=it.AssetTooltip}}">
-                <a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{=it.AssetName}}</a>
-            </span>
-        </td>
-    </tr>
+    {{~}}
 </script>

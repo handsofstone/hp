@@ -317,6 +317,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\fa-svg-with-js.css" />
     <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\hos.svg" />
     <Content Include="Content\images\ui-anim_basic_32x32.gif" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\justified-nav.css" />

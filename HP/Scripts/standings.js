@@ -66,6 +66,7 @@ $(document).ready(function () {
 
 function rosters() {
     var asset_tmpl = doT.template($('#tmpl_asset').text());
+    var roster_tmpl = doT.template($('#tmpl_rosters').text());
 
     $.ajax({
         type: 'GET',
@@ -73,9 +74,7 @@ function rosters() {
         dataType: 'json',
         data: { poolId: getPoolId() },
         success: function (data) {
-            data[0].Assets.forEach(function (e) {
-                $('#roster1 tr:last').after(asset_tmpl(e));
-            });
+            $('#rosters').html(roster_tmpl(data));
         },
         complete: function () {
             $('[data-toggle="tooltip"]').tooltip();
