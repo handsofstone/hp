@@ -4,21 +4,97 @@
         <table class="table table-bordered table-condensed table-responsive-sm table-striped">
             <thead>
                 <tr>
-                    <td colspan="3">Round #</td>
+                    <td colspan="4">Round 1</td>
                 </tr>
                 <tr>
                     <td>Pick</td>
                     <td>Team</td>
                     <td>Player</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td>1</td>
+                    <td>Elleena</td>
+                    <td>
+                        <i>Dahlin, Rasmus</i>
+                        <form autocomplete="off" action="/action_page.php">
+                            <div class="autocomplete">
+                                <input type="text" class="form-control nhlsearch" hidden>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-default btn-xs-text">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jason</td>
                     <td></td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-default btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col">
+        <table class="table table-bordered table-condensed table-responsive-sm table-striped">
+            <thead>
+                <tr>
+                    <td colspan="4">Round 2</td>
+                </tr>
+                <tr>
+                    <td>Pick</td>
+                    <td>Team</td>
+                    <td>Player</td>
                     <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Elleena</td>
                     <td></td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-default btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jason</td>
+                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-default btn-xs-text" data-toggle="modal" data-target="#addPlayerModal" aria-label="Left Align">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    $(".nhlsearch").autocomplete
+        ({
+            source: function (request, response) {
+                $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json, charset=utf-8',
+                    url: '/Team/AvailablePlayer',
+                    dataType: 'json',
+                    data: { searchString: searchString, teamId: $('#TeamId').val() },url: ""
+                })
+            }
+        }
+        )
+</script>

@@ -1,0 +1,23 @@
+<mjml>
+  <mj-body background-color="#e7e7e7">
+    <mj-section background-color="#e7e7e7">
+      <mj-column>
+
+        <mj-image width="100" src="../Content/images/hos.svg"></mj-image>
+        </mj-column>
+        <mj-column>
+        <mj-text align="center" font-size="20px" color="#0000ff" font-family="helvetica">handsofstone</mj-text>
+
+        
+
+        
+
+      </mj-column>
+    </mj-section>
+    <<mj-section>
+        <mj-column>
+        <mj-divider border-color="#5599ff"></mj-divider>
+        </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
