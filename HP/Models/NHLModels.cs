@@ -111,6 +111,7 @@ namespace HP.Models
         public int VisitorScore { get; set; }
         public virtual NHLTeam Home { get; set; }
         public virtual NHLTeam Visitor { get; set; }
+        public string GameType { get; set; }
     }
 
     public class GameInfoMap : EntityTypeConfiguration<GameInfo>
