@@ -375,14 +375,14 @@
                 }
                 <div class="row">
                     <div class="col">
-                        <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table">
+                        <table id="rosterTable" class="table table-bordered table-condensed table-striped" data-toggle="table" data-show-footer="true" data>
                             <thead>
                                 <tr>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</td>
-                                    <td>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</td>
+                                    <th>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Number)</th>
+                                    <th>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Name)</th>
+                                    <th>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().EligiblePositions)</th>
+                                    <th>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Team)</th>
+                                    <th>@Html.DisplayNameFor(model => model.RosterPlayers.FirstOrDefault().Points)</th>
                                 </tr>
                             </thead>
                             <tbody id="rosterBody">
@@ -407,13 +407,14 @@
                                         </tr>
                                     }*@
                             </tbody>
+                            <tfoot><tr><th id="rosterCount" class="text-right" colspan="5"></th></tr></tfoot>
                         </table>
                     </div>
                     <div class="col-sm-3">
                         <table id="pickTable" class="table table-bordered table-condensed table-striped" data-toggle="table">
                             <thead>
                                 <tr>
-                                    <td>Pick</td>
+                                    <th>Pick</th>
                                 </tr>
                             </thead>
                             <tbody id="picks"></tbody>

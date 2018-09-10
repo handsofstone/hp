@@ -10,8 +10,8 @@
                     <th colspan="2" class="text-center"><a class="text-light" href="/Team/Index/{{=Team.Id}}">{{=Team.Name}}</a></th>
                 </tr>
             </thead>
-            <tbody>
-                {{~Team.Assets: Asset}}
+            <tbody>                
+                {{~Team.PlayerAssets: Asset: i}}
                 <tr>
                     {{?Asset.Position}}
                     <td class="text-center">{{=Asset.Position}}</td>
@@ -20,6 +20,18 @@
                             <a target="_blank" href="https://www.nhl.com/player/{{=Asset.PlayerId}}">{{=Asset.AssetName}}</a>
                         </span>
                     </td>
+                    {{?}}
+                </tr>
+                {{~}}
+            </tbody>
+
+            <tfoot><tr><th class="text-right" colspan="2">{{=Team.PlayerAssets.length}}</th></tr></tfoot>
+        </table>
+        <table id="pick{{=Team.Id}}" class="table table-striped" data-toggle="table">
+            <tbody>
+                {{~Team.PickAssets: Asset}}
+                <tr>
+                    {{?Asset.Position}}
                     {{?? true}}
                     <td colspan="2" class="text-center bg-info">{{=Asset.AssetName}}</td>
                     {{?}}

@@ -430,6 +430,7 @@ function Roster(roster) {
         r[++j] = '</td></tr > ';
     }
     $('#rosterBody').html(r.join(''));
+    $('#rosterCount').html(roster.length);
 }
 function DraftPicks(picks) {
     var r = new Array(), j = -1;

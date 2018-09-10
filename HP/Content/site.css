@@ -53,7 +53,7 @@ input[type="checkbox"].input-validation-error {
 .ui-progressbar-value {
   background-color: #ccc; }
 
-thead {
+thead, tfoot {
   background-color: steelblue;
   color: white; }
 
