@@ -622,14 +622,15 @@ function searchAssets(e, assets) {
         var asset = document.createElement('li')
         $(asset).data('asset', assets[i].data);
         asset.setAttribute('class', 'ui-state-default');
-        var defheadshot = document.createElement('img');
-        defheadshot.setAttribute('class', 'player-photo');
-        defheadshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/skater.jpg');
-        var headshot = document.createElement('object');
-        headshot.setAttribute('data', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
-        headshot.setAttribute('type', 'image/jpg')
+        //var defheadshot = document.createElement('img');
+        //defheadshot.setAttribute('class', 'player-photo');
+        //defheadshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/skater.jpg');
+        var headshot = document.createElement('img');
+        headshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
+        //headshot.setAttribute('type', 'image/jpg');
+        headshot.setAttribute('onerror', "this.src='https://nhl.bamcontent.com/images/headshots/current/168x168/skater.jpg';");
         headshot.setAttribute('class', 'player-photo');
-        headshot.appendChild(defheadshot);
+        //headshot.appendChild(defheadshot);
         asset.appendChild(headshot);
         asset.appendChild(document.createTextNode(assets[i].AssetName));
         frag.appendChild(asset);
