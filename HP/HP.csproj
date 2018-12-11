@@ -390,6 +390,8 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Email\myfirst.js" />
+    <Content Include="Email\TradeNotfication.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap-toggle.less" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
@@ -406,6 +408,8 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Email\package-lock.json" />
+    <Content Include="Email\TradeNotfication.mjml" />
     <None Include="Properties\PublishProfiles\GRIMLOCK FS.pubxml" />
     <None Include="Properties\PublishProfiles\GRIMLOCK.pubxml" />
     <Content Include="Scripts\bootstrap-toggle.js" />
