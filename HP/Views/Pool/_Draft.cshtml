@@ -1,4 +1,26 @@
-﻿
+﻿@model HP.Models.StandingsViewModel
+
+<div class="row">
+    <div class="col">
+        <div class="card my-sm-2">
+            <div class="card-header">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
+                    </div>
+                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="picks" class="row my-2"></div>
+<script type="text/plain" id="tmpl_picks">
+    var rnd
+    {{~it: Pick}}
+    = {{Pick.Round}}
+    {{~}}
+</script>
 <div class="row">
     <div class="col">
         <table class="table table-bordered table-condensed table-responsive-sm table-striped">
@@ -14,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr class="md-18">
                     <td>1</td>
                     <td>Elleena</td>
                     <td>
@@ -92,7 +114,7 @@
                     contentType: 'application/json, charset=utf-8',
                     url: '/Team/AvailablePlayer',
                     dataType: 'json',
-                    data: { searchString: searchString, teamId: $('#TeamId').val() },url: ""
+                    data: { searchString: searchString, teamId: $('#TeamId').val() }, url: ""
                 })
             }
         }

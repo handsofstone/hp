@@ -123,5 +123,13 @@ namespace HP.Controllers
                 return Content(assets, "application/json");
             }
         }
+        public ContentResult DraftDashboard(int poolId,int seasonId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var assets = context.DraftDashboard(poolId,seasonId);
+                return Content(assets, "application/json");
+            }
+        }
     }
 }

@@ -1,0 +1,37 @@
+<mjml>
+  <mj-head>
+  </mj-head>
+
+  <mj-body background-color="#e7e7e7">
+    <mj-section background-color="#e7e7e7" background-url="../Content/images/hos.svg" background-size="300px" background-repeat="no-repeat" border-bottom="1px">
+      <mj-column>
+        <mj-spacer height="280px"></mj-spacer>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-text align="center">
+          <h1>Trade Notification</h1>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-wrapper border-top="2px solid black" border-bottom="2px solid black">
+      <mj-section>
+
+        <mj-column>
+          <mj-text>Here is some text.</mj-text>
+        </mj-column>
+        <mj-column>
+          <mj-text>some over here</mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+    <mj-section>
+      <mj-column>
+        <mj-text> &copy 2018 - handofstone.ca</mj-text>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+</mjml>

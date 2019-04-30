@@ -140,3 +140,22 @@ function offers(trades) {
     }
     $("#tradesTable").append(r.join(''));
 }
+
+function draftDashboard() {
+    var order_tmpl = doT.template($('#tmpl_order').text());
+    var picks_tmpl = doT.template($('#tmpl_picks').text());
+
+    $.ajax({
+        type: 'GET',
+        url: '/Pool/DraftDashboard', // we are calling json method
+        dataType: 'json',
+        data: { poolId: getPoolId(), seasonId: $("#SelectedSeasonID").val() },
+        success: function (data) {
+            $('#orders').html(picks_tmpl(data.PickOrder));
+            $('#picks').html(picks_tmpl(data.DraftPicks));
+        },
+        error: function (ex) {
+            alert('Failed to retrieve Draft Dashboard.' + ex);
+        }
+    });
+}

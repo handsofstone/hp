@@ -295,5 +295,13 @@ namespace HP.Models
                         select rp;
             return query.First();
         }
+        public string DraftDashboard(int poolId,int seasonId)
+        {
+            return Database.SqlQuery<String>(
+                "select nlpool.DraftDashboard(@poolId,@seasonId)",
+                new SqlParameter("poolId", poolId),
+                new SqlParameter("seasonId", seasonId))
+                .FirstOrDefault();
+        }
     }
 }
