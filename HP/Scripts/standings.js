@@ -61,6 +61,8 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     rosters();
+
+    draftDashboard();
     
 });
 
@@ -142,7 +144,7 @@ function offers(trades) {
 }
 
 function draftDashboard() {
-    var order_tmpl = doT.template($('#tmpl_order').text());
+    //var order_tmpl = doT.template($('#tmpl_order').text());
     var picks_tmpl = doT.template($('#tmpl_picks').text());
 
     $.ajax({
@@ -151,7 +153,7 @@ function draftDashboard() {
         dataType: 'json',
         data: { poolId: getPoolId(), seasonId: $("#SelectedSeasonID").val() },
         success: function (data) {
-            $('#orders').html(picks_tmpl(data.PickOrder));
+            //$('#orders').html(picks_tmpl(data.PickOrder));
             $('#picks').html(picks_tmpl(data.DraftPicks));
         },
         error: function (ex) {
