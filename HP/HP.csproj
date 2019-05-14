@@ -410,6 +410,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Email\package.json" />
     <None Include="Properties\PublishProfiles\GRIMLOCK FS.pubxml" />
     <None Include="Properties\PublishProfiles\GRIMLOCK.pubxml" />
     <Content Include="Scripts\bootstrap-toggle.js" />
