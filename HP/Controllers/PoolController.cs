@@ -131,5 +131,15 @@ namespace HP.Controllers
                 return Content(assets, "application/json");
             }
         }
+
+        public ContentResult AvailablePlayer(string searchString, int poolId)
+        {
+            string searchResults = NHL.NHL.getAvailablePlayers(searchString);
+            using (var context = new ApplicationDbContext())
+            {       
+                var result = context.AvailablePlayers(searchResults, poolId);
+                return Content(result, "application/json");
+            }
+        }
     }
 }

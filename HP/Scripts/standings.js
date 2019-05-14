@@ -16,11 +16,11 @@ function populateStandings(standings) {
 
 function standingsRow(obj) {
     var row = '<tr>' +
-    '<td class="text-center">{{Rank}}</td>' +
-    '<td><a href="/Team/Index/{{TeamId}}">{{Name}}</a></td>' +
-    '<td class="text-right">{{Gain}}</td>' +
-    '<td class="text-right">{{Total}}</td>' +
-    '</tr>';
+        '<td class="text-center">{{Rank}}</td>' +
+        '<td><a href="/Team/Index/{{TeamId}}">{{Name}}</a></td>' +
+        '<td class="text-right">{{Gain}}</td>' +
+        '<td class="text-right">{{Total}}</td>' +
+        '</tr>';
     return row.compose(obj);
 }
 
@@ -55,6 +55,10 @@ $(document).ready(function () {
         return false;
     });
 
+    $("#DraftSeasonID").change(function () {
+        draftDashboard();
+    });
+
     $("#SelectedSeasonID").trigger('change');
     tradeDashboard();
 
@@ -63,7 +67,7 @@ $(document).ready(function () {
     rosters();
 
     draftDashboard();
-    
+
 });
 
 function rosters() {
@@ -151,13 +155,65 @@ function draftDashboard() {
         type: 'GET',
         url: '/Pool/DraftDashboard', // we are calling json method
         dataType: 'json',
-        data: { poolId: getPoolId(), seasonId: $("#SelectedSeasonID").val() },
+        data: { poolId: getPoolId(), seasonId: $("#DraftSeasonID").val() },
         success: function (data) {
             //$('#orders').html(picks_tmpl(data.PickOrder));
             $('#picks').html(picks_tmpl(data.DraftPicks));
+            addAutoComplete();
         },
         error: function (ex) {
             alert('Failed to retrieve Draft Dashboard.' + ex);
         }
     });
+}
+
+function addAutoComplete() {
+    $(".nhlsearch").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json, charset=utf-8',
+                url: '/Pool/AvailablePlayer',
+                dataType: 'json',
+                data: { searchString: request.term, poolId: getPoolId() },
+                success: function (data) {
+                    response(data);
+                }
+            })
+        }
+    });
+}
+
+var Player = function (delimitedString) {
+    // Format of | delimted search result
+    //'PlayerId', 'LastName', 'FirstName', 'Active', 'Rookie', 'Height', 'Weight', 'City', 'State', 'Country', 'BirthDate', 'TeamCode', 'Position', 'PlayerNo', 'Link'
+    var values = delimitedString.split('|');
+    this.PlayerId = values[0];
+    this.LastName = values[1];
+    this.FirstName = values[2];
+    this.Active = values[3];
+    this.Rookie = values[4];
+    this.Height = values[5];
+    this.Weight = values[6];
+    this.City = values[7];
+    this.State = values[8];
+    this.Country = values[9];
+    this.BirthDate = values[10];
+    this.TeamCode = values[11];
+    this.Position = values[12];
+    this.PlayerNo = values[13];
+    this.Link = values[14];
+}
+
+function convertSearchAssets(searchResult) {
+    var assets = [];
+    for (var i = 0, size = searchResult.length; i < size; i++) {
+        var player = new Player(searchResult[i].Player);
+            assets.push({
+                data: player,
+                PlayerId: player.PlayerId,
+                AssetName: player.FirstName + ' ' + player.LastName + ' ' + player.TeamCode
+            });
+    }
+    return assets;
 }

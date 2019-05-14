@@ -8,7 +8,7 @@
                     <div class="input-group-prepend">
                         @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
                     </div>
-                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { id = "DraftSeasonID", @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -17,59 +17,41 @@
 <div id="picks" class="row"></div>
 
 
-    <script type="text/plain" id="tmpl_picks">
-        {{~it: Round}}
-        <div class="col">
-            <table class="table table-bordered table-condensed table-responsive-sm table-striped">
-                <thead>
-                    <tr>
-                        <td colspan="4">Round {{=Round.Round}}</td>
-                    </tr>
-                    <tr>
-                        <td>Pick</td>
-                        <td>Team</td>
-                        <td>Player</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{~Round.Picks: Pick}}
-                    <tr class="md-18">
-                        <td>{{=Pick.PickOrder}}</td>
-                        <td>{{=Pick.OwnerName}}</td>
-                        <td>
-                            @*<i>{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}}{{?}}</i>*@
-                            <form autocomplete="off" action="/action_page.php">
-                                <div class="autocomplete">
-                                    <input type="text" class="form-control nhlsearch" placeholder="Select" >
-                                </div>
-                            </form>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-info btn-default btn-xs-text">
-                                <i class="material-icons">edit</i>
-                            </button>
-                        </td>
-                    </tr>
-                    {{~}}
-                </tbody>
-            </table>
-        </div>
-        {{~}}
-    </script>
-
-<script>
-    $(".nhlsearch").autocomplete
-        ({
-            source: function (request, response) {
-                $.ajax({
-                    type: 'GET',
-                    contentType: 'application/json, charset=utf-8',
-                    url: '/Team/AvailablePlayer',
-                    dataType: 'json',
-                    data: { searchString: searchString, teamId: $('#TeamId').val() }, url: ""
-                })
-            }
-        }
-        )
+<script type="text/plain" id="tmpl_picks">
+    {{~it: Round}}
+    <div class="col">
+        <table class="table table-bordered table-condensed table-responsive-sm table-striped">
+            <thead>
+                <tr>
+                    <td colspan="4">Round {{=Round.Round}}</td>
+                </tr>
+                <tr>
+                    <td>Pick</td>
+                    <td>Team</td>
+                    <td>Player</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                {{~Round.Picks: Pick}}
+                <tr class="md-18">
+                    <td>{{=Pick.PickOrder}}</td>
+                    <td>{{=Pick.OwnerName}}</td>
+                    <td>
+                        @*<i>{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}}{{?}}</i>*@
+                        <div class="autocomplete ui-widget">
+                            <input type="text" class="form-control nhlsearch" placeholder="Select">
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-default btn-xs-text">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </td>
+                </tr>
+                {{~}}
+            </tbody>
+        </table>
+    </div>
+    {{~}}
 </script>
