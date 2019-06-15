@@ -21,6 +21,9 @@ input,
 select {
     max-width: 280px;
 }
+input.nhlsearch {
+    max-width: 100%;
+}
 
 /* styles for validation helpers */
 .field-validation-error {

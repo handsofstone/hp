@@ -18,9 +18,10 @@
     </mj-section>
     <mj-wrapper border-top="2px solid black" border-bottom="2px solid black">
       <mj-section>
-
         <mj-column>
-          <mj-text>Here is some text.</mj-text>
+          <mj-table>
+            
+          </mj-table>
         </mj-column>
         <mj-column>
           <mj-text>some over here</mj-text>

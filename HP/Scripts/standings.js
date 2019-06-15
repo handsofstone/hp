@@ -177,14 +177,31 @@ function addAutoComplete() {
                 dataType: 'json',
                 data: { searchString: request.term, poolId: getPoolId() },
                 success: function (data) {
-                    response(data);
+                    response(labelAndValues(data));
                 }
-            })
+            });
+        },
+        select: function (event, ui) {
+            $(this).hide();
+            $(this).val(ui.item.label);
+            var $row = $(this).closest("tr"); // get the pick row
+            $row.find("td span a").append(ui.item.label); // update the player
+            $row.find(".btn").removeAttr('hidden'); // show the button
         }
     });
 }
 
-var Player = function (delimitedString) {
+function labelAndValues(data) {
+    return $.map(data, function (item) {
+        var player = new Player(item.Player);
+        return {
+            label: player.LastName + ", " + player.FirstName,
+            value: player.PlayerId
+        };
+    });
+}
+
+function Player(delimitedString) {
     // Format of | delimted search result
     //'PlayerId', 'LastName', 'FirstName', 'Active', 'Rookie', 'Height', 'Weight', 'City', 'State', 'Country', 'BirthDate', 'TeamCode', 'Position', 'PlayerNo', 'Link'
     var values = delimitedString.split('|');

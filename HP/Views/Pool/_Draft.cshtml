@@ -29,24 +29,27 @@
                     <td>Pick</td>
                     <td>Team</td>
                     <td>Player</td>
-                    <td></td>
                 </tr>
             </thead>
             <tbody>
                 {{~Round.Picks: Pick}}
-                <tr class="md-18">
+                <tr id="Pick{{=Pick.Id}}" class="md-18">
                     <td>{{=Pick.PickOrder}}</td>
                     <td>{{=Pick.OwnerName}}</td>
                     <td>
-                        @*<i>{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}}{{?}}</i>*@
-                        <div class="autocomplete ui-widget">
-                            <input type="text" class="form-control nhlsearch" placeholder="Select">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=Pick.Team}}">
+                                    <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}}{{?}}</a>
+                                </span>
+                            </div>
+                            <input type="text" class="autocomplete form-control nhlsearch" placeholder="Select" {{?Pick.LastName}} hidden {{?}}>
+                            <div class="input-group-append">
+                                <button type="button" class="btn-info btn-default btn-xs-text" {{?!Pick.LastName}} hidden {{?}}>
+                                    <i class="material-icons">edit</i>
+                                </button>
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-info btn-default btn-xs-text">
-                            <i class="material-icons">edit</i>
-                        </button>
                     </td>
                 </tr>
                 {{~}}

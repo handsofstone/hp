@@ -1,4 +1,5 @@
-var sql = require('mssql')
+const sql = require('mssql')
+const mjmlutils = require('mjml-utils')
 
 var config = {
     user:'nlpool',
@@ -11,4 +12,7 @@ var pool = new sql.ConnectionPool(config)
 
 pool.connect()
 
+var request = new sql.Request(pool)
+
+request.query()
 pool.close()
