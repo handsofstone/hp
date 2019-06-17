@@ -37,19 +37,17 @@
                     <td>{{=Pick.PickOrder}}</td>
                     <td>{{=Pick.OwnerName}}</td>
                     <td>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=Pick.Team}}">
-                                    <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}}{{?}}</a>
-                                </span>
-                            </div>
-                            <input type="text" class="autocomplete form-control nhlsearch" placeholder="Select" {{?Pick.LastName}} hidden {{?}}>
+                        <div class="input-group" {{?!Pick.LastName}} hidden {{?}}>
+                            <label type="text" class="form-control" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=Pick.Team}}" readonly>
+                                <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}}{{?}}</a>
+                            </label>
                             <div class="input-group-append">
-                                <button type="button" class="btn-info btn-default btn-xs-text" {{?!Pick.LastName}} hidden {{?}}>
+                                <button type="button" class="editpick btn btn-info btn-xs-text">
                                     <i class="material-icons">edit</i>
                                 </button>
                             </div>
                         </div>
+                        <input type="text" class="autocomplete form-control nhlsearch" placeholder="Select" {{?Pick.LastName}} hidden {{?}}>
                     </td>
                 </tr>
                 {{~}}

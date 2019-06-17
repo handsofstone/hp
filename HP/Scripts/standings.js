@@ -185,8 +185,8 @@ function addAutoComplete() {
             $(this).hide();
             $(this).val(ui.item.label);
             var $row = $(this).closest("tr"); // get the pick row
-            $row.find("td span a").append(ui.item.label); // update the player
-            $row.find(".btn").removeAttr('hidden'); // show the button
+            $row.find("td div label a").append(ui.item.label); // update the player
+            $row.find("td div").removeAttr('hidden'); // show the button
         }
     });
 }
