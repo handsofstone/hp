@@ -271,3 +271,9 @@ body.loading .loading-modal {
 .with-nav-tabs.bg-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
 .with-nav-tabs.bg-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
   background-color: #4a9fe9; }
+
+.table td.fit,
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}

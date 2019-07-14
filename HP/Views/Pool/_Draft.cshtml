@@ -26,16 +26,16 @@
                     <td colspan="4">Round {{=Round.Round}}</td>
                 </tr>
                 <tr>
-                    <td>Pick</td>
-                    <td>Team</td>
+                    <td class="fit text-center">Pick</td>
+                    <td class="fit text-center">Team</td>
                     <td>Player</td>
                 </tr>
             </thead>
             <tbody>
                 {{~Round.Picks: Pick}}
-                <tr id="Pick{{=Pick.Id}}" class="md-18">
-                    <td>{{=Pick.PickOrder}}</td>
-                    <td>{{=Pick.OwnerName}}</td>
+                <tr id="Pick{{=Pick.Id}}">
+                    <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.PickOrder}}</span></td>
+                    <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.OwnerName}}</span></td>
                     <td>
                         <div class="input-group" {{?!Pick.LastName}} hidden {{?}}>
                             <label type="text" class="form-control" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=Pick.Team}}" readonly>
