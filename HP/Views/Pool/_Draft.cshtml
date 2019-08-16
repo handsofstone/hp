@@ -37,17 +37,17 @@
                     <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.PickOrder}}</span></td>
                     <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.OwnerName}}</span></td>
                     <td>
-                        <div class="input-group" {{?!Pick.LastName}} hidden {{?}}>
-                            <label type="text" class="form-control" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{=Pick.Team}}" readonly>
-                                <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}}{{?}}</a>
+                        <div class="input-group collapse multi-collapse{{=Pick.Id}} {{?Pick.LastName}} show {{?}}" id="pickDisplay{{=Pick.Id}}">                            
+                            <label type="text" class="form-control">
+                                <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}} ({{=Pick.NHLTeamCode}},#{{=Pick.Player}}){{?}}</a>
                             </label>
                             <div class="input-group-append">
-                                <button type="button" class="editpick btn btn-info btn-xs-text">
+                                <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}" >
                                     <i class="material-icons">edit</i>
                                 </button>
                             </div>
                         </div>
-                        <input type="text" class="autocomplete form-control nhlsearch" placeholder="Select" {{?Pick.LastName}} hidden {{?}}>
+                        <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?!Pick.LastName}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="">
                     </td>
                 </tr>
                 {{~}}
@@ -55,4 +55,8 @@
         </table>
     </div>
     {{~}}
+</script>
+
+<script type="text/plain" id="tmpl_pickDisplay">
+    <a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{?it.LastName}}{{=it.LastName}}, {{=it.FirstName}}{{?}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
 </script>

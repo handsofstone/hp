@@ -163,8 +163,14 @@ function draftDashboard() {
         },
         error: function (ex) {
             alert('Failed to retrieve Draft Dashboard.' + ex);
-        }
+        },
+        complete: function (data) {
+        
+}
     });
+
+
+        
 }
 
 function addAutoComplete() {
@@ -182,13 +188,30 @@ function addAutoComplete() {
             });
         },
         select: function (event, ui) {
-            $(this).hide();
-            $(this).val(ui.item.label);
-            var $row = $(this).closest("tr"); // get the pick row
-            $row.find("td div label a").append(ui.item.label); // update the player
-            $row.find("td div").removeAttr('hidden'); // show the button
+            var pick_tmpl = doT.template($('#tmpl_pickDisplay').text());
+
+            $(this).collapse('toggle');
+            var pickDisp = $(this).closest("tr").find("td div"); // get the pick row
+            pickDisp.find('label').html(pick_tmpl(ui.item.value)); // update the player
+            pickDisp.collapse('toggle'); // show the button
         }
     });
+
+    // add event handler for edit buttons
+    $(".editpick").click(function () {
+        // remove player
+        // clear selection
+        var pickRow = $(this).closest("tr"); // get the pick row
+        var pickSelect = pickRow.find("td input");
+        pickSelect.val('');
+    });
+}
+
+function editPick() {
+
+}
+function draftPlayer(pickId, playerId) {
+
 }
 
 function labelAndValues(data) {
@@ -196,7 +219,7 @@ function labelAndValues(data) {
         var player = new Player(item.Player);
         return {
             label: player.LastName + ", " + player.FirstName,
-            value: player.PlayerId
+            value: player
         };
     });
 }
