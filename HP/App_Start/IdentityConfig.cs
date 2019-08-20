@@ -13,6 +13,7 @@ using System.Web;
 using System.Net.Mail;
 using System.Text;
 using System.Collections.Concurrent;
+using System.Net.Mime;
 
 namespace HP.Models
 {
@@ -107,8 +108,13 @@ namespace HP.Models
                 mailMessage.Body = message.Body;
 
                 mailMessage.BodyEncoding = Encoding.UTF8;
-                mailMessage.SubjectEncoding = Encoding.UTF8;
+                mailMessage.SubjectEncoding = Encoding.UTF8;              
                 mailMessage.IsBodyHtml = true;
+
+                // for IPhone email reader
+                AlternateView plainTextView = AlternateView.CreateAlternateViewFromString(message.Body.Trim(), new ContentType("text/html; charset=UTF-8"));
+                plainTextView.TransferEncoding = System.Net.Mime.TransferEncoding.QuotedPrintable;
+                mailMessage.AlternateViews.Add(plainTextView);
 
                 await client.SendMailAsync(mailMessage);
             }

@@ -1,4 +1,4 @@
-﻿@model IdentitySample.Models.LoginViewModel
+﻿@model HP.Models.LoginViewModel
 
 @{
     ViewBag.Title = "Log in";
@@ -49,11 +49,11 @@
             }
         </section>
     </div>
-    <div class="col-md-4">
+    @*<div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new IdentitySample.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
-    </div>
+    </div>*@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

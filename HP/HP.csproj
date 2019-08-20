@@ -534,6 +534,7 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug Hydro.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
