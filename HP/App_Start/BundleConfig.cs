@@ -8,7 +8,8 @@ namespace HP
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery", "//code.jquery.com/jquery-3.2.1.min.js").Include(
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -25,7 +26,7 @@ namespace HP
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/bootstrap-toggle.js",
                       "~/Scripts/respond.js"));
@@ -40,6 +41,20 @@ namespace HP
                       "~/Content/autocomplete.css",
                       "~/Content/site.css",
                       "~/Content/justified-nav.css"));
+
+            #if DEBUG
+            BundleTable.EnableOptimizations = false;
+            #else
+            BundleTable.EnableOptimizations = true;
+            #endif
+            BundleTable.Bundles.UseCdn = true;
+
+            bundles.Add(new StyleBundle("~/Content/materials", "https://fonts.googleapis.com/icon?family=Material+Icons").Include(
+                        "~/Content/material_icon.css"));
+            bundles.Add(new ScriptBundle("~/bundles/fontawesome", "https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js").Include(
+                        "~/Scripts/fontawesome.js"));
+            bundles.Add(new ScriptBundle("~/bundles/solid", "https://use.fontawesome.com/releases/v5.0.8/js/solid.js").Include(
+                        "~/Scripts/fa-solid.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
                       "~/Scripts/DataTables/jquery.dataTables.js",
@@ -59,6 +74,11 @@ namespace HP
             bundles.Add(new ScriptBundle("~/bundles/flot").Include(
                 "~/Scripts/flot/jquery.flot.js",
                 "~/Scripts/flot/jquery.flot.*"));
+            bundles.Add(new ScriptBundle("~/bundles/popper", "//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js").Include(
+                "~/Scripts/umd/popper.js"));
+            bundles.Add(new ScriptBundle("~/bundles/doT", "https://cdnjs.cloudflare.com/ajax/libs/dot/1.1.2/doT.min.js").Include(
+                "~/Scripts/doT/doT.js"));
+
         }
     }
 }

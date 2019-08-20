@@ -1,0 +1,62 @@
+﻿@model HP.Models.StandingsViewModel
+
+<div class="row">
+    <div class="col">
+        <div class="card my-sm-2">
+            <div class="card-header">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
+                    </div>
+                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { id = "DraftSeasonID", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="picks" class="row"></div>
+
+
+<script type="text/plain" id="tmpl_picks">
+    {{~it: Round}}
+    <div class="col">
+        <table class="table table-bordered table-condensed table-responsive-sm table-striped">
+            <thead>
+                <tr>
+                    <td colspan="4">Round {{=Round.Round}}</td>
+                </tr>
+                <tr>
+                    <td class="fit text-center">Pick</td>
+                    <td class="fit text-center">Team</td>
+                    <td>Player</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{~Round.Picks: Pick}}
+                <tr id="Pick{{=Pick.Id}}">
+                    <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.PickOrder}}</span></td>
+                    <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.OwnerName}}</span></td>
+                    <td>
+                        <div class="input-group collapse multi-collapse{{=Pick.Id}} {{?Pick.LastName}} show {{?}}" id="pickDisplay{{=Pick.Id}}">                            
+                            <label type="text" class="form-control">
+                                <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}} ({{=Pick.NHLTeamCode}},#{{=Pick.Player}}){{?}}</a>
+                            </label>
+                            <div class="input-group-append">
+                                <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}" >
+                                    <i class="material-icons">edit</i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?!Pick.LastName}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="">
+                    </td>
+                </tr>
+                {{~}}
+            </tbody>
+        </table>
+    </div>
+    {{~}}
+</script>
+
+<script type="text/plain" id="tmpl_pickDisplay">
+    <a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{?it.LastName}}{{=it.LastName}}, {{=it.FirstName}}{{?}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
+</script>

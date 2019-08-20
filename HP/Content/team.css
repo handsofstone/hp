@@ -1,83 +1,25 @@
-﻿.panel.with-nav-tabs .panel-heading {
-    padding: 5px 5px 0 5px;
-}
-
-.panel.with-nav-tabs .nav-tabs {
-    border-bottom: none;
-}
-
-.panel.with-nav-tabs .nav-justified {
-    margin-bottom: -1px;
-}
-
-/********************************************************************/
-/*** PANEL PRIMARY ***/
-.with-nav-tabs.panel-primary .nav-tabs > li > a,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-    color: #fff;
-}
-
-    .with-nav-tabs.panel-primary .nav-tabs > .open > a,
-    .with-nav-tabs.panel-primary .nav-tabs > .open > a:hover,
-    .with-nav-tabs.panel-primary .nav-tabs > .open > a:focus,
-    .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
-    .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
-        color: #fff;
-        background-color: #3071a9;
-        border-color: transparent;
-    }
-
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a,
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
-.with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
-    color: #428bca;
-    background-color: #fff;
-    border-color: #428bca;
-    border-bottom-color: transparent;
-}
-
-.with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
-    background-color: #428bca;
-    border-color: #3071a9;
-}
-
-    .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a {
-        color: #fff;
-    }
-
-        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-        .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-            background-color: #3071a9;
-        }
-
-    .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-    .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-    .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-        background-color: #4a9fe9;
-    }
-
-td > ul {
+﻿td > ul {
     margin-bottom: 0px;
 }
 
 .table > thead > tr > th {
-    vertical-align:middle;
+    vertical-align: middle;
 }
 
 .pie {
-  width:100%;
-  height:200px;
+    width: 100%;
+    height: 200px;
 }
+
 .pie-label {
-  position:absolute;
-  left:0;
-  top:32%;
-  font-size:36pt;
-  color:#5bc0de;
-  width:100%;
-  height:120px;
-  text-align:center;
+    position: absolute;
+    left: 0;
+    top: 32%;
+    font-size: 36pt;
+    color: #5bc0de;
+    width: 100%;
+    height: 120px;
+    text-align: center;
 }
 
 ul.droppable {
@@ -92,11 +34,11 @@ ul.droppable {
     overflow: auto;
 }
 
-ul.droppable > li {
-    margin: 2px;
-    padding: 2px;
-    font-size: 1em;
-}
+    ul.droppable > li {
+        margin: 2px;
+        padding: 2px;
+        font-size: 1em;
+    }
 
 .propose-top {
     height: 70px;
@@ -110,16 +52,14 @@ ul.droppable > li {
     height: auto;
 }
 
-.table > tbody > tr.offers-row > td {    
+.table > tbody > tr.offers-row > td {
     font-size: .8em;
-    vertical-align: middle;
     text-align: center;
 }
 
-.scroll-tbody {    
-    background-color:#ddd;
-    height:400px;
-    overflow:auto;
+.table > tbody > tr.offers-row > td,
+.table > tbody > tr.playerRow > td {
+    vertical-align: middle;
 }
 
 .offers-row > td > ul > li {
@@ -146,4 +86,9 @@ ul.droppable > li {
     border-radius: 50%;
     box-shadow: 0 0 1px 1px #999;
     visibility: visible;
+}
+
+.playerRow > td > label.tgl-btn {
+    margin-left: auto;
+    margin-right: auto;
 }

@@ -1,0 +1,30 @@
+﻿@model HP.Models.StandingsViewModel
+<div class="row">
+    <div class="col">
+        <div class="card my-sm-2">
+            <div class="card-header">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
+                    </div>
+                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <table id="standingsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <td class="text-center">@Html.DisplayNameFor(model => model.StandingRows[0].Rank)</td>
+                    <td>@Html.DisplayNameFor(model => model.StandingRows[0].Name)</td>
+                    <td class="text-right">@Html.DisplayNameFor(model => model.StandingRows[0].Gain)</td>
+                    <td class="text-right">@Html.DisplayNameFor(model => model.StandingRows[0].Total)</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>

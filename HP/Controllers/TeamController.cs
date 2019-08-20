@@ -20,7 +20,7 @@ namespace HP.Controllers
 {
     public class TeamController : Controller
     {
-         private ApplicationUserManager _userManager;
+        private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
         {
@@ -48,8 +48,8 @@ namespace HP.Controllers
                 //model.AvailablePlayers = AvailablePlayers(team.PoolId);
                 var currentSeasonId = interval.SeasonId;
                 model.Intervals = new SelectList(context.IntervalsByPoolSeason(team.PoolId, interval.SeasonId), "Id", "Name").ToList();
-                
-                
+
+
                 model.CanSave = GetCanSave(model.TeamId);
                 model.CanSubmit = GetCanSubmit(model.TeamId, model.SelectedIntervalId);
                 model.CanTrade = GetCanTrade(model.TeamId);
@@ -294,7 +294,7 @@ namespace HP.Controllers
             }
 
             using (var context = new ApplicationDbContext())
-            {                
+            {
                 return isOwner && today < context.GetCurrentSeasonStartTime;
             }
         }
@@ -361,7 +361,7 @@ namespace HP.Controllers
             }
         }
 
-        public ContentResult TradeDashboard(int teamId)
+        public ContentResult TradeDashboard(int? teamId = null)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -435,19 +435,24 @@ namespace HP.Controllers
         public ActionResult ImportRoster(int teamId)
         {
             using (var context = new ApplicationDbContext())
-            {                
+            {
                 JObject ListingPlayers = JObject.Parse(TSN.TSN.getPlayerListing());
-
-                //List<String> headers = new List<string>();
 
                 foreach (var p in context.PlayersByTeamId(teamId))
                 {
                     HashSet<Char> EligiblePositions = new HashSet<char>();
-                    String positions, teamCode, seoId, teamName;
+                    String positions, teamCode, seoId, teamName, playerFullName, playerLastName, playerFirstName;
                     int playerNumber;
+                    JObject nhlPlayer = JObject.Parse(NHL.NHL.getPlayerProfile(p.Id));
+                    JObject nhlTeam = (JObject)nhlPlayer["people"][0]["currentTeam"];
+                    teamCode = nhlTeam != null ? (string)nhlTeam["abbreviation"] : null;
+                    teamName = nhlTeam != null ? ((string)nhlTeam["name"]).ToUpper() : null;
+                    playerFullName = nhlPlayer != null ? (string)nhlPlayer["people"][0]["fullName"] : null;
+                    playerLastName = nhlPlayer != null ? (string)nhlPlayer["people"][0]["lastName"] : null;
+                    playerFirstName = nhlPlayer != null ? (string)nhlPlayer["people"][0]["firstName"] : null;
+
                     var q = from pl in ((JArray)ListingPlayers["Players"])
-                            where ((string)pl["SeoId"] == p.TSNName) ||
-                            (((string)pl["CurrentTeam"]["Name"]).ToUpper() == p.Team &&
+                            where (((string)pl["CurrentTeam"]["Name"]).ToUpper() == p.Team &&
                             (string)pl["LastName"] == p.LastName && ((string)pl["FirstName"])[0] == p.FirstName[0])
                             select pl;
                     if (q.Count() > 0)
@@ -476,14 +481,15 @@ namespace HP.Controllers
                         if (!p.EligiblePositionString.Equals(positions)) p.EligiblePositionString = positions;
                         if (p.TSNName == null || !p.TSNName.Equals(seoId)) p.TSNName = seoId;
                     }
-                    JObject nhlPlayer = JObject.Parse(NHL.NHL.getPlayerProfile(p.Id));
-                    JObject nhlTeam = (JObject) nhlPlayer["people"][0]["currentTeam"];
-                    teamCode = nhlTeam != null ? (string)nhlTeam["abbreviation"] : null;
-                    teamName = nhlTeam != null ? ((string)nhlTeam["name"]).ToUpper() : null;
                     if ((p.NHLTeamCode != null && !p.NHLTeamCode.Equals(teamCode)) ||
                         (p.NHLTeamCode == null && teamCode != null)) p.NHLTeamCode = teamCode;
                     if ((p.Team != null && !p.Team.Equals(teamName)) ||
-                        (p.Team == null && teamName != null)) p.Team = teamName;                    
+                        (p.Team == null && teamName != null)) p.Team = teamName;
+                    if (p.FullName != null && !p.FullName.Equals(playerFullName))
+                    {
+                        p.LastName = playerLastName;
+                        p.FirstName = playerFirstName;
+                    }
                 }
                 context.SaveChanges();
                 return Json(true);

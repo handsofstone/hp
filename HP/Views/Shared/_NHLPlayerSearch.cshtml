@@ -1,0 +1,10 @@
+﻿
+<div class="input-group">
+    <div class="input-group-prepend">
+        <span class="material-icons input-group-text">search</span>
+    </div>
+    <input type="text" class="form-control" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
+</div>
+    <ul id="searchResults" class="droppable" data-list-swap-group="addPlayer">
+        <li><div class="loading-modal"></div></li>
+    </ul>

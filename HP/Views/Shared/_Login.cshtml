@@ -1,56 +1,50 @@
 ﻿@model HP.Models.LoginViewModel
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("handsofstone", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "navbar-brand" })
-        </div>
-        <div class="navbar-collapse collapse navbar-right">
-            @if (Request.IsAuthenticated)
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="/Home"><img class="mx-2" src="~/Content/images/hos.svg" width="30" height="30" alt="">handsofstone</a>
+    @*@Html.ActionLink("handsofstone", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "navbar-brand" })*@
+    <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbarAccount" aria-expanded="false" aria-controls="navbarAccount" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navbarAccount">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" />
+        </ul>
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline" }))
             {
-                using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-form" }))
+                var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+                var claim = claimsIdentity.FindFirst("Name");
+                var name = User.Identity.Name;
+                if (claim != null)
                 {
-                    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
-                    var claim = claimsIdentity.FindFirst("Name");
-                    var name = User.Identity.Name;
-                    if (claim != null)
-                    {
-                        name = claim.Value;
-                    }
-                    <span class="glyphicon glyphicon-user grey" aria-hidden="true"></span>
-                    @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
-                    <button type="submit" class="btn btn-success" title="Sign Out">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                    </button>
+                    name = claim.Value;
                 }
+                <i class="material-icons" aria-hidden="true">account_circle</i>
+                @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage", @class = "mr-sm-2" })
+                <button type="submit" class="btn btn-success my-2 my-sm-0" title="Sign Out">
+                    <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
+                </button>
             }
-            else
+        }
+        else
+        {
+            using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "loginForm", @class = "form-inline" }))
             {
-                using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "loginForm", @class = "navbar-form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        @*<i class="glyphicon glyphicon-envelope " style="color:white"></i>*@
-                        @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @*<i class="glyphicon glyphicon-lock " style="color:white"></i>*@
-                        @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control" })
-                    </div>
+                @Html.AntiForgeryToken()
 
-                    <button type="submit" class="btn btn-success" title="Sign In">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                    </button>
-                }
+                @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control m-sm-1" })
+
+
+                @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control m-sm-1" })
+
+                <button type="submit" class="btn btn-success m-sm-1" title="Sign In">
+                    <span class="fas fa-sign-in-alt" aria-hidden="true"></span>
+                </button>
             }
-        </div>
+        }
     </div>
-</div>
+</nav>
 
 

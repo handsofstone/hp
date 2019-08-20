@@ -137,7 +137,8 @@ function resetLineup() {
 function enableButtons(data) {
     $('#lineupSubmit').prop('disabled', !data);
     $('#lineupReset').prop('disabled', !data);
-    $('.playerActive').bootstrapToggle(data ? 'enable' : 'disable');
+    $('.playerActive').prop('disabled', !data);
+    //$('.playerActive').bootstrapToggle(data ? 'enable' : 'disable');
 }
 
 function showButtons(data) {
@@ -150,24 +151,24 @@ function showButtons(data) {
     }
 }
 
-function checkButtons() {
-    $.ajax({
-        type: 'GET',
-        contentType: "application/json; charset=utf-8",
-        url: '/Team/EnableSubmit', // we are calling json method
-        data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
-        dataType: 'json',
-        success: function (data) {
-            enableButtons(data);
-            showButtons(data);
-            $('th.submit-show, td.submit-show').toggleClass("hidden-xs", data);
-            $('th.submit-hide, td.submit-hide').toggleClass("hidden-xs", !data);
-        },
-        error: function (ex) {
-            alert('Failed to enable/disable submit.' + ex);
-        }
-    });
-}
+//function checkButtons() {
+//    $.ajax({
+//        type: 'GET',
+//        contentType: "application/json; charset=utf-8",
+//        url: '/Team/EnableSubmit', // we are calling json method
+//        data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
+//        dataType: 'json',
+//        success: function (data) {
+//            enableButtons(data);
+//            showButtons(data);
+//            $('th.submit-show, td.submit-show').toggleClass("d-none d-sm-table-cell", data);
+//            $('th.submit-hide, td.submit-hide').toggleClass("d-none d-sm-table-cell", !data);
+//        },
+//        error: function (ex) {
+//            alert('Failed to enable/disable submit.' + ex);
+//        }
+//    });
+//}
 function saveRoster() {
     $.ajax({
         contentType: 'application/json, charset=utf-8',
@@ -233,18 +234,21 @@ function lineupAnalysis(data) {
     if (data.ActivePoints != null) {
         plotLE.setData([{ 'data': data.ActivePoints, color: '#5bc0de' }, { 'data': data.MaxPoints - data.ActivePoints, color: '#ddd' }]);
         $('#efficiency-label').html(Math.round(data.ActivePoints / data.MaxPoints * 100));
+        plotLE.draw();
+        $('#lineupAnalytics').show();
     }
     else {
         plotLE.setData([]);
-        $('#efficiency-label').html('N/A');
+        $('#lineupAnalytics').hide();        
     }
 
-    if (data.Distribution)
+    if (data.Distribution) {
         plotPD.setData(data.Distribution);
-    else
-        plotPD.setData([]);
-    plotLE.draw();
-    plotPD.draw();
+        plotPD.draw();
+    }
+    
+    
+    
 }
 function refreshLineup() {
     $.ajax({
@@ -258,8 +262,8 @@ function refreshLineup() {
             postLineupUpdate();
             enableButtons(data.CanSubmitLineup);
             showButtons(data.CanSubmitLineup);
-            $('th.submit-show, td.submit-show').toggleClass("hidden-xs", data.CanSubmitLineup);
-            $('th.submit-hide, td.submit-hide').toggleClass("hidden-xs", !data.CanSubmitLineup);
+            $('th.submit-show, td.submit-show').toggleClass("d-none d-sm-table-cell", data.CanSubmitLineup);
+            $('th.submit-hide, td.submit-hide').toggleClass("d-none d-sm-table-cell", !data.CanSubmitLineup);
             lineupAnalysis(data);
         },
         error: function (ex) {
@@ -276,13 +280,19 @@ function validateLineup() {
         var activeCount = $("#lineupTable .playerRow:has(:checked):has(td .position[value=" + k + "])").length;
         var benchToggles = $("#lineupTable .playerRow:not(:has(:checked)):has(td .position[value=" + k + "]) .playerActive");
         var benchRows = $("#lineupTable .playerRow:not(:has(:checked)):has(td .position[value=" + k + "])");
+        var visibleIcon = $('#benchVisible');
+        var hiddenIcon = $('#benchHidden');
         var showBench = $("#showBench").prop('checked');
         if (activeCount >= v) {
-            benchToggles.bootstrapToggle('disable')
+            benchToggles.prop('disabled', true);
+            //benchToggles.bootstrapToggle('disable')
             benchRows.toggle(showBench)
+            visibleIcon.toggle(showBench)
+            hiddenIcon.toggle(!showBench)
         }
         else {
-            benchToggles.bootstrapToggle('enable')
+            benchToggles.prop('disabled', false);
+            //benchToggles.bootstrapToggle('enable')
             benchRows.toggle(true)
         }
     });
@@ -295,8 +305,11 @@ function lineupRow(rows) {
         r[++j] = rows[i].PlayerId;
         r[++j] = '><td class="text-center"><input ';
         r[++j] = rows[i].Active ? "checked" : "";
-        r[++j] = ' class="playerActive" data-toggle="toggle" data-size="mini" type="checkbox" value="true" data-width="90%" data-height="22px"/>';
-        r[++j] = '<input class="lineupPlayerId" type="hidden" value="';
+        r[++j] = ' class="playerActive tgl tgl-slide" type="checkbox" id="cb';
+        r[++j] = i;
+        r[++j] = '"/><label class="tgl-btn" data-tg-off="Bench" data-tg-on="Active" for="cb';
+        r[++j] = i;
+        r[++j] = '"></label><input class="lineupPlayerId" type="hidden" value="';
         r[++j] = rows[i].LineupPlayerId;
         r[++j] = '"/></td><td class="text-center">';
         r[++j] = rows[i].Position;
@@ -314,7 +327,18 @@ function lineupRow(rows) {
         r[++j] = '</a>';
         r[++j] = '</span><input data-val="true" id="playerId" name="playerId" type="hidden" value="';
         r[++j] = rows[i].PlayerId;
-        r[++j] = '"/></td><td class="text-center submit-show">'
+        r[++j] = '"/>'
+        if (rows[i].Injury != undefined) {
+            r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="'
+            r[++j] = rows[i].Injury.ReportedDate;
+            r[++j] = ' ';
+            r[++j] = rows[i].Injury.Status.replace("day-to-day","DTD");
+            r[++j] = ' ';
+            r[++j] = rows[i].Injury.Description;
+            r[++j] = '">';
+            r[++j] = '<i class="material-icons md-18 flesh">healing</i>';
+        }
+        r[++j] = '</td><td class="text-center submit-show">'
         r[++j] = rows[i].GP;
         r[++j] = '</td><td class="text-right submit-show">';
         r[++j] = '<span data-toggle="tooltip" data-placement="bottom" title="';
@@ -331,7 +355,7 @@ function lineupRow(rows) {
         r[++j] = rows[i].Points.T.Description;
         r[++j] = '">';
         r[++j] = rows[i].Points.T.Value;
-        r[++j] = '</span></td><td class="submit-hide hidden-xs">';
+        r[++j] = '</span></td><td class="submit-hide d-none d-sm-table-cell">';
         r[++j] = ScheduleCell(rows[i].Games);
         r[++j] = '</td></tr>';
     }
@@ -343,7 +367,7 @@ function ScheduleCell(games) {
         r[++j] = '<ul class="list-inline">';
         for (var i = 0, size = games.length; i < size; i++) {
             var gameDate = new Date(games[i].StartDate);
-            r[++j] = '<li><span data-toggle="tooltip" data-placement="bottom" title="';
+            r[++j] = '<li class="list-inline-item"><span data-toggle="tooltip" data-placement="bottom" title="';
             r[++j] = gameDate.toDateString();
             r[++j] = '"><a  target="_blank" href="https://www.nhl.com/gamecenter/';
             r[++j] = games[i].GameId;
@@ -362,11 +386,11 @@ function postLineupUpdate() {
     });
 
     $('[data-toggle="tooltip"]').tooltip();
-    $('[data-toggle="toggle"]').bootstrapToggle({
-        on: "Active",
-        off: "Bench",
+    //$('[data-toggle="toggle"]').bootstrapToggle({
+    //    on: "Active",
+    //    off: "Bench",
 
-    });
+    //});
 
     validateLineup();
     setSubmitted();
@@ -389,7 +413,7 @@ function Roster(roster) {
         r[++j] = roster[i].Name;
         r[++j] = '<input id="playerId" name="playerId" type="hidden" value="';
         r[++j] = roster[i].PlayerId;
-        r[++j] = '"></td><td><select id="position" name="position">';
+        r[++j] = '"></td><td class="form-group"><select class="form-control" id="position" name="position">';
         for (var i2 = 0; i2 < roster[i].EligiblePosition.length; i2++) {
             r[++j] = '<option ';
             if (roster[i].EligiblePosition.charAt(i2) == roster[i].Position) {
@@ -406,6 +430,7 @@ function Roster(roster) {
         r[++j] = '</td></tr > ';
     }
     $('#rosterBody').html(r.join(''));
+    $('#rosterCount').html(roster.length);
 }
 function DraftPicks(picks) {
     var r = new Array(), j = -1;
@@ -452,7 +477,7 @@ $(function () {
 
 $(function () {
     $('.droppable').on('click', 'li', function () {
-        var sourceList = this.closest("ul");
+        var sourceList = $(this).closest("ul")[0];
         var swapGroup = sourceList.getAttribute("data-list-swap-group");
         var targetList = $("ul[data-list-swap-group=" + swapGroup + "]").not(sourceList);
         targetList.append(this);
@@ -498,7 +523,7 @@ function tradeDashboard() {
         success: function (data) {
             if (typeof data.Trades != 'undefined') {
                 offers(data.Trades);
-                $('#tradeCount, #trade span.badge').html(data.Trades.length);
+                $('#tradeBadge, #rosterBadge').html(data.Trades.length);
             }
             else
                 $('#tradeCount, #trade span.badge').html('');
@@ -597,14 +622,15 @@ function searchAssets(e, assets) {
         var asset = document.createElement('li')
         $(asset).data('asset', assets[i].data);
         asset.setAttribute('class', 'ui-state-default');
-        var defheadshot = document.createElement('img');
-        defheadshot.setAttribute('class', 'player-photo');
-        defheadshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/skater.jpg');
-        var headshot = document.createElement('object');
-        headshot.setAttribute('data', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
-        headshot.setAttribute('type', 'image/jpg')
+        //var defheadshot = document.createElement('img');
+        //defheadshot.setAttribute('class', 'player-photo');
+        //defheadshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/skater.jpg');
+        var headshot = document.createElement('img');
+        headshot.setAttribute('src', 'https://nhl.bamcontent.com/images/headshots/current/168x168/' + assets[i].PlayerId + '.jpg');
+        //headshot.setAttribute('type', 'image/jpg');
+        headshot.setAttribute('onerror', "this.src='https://nhl.bamcontent.com/images/headshots/current/168x168/skater.jpg';");
         headshot.setAttribute('class', 'player-photo');
-        headshot.appendChild(defheadshot);
+        //headshot.appendChild(defheadshot);
         asset.appendChild(headshot);
         asset.appendChild(document.createTextNode(assets[i].AssetName));
         frag.appendChild(asset);
@@ -795,17 +821,23 @@ function importRoster() {
     });
 }
 
+function toggleBench() {
+    $("#showBench").prop('checked', !$("#showBench").prop('checked'));
+    if ($("#showBench").prop('checked')) {
+        $("#benchToggle").removeClass('btn-outline-primary')
+        $("#benchToggle").addClass('btn-primary')
+    }
+    else {
+        $("#benchToggle").removeClass('btn-primary')
+        $("#benchToggle").addClass('btn-outline-primary')
+    }
+    $('#benchVisible').toggle($("#showBench").prop('checked'));
+    $('#benchHidden').toggle(!$("#showBench").prop('checked'));
+    validateLineup();
+}
+
 $(document).ready(function () {
-    //$("#progressbar").progressbar({ value: false });
-    //$(document)
-    //    .ajaxStart(function () {
-    //        $('#lineupTable').hide();
-    //        $("#progressbar").show();
-    //    })
-    //    .ajaxStop(function () {
-    //        $("#progressbar").hide();
-    //        $('#lineupTable').show();
-    //    });
+
     setupPlots();
     refreshLineup();
 

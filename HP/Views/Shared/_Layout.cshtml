@@ -6,15 +6,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Hands of Stone</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../../Content/images/favicon.ico" />
+
+    @*<link rel="shortcut icon" type="image/x-icon" href="../../Content/images/favicon.ico" />*@
+    <link rel="shortcut icon" type="image/x-icon" href="../../Content/images/hos.svg" />
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/materials")
+    @Scripts.Render("~/bundles/solid")
+    @Scripts.Render("~/bundles/fontawesome")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/datatables")
-    @Scripts.Render("~/bundles/flot")
+    @*@Scripts.Render("~/bundles/flot")*@
 </head>
 <body>
-    <div id="wrap">
+    <div class="fixed-top">
         @Html.Partial("_Login", new HP.Models.LoginViewModel())
         @*@{Html.RenderAction("Login", "Account");}*@
         @*@Html.Partial("_Menu")*@
@@ -23,24 +29,27 @@
             @*@Html.Partial("_Menu", new HP.Models.MenuViewModel());*@
             Html.RenderAction("Index", "Menu");
         }
-
-
     </div>
 
-    <div class="container body-content">
 
+    <div class="container-fluid body-content">
+        <div class="loading-modal"></div>
         @RenderBody()
+
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - handsofstone.ca</p>
         </footer>
     </div>
-    
 
-    @Scripts.Render("~/bundles/jqueryajax")
-    @Scripts.Render("~/bundles/jqueryui")
+
+
+    @*@Scripts.Render("~/bundles/jqueryajax")*@
+    
+    @Scripts.Render("~/bundles/popper")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/site")
+    @Scripts.Render("~/bundles/doT")
     @RenderSection("scripts", required: false)
 
 

@@ -184,21 +184,27 @@ namespace HP.Models
                 .FirstOrDefault();
         }
 
-        public string TradeDashboard(/*string userId,*/ int teamId)
+        public string TradeDashboard(/*string userId,*/ int? teamId)
         {
             return Database.SqlQuery<String>(
-                "select nlpool.TradeDashboard(@teamId)",
-                new SqlParameter("teamId", teamId))
+                "select nlpool.TradeDashboard(@teamId,@seasonId)",
+                new SqlParameter("teamId", teamId ??  (object)DBNull.Value),
+                new SqlParameter("seasonId", DBNull.Value))
                 .FirstOrDefault();
         }
 
-        public string Assets(/*string userId,*/ int teamId)
+        public string Assets(int? teamId, int? poolId = null)
         {
+            if (teamId != null)
+                return Database.SqlQuery<String>(
+                    "select nlpool.TeamAssets(@teamId)",
+                    new SqlParameter("teamId", teamId))
+                    .FirstOrDefault();
             return Database.SqlQuery<String>(
-                "select nlpool.TeamAssets(@teamId)",
-                new SqlParameter("teamId", teamId))
+                "select nlpool.PoolAssets(@poolId)",
+                new SqlParameter("poolId", poolId))
                 .FirstOrDefault();
-        }
+        }        
 
         public int CreateOffer(/*string userId,*/ string jsonOffer)
         {
@@ -236,7 +242,7 @@ namespace HP.Models
         {
             return Database.SqlQuery<String>(
                 @"select ISNULL(np.TSN_NAME, LOWER(np.FIRST_NAME + '-' + np.LAST_NAME))
-                  from dbo.NHL_PLAYER np
+                  from nlpool.NHL_PLAYER np
                   join nlpool.RosterPlayer rp on np.ID = rp.PlayerId
                   join nlpool.TeamAsset ta on (rp.Id = ta.AssetId and ta.AssetType = 'roster')
                  where ta.TeamId = @teamId",
@@ -288,6 +294,14 @@ namespace HP.Models
                         where ta.TeamId == teamId && rp.PlayerId == playerId
                         select rp;
             return query.First();
+        }
+        public string DraftDashboard(int poolId,int seasonId)
+        {
+            return Database.SqlQuery<String>(
+                "select nlpool.DraftDashboard(@poolId,@seasonId)",
+                new SqlParameter("poolId", poolId),
+                new SqlParameter("seasonId", seasonId))
+                .FirstOrDefault();
         }
     }
 }

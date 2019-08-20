@@ -24,9 +24,24 @@ namespace HP.Controllers
             }
         }
         // GET: Pool
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            using (var context = new ApplicationDbContext())
+            {
+                var model = new StandingsViewModel();
+
+                if (ModelState.IsValid)
+                {
+                    var pool = context.Pools.Find(id);
+                    var currentSeason = GetCurrentSeason();
+                    model.SelectedPoolID = id;
+                    model.Seasons = new SelectList(context.Seasons, "Id", "Name").ToList();
+                    model.SelectedSeasonID = currentSeason.Id;
+                    model.StandingRows = new List<StandingRow>();
+                }
+
+                return View(model);
+            }
         }
 
         public ActionResult Standings(int id)
@@ -98,6 +113,32 @@ namespace HP.Controllers
                     interval = intervals.First();
 
                 return interval.Season;
+            }
+        }
+        public ContentResult Assets(int poolId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var assets = context.Assets(null, poolId);
+                return Content(assets, "application/json");
+            }
+        }
+        public ContentResult DraftDashboard(int poolId,int seasonId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var assets = context.DraftDashboard(poolId,seasonId);
+                return Content(assets, "application/json");
+            }
+        }
+
+        public ContentResult AvailablePlayer(string searchString, int poolId)
+        {
+            string searchResults = NHL.NHL.getAvailablePlayers(searchString);
+            using (var context = new ApplicationDbContext())
+            {       
+                var result = context.AvailablePlayers(searchResults, poolId);
+                return Content(result, "application/json");
             }
         }
     }
