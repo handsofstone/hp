@@ -53,7 +53,7 @@ namespace HP.Controllers
                 if (ModelState.IsValid)
                 {
                     var pool = context.Pools.Find(id);
-                    var currentSeason = GetCurrentSeason();                    
+                    var currentSeason = GetCurrentSeason();
                     model.Seasons = new SelectList(context.Seasons, "Id", "Name").ToList();
                     model.SelectedSeasonID = currentSeason.Id;
                     model.StandingRows = new List<StandingRow>();
@@ -68,17 +68,17 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var currentIntervalId = GetCurrentInterval();
-                var standings = from ss in context.TeamSeasonStanding 
-                                join tt in context.TeamIntervalActiveTotal.Where(t=>t.IntervalId==currentIntervalId) on new { ss.SeasonId, ss.TeamId } equals new { tt.SeasonId, tt.TeamId } into tiat
+                var standings = from ss in context.TeamSeasonStanding
+                                join tt in context.TeamIntervalActiveTotal.Where(t => t.IntervalId == currentIntervalId) on new { ss.SeasonId, ss.TeamId } equals new { tt.SeasonId, tt.TeamId } into tiat
                                 from tt in tiat.DefaultIfEmpty()
                                 where ss.PoolId == poolId && ss.SeasonId == seasonId
                                 select new StandingRow() { Rank = ss.Rank, Name = ss.Team.Name, Gain = (tt == null ? 0 : tt.IntervalTotal), Total = ss.Total, TeamId = ss.TeamId };
-                return standings.OrderBy(s=>s.Rank).ToList();
+                return standings.OrderBy(s => s.Rank).ToList();
             }
         }
         public ActionResult StandingRows(int poolId, int seasonId)
         {
-            return Json(GetStandingRows(poolId,seasonId), JsonRequestBehavior.AllowGet);
+            return Json(GetStandingRows(poolId, seasonId), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Team()
@@ -93,7 +93,7 @@ namespace HP.Controllers
                 var today = DateTime.Now.Date;
                 var intervals = context.Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
                 var interval = context.Intervals.OrderByDescending(i => i.EndDate).First();
-                
+
                 if (intervals.Count() > 0)
                     interval = intervals.First();
 
@@ -123,11 +123,11 @@ namespace HP.Controllers
                 return Content(assets, "application/json");
             }
         }
-        public ContentResult DraftDashboard(int poolId,int seasonId)
+        public ContentResult DraftDashboard(int poolId, int seasonId)
         {
             using (var context = new ApplicationDbContext())
             {
-                var assets = context.DraftDashboard(poolId,seasonId);
+                var assets = context.DraftDashboard(poolId, seasonId);
                 return Content(assets, "application/json");
             }
         }
@@ -136,9 +136,19 @@ namespace HP.Controllers
         {
             string searchResults = NHL.NHL.getAvailablePlayers(searchString);
             using (var context = new ApplicationDbContext())
-            {       
+            {
                 var result = context.AvailablePlayers(searchResults, poolId);
                 return Content(result, "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult DraftPlayer(int pickId, string player)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var result = context.DraftPlayer(pickId, player);
+
+                return Json(result == 0);
             }
         }
     }

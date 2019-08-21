@@ -303,5 +303,12 @@ namespace HP.Models
                 new SqlParameter("seasonId", seasonId))
                 .FirstOrDefault();
         }
+        public int DraftPlayer(int pickId, string player)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.DraftPlayer @pickId, @player",
+                new SqlParameter("pickId", pickId),
+                new SqlParameter("player", player));
+        }
     }
 }
