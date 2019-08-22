@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace HP.Controllers
 {
@@ -127,8 +130,18 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var assets = context.DraftDashboard(poolId, seasonId);
-                return Content(assets, "application/json");
+                var picks = context.DraftDashboard(poolId, seasonId);
+                var dashboard = JObject.Parse(picks);
+                dashboard.Add("isAdmin", User.IsInRole("admin"));
+                
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                var teams = from t in user.Teams
+                            where t.Team.PoolId == poolId
+                            select t.TeamId;
+                dashboard.Add("teamIds", new JArray(teams));
+                var serializer = new JsonSerializer {ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                var json = JObject.FromObject(dashboard, serializer).ToString();
+                return Content(json, "application/json");
             }
         }
 
@@ -146,9 +159,13 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var result = context.DraftPlayer(pickId, player);
+                if (User.IsInRole("admin"))
+                {
+                    var result = context.DraftPlayer(pickId, player);
 
-                return Json(result == 0);
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
             }
         }
     }

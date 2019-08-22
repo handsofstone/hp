@@ -33,8 +33,6 @@ function getPoolId() {
     return id;
 }
 
-
-
 $(document).ready(function () {
 
     //Dropdownlist Selectedchange event
@@ -54,19 +52,27 @@ $(document).ready(function () {
         });
         return false;
     });
+    // Populate Standings
+    $("#SelectedSeasonID").trigger('change');
 
-    $("#DraftSeasonID").change(function () {
-        draftDashboard();
+    // Add Roster tab navigation event
+    $("#rosters-tab").click(function () {
+        rosters();
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
-    $("#SelectedSeasonID").trigger('change');
-    tradeDashboard();
+    // Add Trade Dashboard events
+    $("#trades-tab").click(function () {
+        tradeDashboard();
+    });          
 
-    $('[data-toggle="tooltip"]').tooltip();
-
-    rosters();
-
-    draftDashboard();
+    // Add Draft Dashboard events
+    $("#draft-tab").click(function () {
+        draftDashboard();
+    });
+    $("#DraftSeasonID").change(function () {
+        draftDashboard();
+    });    
 
 });
 
@@ -150,27 +156,31 @@ function offers(trades) {
 function draftDashboard() {
     //var order_tmpl = doT.template($('#tmpl_order').text());
     var picks_tmpl = doT.template($('#tmpl_picks').text());
-
+    
     $.ajax({
         type: 'GET',
         url: '/Pool/DraftDashboard', // we are calling json method
         dataType: 'json',
         data: { poolId: getPoolId(), seasonId: $("#DraftSeasonID").val() },
-        success: function (data) {
-            //$('#orders').html(picks_tmpl(data.PickOrder));
-            $('#picks').html(picks_tmpl(data.DraftPicks));
+        success: function (data) {       
+            $('#picks').html(picks_tmpl(data));
+            data.DraftPicks.forEach(function (round) {
+                round.Picks.forEach(function (pick) {
+                    $('#Pick' + pick.Id).data('pick', pick);
+                })
+            });
             addAutoComplete();
         },
         error: function (ex) {
             alert('Failed to retrieve Draft Dashboard.' + ex);
         },
         complete: function (data) {
-        
-}
+
+        }
     });
 
 
-        
+
 }
 
 function addAutoComplete() {
@@ -191,28 +201,50 @@ function addAutoComplete() {
             var pick_tmpl = doT.template($('#tmpl_pickDisplay').text());
 
             $(this).collapse('toggle');
-            var pickDisp = $(this).closest("tr").find("td div"); // get the pick row
+            var pickRow = $(this).closest("tr");
+            var pickDisp = pickRow.find("td div"); // get the pick row
+            var pickId = this.id.substr(10); // get id after 'pickSelect' prefix
             pickDisp.find('label').html(pick_tmpl(ui.item.value)); // update the player
             pickDisp.collapse('toggle'); // show the button
+
+            // draft the player
+            draftPlayer(pickId, ui.item.value);
         }
     });
+
+    function draftPlayer(pickId, player) {
+        var data = JSON.stringify({
+            pickId: pickId,
+            player: JSON.stringify({ player })
+        });
+
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json, charset=utf-8',
+            url: '/Pool/DraftPlayer',
+            dataType: 'json',
+            data: data,
+            error: function (ex) {
+                alert('Failed to draft player.' + ex);
+            }
+        })
+    }
 
     // add event handler for edit buttons
     $(".editpick").click(function () {
         // remove player
         // clear selection
         var pickRow = $(this).closest("tr"); // get the pick row
+        var pickId = pickRow[0].id.substr(4);
         var pickSelect = pickRow.find("td input");
         pickSelect.val('');
+        draftPlayer(pickId, {});
     });
-}
-
-function editPick() {
 
 }
-function draftPlayer(pickId, playerId) {
 
-}
+
+
 
 function labelAndValues(data) {
     return $.map(data, function (item) {
@@ -249,11 +281,11 @@ function convertSearchAssets(searchResult) {
     var assets = [];
     for (var i = 0, size = searchResult.length; i < size; i++) {
         var player = new Player(searchResult[i].Player);
-            assets.push({
-                data: player,
-                PlayerId: player.PlayerId,
-                AssetName: player.FirstName + ' ' + player.LastName + ' ' + player.TeamCode
-            });
+        assets.push({
+            data: player,
+            PlayerId: player.PlayerId,
+            AssetName: player.FirstName + ' ' + player.LastName + ' ' + player.TeamCode
+        });
     }
     return assets;
 }
