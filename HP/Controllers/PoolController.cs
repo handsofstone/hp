@@ -168,5 +168,19 @@ namespace HP.Controllers
                 return new HttpStatusCodeResult(401, "Unauthorised user.");
             }
         }
+
+        public ActionResult UpdateOrder(string orders)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (User.IsInRole("admin"))
+                {
+                    var result = context.UpdateOrder(orders);
+
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
+            }
+        }
     }
 }

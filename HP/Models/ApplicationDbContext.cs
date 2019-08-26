@@ -310,5 +310,12 @@ namespace HP.Models
                 new SqlParameter("pickId", pickId),
                 new SqlParameter("player", player));
         }
+
+        public int UpdateOrder(string orders)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.UpdateDraftOrder @orders",                
+                new SqlParameter("orders", orders));
+        }
     }
 }

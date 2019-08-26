@@ -1,5 +1,51 @@
 ﻿@model HP.Models.StandingsViewModel
 
+<div id="orderModal" class="modal fade" role="dialog">
+    <div class="loading-modal"></div>
+    <div class="modal-dialog">
+        <!-- Trade Players Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h5 class="modal-title">Draft Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <div class="form-inline">
+                                                <button id="orderSubmit" type="button" class="btn btn-success btn-default btn-xs-text" onclick="saveOrder()">
+                                                    <i class="material-icons" aria-hidden="true">publish</i>Update
+                                                </button>
+                                                <button id="orderReset" type="button" class="btn btn-danger btn-default btn-xs-text" onclick="resetOrder()">
+                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>Reset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <ul id="orderlist" class="list-group">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col">
         <div class="card my-sm-2">
@@ -19,6 +65,9 @@
                                 <i class="material-icons" aria-hidden="true">sort</i> Set Order
                             </button>
                             <button type="button" class="btn btn-info btn-default btn-xs-text" onclick="AddRound">
+                                <i class="material-icons" aria-hidden="true">playlist_add</i> Add Round
+                            </button>
+                            <button type="button" class="btn btn-info btn-default btn-xs-text" onclick="DeleteRound">
                                 <i class="material-icons" aria-hidden="true">playlist_add</i> Add Round
                             </button>
                         </div>
@@ -74,4 +123,10 @@
 
 <script type="text/plain" id="tmpl_pickDisplay">
     <a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{?it.LastName}}{{=it.LastName}}, {{=it.FirstName}}{{?}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
+</script>
+
+<script type="text/plain" id="tmpl_order">
+    {{~it : Order}}
+    <li class="list-group-item list-group-item-primary ui-state-default" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
+    {{~}}
 </script>

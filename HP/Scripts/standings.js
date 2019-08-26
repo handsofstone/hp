@@ -64,7 +64,7 @@ $(document).ready(function () {
     // Add Trade Dashboard events
     $("#trades-tab").click(function () {
         tradeDashboard();
-    });          
+    });
 
     // Add Draft Dashboard events
     $("#draft-tab").click(function () {
@@ -72,12 +72,12 @@ $(document).ready(function () {
     });
     $("#DraftSeasonID").change(function () {
         draftDashboard();
-    });    
+    });
 
 });
 
 function rosters() {
-    var asset_tmpl = doT.template($('#tmpl_asset').text());
+    //var asset_tmpl = doT.template($('#tmpl_asset').text());
     var roster_tmpl = doT.template($('#tmpl_rosters').text());
 
     $.ajax({
@@ -153,23 +153,61 @@ function offers(trades) {
     $("#tradesTable").append(r.join(''));
 }
 
+function getOrders() {
+    var pid = getPoolId()
+    var sid = $("#DraftSeasonID").val();
+
+    return $("#orderlist").children().map(function (i, e) {
+        var order = {
+            Id: $(e).data('order').Id,
+            PoolId: pid,
+            SeasonId: sid,
+            TeamId: e.id.substr(5),
+            PickOrder: i + 1
+        }
+        return order;
+    }).toArray();
+}
+
+function saveOrder() {   
+
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json, charset=utf-8',
+        url: '/Pool/UpdateOrder',
+        dataType: 'json',
+        data: JSON.stringify({ orders: JSON.stringify(getOrders()) }),
+        success: function () {
+            draftDashboard();
+        },
+        error: function (ex) {
+            alert('Failed to update order.' + ex);
+        }
+    })
+}
+
 function draftDashboard() {
-    //var order_tmpl = doT.template($('#tmpl_order').text());
+    var order_tmpl = doT.template($('#tmpl_order').text());
     var picks_tmpl = doT.template($('#tmpl_picks').text());
-    
+
     $.ajax({
         type: 'GET',
         url: '/Pool/DraftDashboard', // we are calling json method
         dataType: 'json',
         data: { poolId: getPoolId(), seasonId: $("#DraftSeasonID").val() },
-        success: function (data) {       
+        success: function (data) {
             $('#picks').html(picks_tmpl(data));
+            $('#orderlist').html(order_tmpl(data.PickOrder));
             data.DraftPicks.forEach(function (round) {
                 round.Picks.forEach(function (pick) {
                     $('#Pick' + pick.Id).data('pick', pick);
                 })
             });
+            data.PickOrder.forEach(function (order) {
+                $('#order' + order.TeamId).data('order', order);;
+            });
             addAutoComplete();
+            $("#orderlist").sortable();
         },
         error: function (ex) {
             alert('Failed to retrieve Draft Dashboard.' + ex);
