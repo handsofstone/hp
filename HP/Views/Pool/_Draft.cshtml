@@ -15,27 +15,18 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="form-row align-items-center">
-                                        <div class="col-auto">
-                                            <div class="form-inline">
-                                                <button id="orderSubmit" type="button" class="btn btn-success btn-default btn-xs-text" onclick="saveOrder()">
-                                                    <i class="material-icons" aria-hidden="true">publish</i>Update
-                                                </button>
-                                                <button id="orderReset" type="button" class="btn btn-danger btn-default btn-xs-text" onclick="resetOrder()">
-                                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>Reset
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="btn-toolbar mb-2">
+                                <button id="orderSubmit" type="button" class="btn btn-success" onclick="saveOrder()">
+                                    <i class="material-icons" aria-hidden="true">publish</i>Update
+                                </button>
+                                <button id="orderReset" type="button" class="btn btn-outline-danger" onclick="resetOrder()">
+                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>Reset
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col" id="orderDisplay">
-
+                        <div class="col d-table" id="orderDisplay">
                         </div>
                     </div>
                 </div>
@@ -99,13 +90,13 @@
                             <label type="text" class="form-control">
                                 <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}} ({{=Pick.NHLTeamCode}},#{{=Pick.PlayerNo}}){{?}}</a>
                             </label>
-                            <div class="input-group-append {{?!(it.isAdmin||it.teamIds.indexOf(Pick.Owner)>=0)}} d-none {{?}}">
+                            <div class="input-group-append {{?!(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}}d-none{{?}}">
                                 <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}">
                                     <i class="material-icons">edit</i>
                                 </button>
                             </div>
                         </div>
-                        <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?!Pick.LastName}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="" {{?!(it.isAdmin||it.teamIds.indexOf(Pick.Owner)>=0)}} readonly {{?}}>
+                        <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?!Pick.LastName}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="" {{?!(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}} readonly{{?}}>
 
                     </td>
                 </tr>
@@ -121,14 +112,14 @@
 </script>
 
 <script type="text/plain" id="tmpl_order">
-    <ul class="list-group d-inline">
+    <ul class="list-group d-table-cell w-25 text-center">
         {{~it : Order}}
-        <li class="list-group-item list-group-item-primary ui-state-default">{{=Order.PickOrder}}</li>
+        <li class="list-group-item list-group-item-primary">{{=Order.PickOrder}}</li>
         {{~}}
     </ul>
-    <ul id="orderlist" class="list-group d-inline">
+    <ul id="orderlist" class="list-group d-table-cell">
         {{~it : Order}}
-        <li class="list-group-item list-group-item-primary ui-state-default" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
+        <li class="list-group-item list-group-item" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
         {{~}}
     </ul>
 </script>
