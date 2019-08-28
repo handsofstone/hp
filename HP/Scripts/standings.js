@@ -150,27 +150,25 @@ function offers(trades) {
         r[++j] = trades[i].Comments;
         r[++j] = '</td ></tr > ';
     }
-    $("#tradesTable").append(r.join(''));
+    $("#tradesTable").html(r.join(''));
 }
-
+////////////// Draft Dashboard Functionality //////////////////
 function getOrders() {
-    var pid = getPoolId()
+    var pid = getPoolId();
     var sid = $("#DraftSeasonID").val();
 
     return $("#orderlist").children().map(function (i, e) {
-        var order = {
+        return {
             Id: $(e).data('order').Id,
             PoolId: pid,
             SeasonId: sid,
             TeamId: e.id.substr(5),
             PickOrder: i + 1
-        }
-        return order;
+        };
     }).toArray();
 }
 
-function saveOrder() {   
-
+function saveOrder() {
     $.ajax({
         type: 'POST',
         contentType: 'application/json, charset=utf-8',
@@ -183,7 +181,7 @@ function saveOrder() {
         error: function (ex) {
             alert('Failed to update order.' + ex);
         }
-    })
+    });
 }
 
 function draftDashboard() {
@@ -197,7 +195,7 @@ function draftDashboard() {
         data: { poolId: getPoolId(), seasonId: $("#DraftSeasonID").val() },
         success: function (data) {
             $('#picks').html(picks_tmpl(data));
-            $('#orderlist').html(order_tmpl(data.PickOrder));
+            $('#orderDisplay').html(order_tmpl(data.PickOrder));
             data.DraftPicks.forEach(function (round) {
                 round.Picks.forEach(function (pick) {
                     $('#Pick' + pick.Id).data('pick', pick);
@@ -216,9 +214,6 @@ function draftDashboard() {
 
         }
     });
-
-
-
 }
 
 function addAutoComplete() {
@@ -265,7 +260,7 @@ function addAutoComplete() {
             error: function (ex) {
                 alert('Failed to draft player.' + ex);
             }
-        })
+        });
     }
 
     // add event handler for edit buttons
@@ -281,9 +276,45 @@ function addAutoComplete() {
 
 }
 
+function addRound() {
+    var data = JSON.stringify({
+        poolId: getPoolId(),
+        seasonId: $("#DraftSeasonID").val()
+    });
 
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json, charset=utf-8',
+        url: '/Pool/AddRound',
+        dataType: 'json',
+        data: data,
+        error: function (ex) {
+            alert('Failed to draft player.' + ex);
+        }
+    });
+}
 
+function deleteRound() {
+    var data = JSON.stringify({
+        poolId: getPoolId(),
+        seasonId: $("#DraftSeasonID").val()
+    });
 
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json, charset=utf-8',
+        url: '/Pool/DeleteRound',
+        dataType: 'json',
+        data: data,
+        error: function (ex) {
+            alert('Failed to draft player.' + ex);
+        }
+    });
+
+}
+// End of Draft Dashboard functionatliy
+
+// Common functionality
 function labelAndValues(data) {
     return $.map(data, function (item) {
         var player = new Player(item.Player);
@@ -327,3 +358,5 @@ function convertSearchAssets(searchResult) {
     }
     return assets;
 }
+
+// End of common functionality

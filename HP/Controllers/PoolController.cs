@@ -182,5 +182,44 @@ namespace HP.Controllers
                 return new HttpStatusCodeResult(401, "Unauthorised user.");
             }
         }
+        public ActionResult ResetOrder(int poolId, int seasonId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (User.IsInRole("admin"))
+                {
+                    var result = context.ResetOrder(poolId,seasonId);
+
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
+            }
+        }
+        public ActionResult AddRound(int poolId, int seasonId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (User.IsInRole("admin"))
+                {
+                    var result = context.AddRound(poolId, seasonId);
+
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
+            }
+        }
+        public ActionResult DeleteRound(int poolId, int seasonId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (User.IsInRole("admin"))
+                {
+                    var result = context.DeleteRound(poolId, seasonId);
+
+                    return Json(result == 0);
+                }
+                return new HttpStatusCodeResult(401, "Unauthorised user.");
+            }
+        }
     }
 }

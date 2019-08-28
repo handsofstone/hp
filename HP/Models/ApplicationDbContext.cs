@@ -317,5 +317,26 @@ namespace HP.Models
                 "nlpool.UpdateDraftOrder @orders",                
                 new SqlParameter("orders", orders));
         }
+        public int ResetOrder(int poolId, int seasonId)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.ResetOrder @poolId,@seasonId",
+                new SqlParameter("poolId", poolId),
+                new SqlParameter("seasonId", seasonId));
+        }
+        public int AddRound(int poolId, int seasonId)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.AddDraftRound @poolId,@seasonId",
+                new SqlParameter("poolId", poolId),
+                new SqlParameter("seasonId", seasonId));
+        }
+        public int DeleteRound(int poolId, int seasonId)
+        {
+            return Database.ExecuteSqlCommand(
+                "nlpool.DeleteDraftRound @poolId,@seasonId",
+                new SqlParameter("poolId", poolId),
+                new SqlParameter("seasonId", seasonId));
+        }
     }
 }

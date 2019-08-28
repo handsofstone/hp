@@ -6,7 +6,6 @@
         <!-- Trade Players Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-
                 <h5 class="modal-title">Draft Order</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -35,9 +34,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <ul id="orderlist" class="list-group">
-                            </ul>
+                        <div class="col" id="orderDisplay">
+
                         </div>
                     </div>
                 </div>
@@ -47,32 +45,29 @@
 </div>
 
 <div class="row">
-    <div class="col">
-        <div class="card my-sm-2">
-            <div class="card-header">
-                <div class="form-row align-items-center">
-                    <div class="col-auto">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
-                            </div>
-                            @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { id = "DraftSeasonID", @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <div class="form-inline">
-                            <button id="orderDraft" type="button" class="btn btn-success btn-default btn-xs-text" data-toggle="modal" data-target="#orderModal" aria-label="Left Align">
-                                <i class="material-icons" aria-hidden="true">sort</i> Set Order
-                            </button>
-                            <button type="button" class="btn btn-info btn-default btn-xs-text" onclick="AddRound">
-                                <i class="material-icons" aria-hidden="true">playlist_add</i> Add Round
-                            </button>
-                            <button type="button" class="btn btn-info btn-default btn-xs-text" onclick="DeleteRound">
-                                <i class="material-icons" aria-hidden="true">playlist_add</i> Add Round
-                            </button>
-                        </div>
-                    </div>
+    <div class="col my-sm-2">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="input-group mr-2">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
                 </div>
+                @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { id = "DraftSeasonID", @class = "form-control" })
+            </div>
+            <div class="btn-group mr-2">
+                <button id="orderDraft" type="button" class="btn btn-primary " data-toggle="modal" data-target="#orderModal" aria-label="Left Align">
+                    <i class="material-icons" aria-hidden="true">sort</i>
+                    <span class="d-none d-md-inline-block">Set Order</span>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" onclick="addRound()">
+                    <i class="material-icons" aria-hidden="true">add</i>
+                    <span class="d-none d-md-inline-block">Add Round</span>
+                </button>
+                <button type="button" class="btn btn-outline-danger" onclick="deleteRound()">
+                    <i class="material-icons" aria-hidden="true">remove</i>
+                    <span class="d-none d-md-inline-block">Delete Round</span>
+                </button>
             </div>
         </div>
     </div>
@@ -126,7 +121,14 @@
 </script>
 
 <script type="text/plain" id="tmpl_order">
-    {{~it : Order}}
-    <li class="list-group-item list-group-item-primary ui-state-default" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
-    {{~}}
+    <ul class="list-group d-inline">
+        {{~it : Order}}
+        <li class="list-group-item list-group-item-primary ui-state-default">{{=Order.PickOrder}}</li>
+        {{~}}
+    </ul>
+    <ul id="orderlist" class="list-group d-inline">
+        {{~it : Order}}
+        <li class="list-group-item list-group-item-primary ui-state-default" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
+        {{~}}
+    </ul>
 </script>
