@@ -184,14 +184,13 @@ namespace HP.Models
                 .FirstOrDefault();
         }
 
-        public string TradeDashboard(/*string userId,*/ int? teamId)
+        public string TradeDashboard(int teamId)
         {
             return Database.SqlQuery<String>(
-                "select nlpool.TradeDashboard(@teamId,@seasonId)",
-                new SqlParameter("teamId", teamId ??  (object)DBNull.Value),
-                new SqlParameter("seasonId", DBNull.Value))
+                "select nlpool.TradeDashboard(@teamId)",
+                new SqlParameter("teamId", teamId))
                 .FirstOrDefault();
-        }
+        }        
 
         public string Assets(int? teamId, int? poolId = null)
         {
@@ -294,6 +293,14 @@ namespace HP.Models
                         where ta.TeamId == teamId && rp.PlayerId == playerId
                         select rp;
             return query.First();
+        }
+        public string Trades(int poolId, int seasonId)
+        {
+            return Database.SqlQuery<String>(
+                "select nlpool.PoolTrades(@poolId,@seasonId)",
+                new SqlParameter("poolId", poolId),
+                new SqlParameter("seasonId", seasonId))
+                .FirstOrDefault();
         }
         public string DraftDashboard(int poolId,int seasonId)
         {

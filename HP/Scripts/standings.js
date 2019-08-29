@@ -25,8 +25,8 @@ function standingsRow(obj) {
 }
 
 function getPoolId() {
-    var id = $('#SelectedPoolId').val()
-    if (id == undefined) {
+    var id = $('#SelectedPoolId').val();
+    if (id === undefined) {
         var url = window.location.pathname;
         id = url.substring(url.lastIndexOf('/') + 1);
     }
@@ -62,6 +62,9 @@ $(document).ready(function () {
     });
 
     // Add Trade Dashboard events
+    $("#TradeSeasonID").change(function () {
+        tradeDashboard();
+    });
     $("#trades-tab").click(function () {
         tradeDashboard();
     });
@@ -97,61 +100,26 @@ function rosters() {
     });
 }
 
+////////////// Trades Dashboard Functionality //////////////////
 function tradeDashboard() {
+    var trade_tmpl = doT.template($('#tmpl_trades').text());
+
     $.ajax({
         type: 'GET',
-        url: '/Team/TradeDashboard', // we are calling json method
+        url: '/Pool/Trades', // we are calling json method
         dataType: 'json',
-        //data: { teamId: $('#TeamId').val() },
+        data: { poolId: getPoolId(), seasonId: $('#TradeSeasonID').val() },
         success: function (data) {
-            if (typeof data.Trades != 'undefined') {
-                offers(data.Trades);
-            }
+            $('#tradesTable').html(trade_tmpl(data));
+            //offers(data.Trades);
         },
         error: function (ex) {
-            alert('Failed to retrieve Trade Dashboard.' + ex);
+            alert('Failed to retrieve Trades.' + ex);
         }
     });
 }
+////////////// end Trades Dashboard Functionality //////////////////
 
-function offers(trades) {
-    var r = new Array(), j = -1;
-
-    for (var i = 0, size = trades.length; i < size; i++) {
-        r[++j] = '<tr id="trade';
-        r[++j] = trades[i].Id;
-        r[++j] = '"><td class="text-nowrap">';
-        r[++j] = trades[i].StatusDate;
-        r[++j] = '</td><td>';
-        r[++j] = trades[i].From;
-        r[++j] = '<input class="fromTeamId" type="hidden" value="';
-        r[++j] = trades[i].FromTeamId;
-        r[++j] = '"/></td><td><ul class="list-group">';
-        if (trades[i].Receiving != undefined) {
-            for (var i2 = 0, receivingSize = trades[i].Receiving.length; i2 < receivingSize; i2++) {
-                r[++j] = '<li class="list-group-item text-nowrap mx-1">';
-                r[++j] = trades[i].Receiving[i2].AssetName;
-                r[++j] = '</li>';
-            }
-        }
-        r[++j] = '</ul></td><td>';
-        r[++j] = trades[i].To;
-        r[++j] = '<input class="toTeamId" type="hidden" value="';
-        r[++j] = trades[i].ToTeamId;
-        r[++j] = '"/></td><td><ul class="list-group">';
-        if (trades[i].Sending != undefined) {
-            for (var i2 = 0, sendingSize = trades[i].Sending.length; i2 < sendingSize; i2++) {
-                r[++j] = '<li class="list-group-item text-nowrap mx-1">';
-                r[++j] = trades[i].Sending[i2].AssetName;
-                r[++j] = '</li>';
-            }
-        }
-        r[++j] = '</ul></td><td>'
-        r[++j] = trades[i].Comments;
-        r[++j] = '</td ></tr > ';
-    }
-    $("#tradesTable").html(r.join(''));
-}
 ////////////// Draft Dashboard Functionality //////////////////
 function getOrders() {
     var pid = getPoolId();
@@ -288,6 +256,9 @@ function addRound() {
         url: '/Pool/AddRound',
         dataType: 'json',
         data: data,
+        success: function (data) {
+            draftDashboard();
+        },
         error: function (ex) {
             alert('Failed to draft player.' + ex);
         }
@@ -306,6 +277,9 @@ function deleteRound() {
         url: '/Pool/DeleteRound',
         dataType: 'json',
         data: data,
+        success: function (data) {
+            draftDashboard();
+        },
         error: function (ex) {
             alert('Failed to draft player.' + ex);
         }

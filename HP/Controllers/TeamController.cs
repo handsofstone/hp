@@ -361,11 +361,10 @@ namespace HP.Controllers
             }
         }
 
-        public ContentResult TradeDashboard(int? teamId = null)
+        public ContentResult TradeDashboard(int teamId)
         {
             using (var context = new ApplicationDbContext())
             {
-                //var userId = User.Identity.GetUserId();
                 var dashboard = context.TradeDashboard(teamId);
                 return Content(dashboard, "application/json");//JsonRequestBehavior.AllowGet);
             }

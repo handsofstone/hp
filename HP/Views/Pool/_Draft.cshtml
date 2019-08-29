@@ -1,125 +1,129 @@
-﻿@model HP.Models.StandingsViewModel
-
-<div id="orderModal" class="modal fade" role="dialog">
-    <div class="loading-modal"></div>
-    <div class="modal-dialog">
-        <!-- Trade Players Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Draft Order</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col">
-                            <div class="btn-toolbar mb-2">
-                                <button id="orderSubmit" type="button" class="btn btn-success" onclick="saveOrder()">
-                                    <i class="material-icons" aria-hidden="true">publish</i>Update
-                                </button>
-                                <button id="orderReset" type="button" class="btn btn-outline-danger" onclick="resetOrder()">
-                                    <i class="fas fa-trash-alt" aria-hidden="true"></i>Reset
-                                </button>
+﻿@model HP.Models.PoolViewModel
+@if (Model.IsAdmin)
+{
+    <div id="orderModal" class="modal fade" role="dialog">
+        <div class="loading-modal"></div>
+        <div class="modal-dialog">
+            <!-- Trade Players Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Draft Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div class="btn-toolbar mb-2">
+                                    <button id="orderSubmit" type="button" class="btn btn-success" onclick="saveOrder()">
+                                        <i class="material-icons" aria-hidden="true">publish</i>Update
+                                    </button>
+                                    <button id="orderReset" type="button" class="btn btn-outline-danger" onclick="resetOrder()">
+                                        <i class="fas fa-trash-alt" aria-hidden="true"></i>Reset
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col d-table" id="orderDisplay">
+                        <div class="row">
+                            <div class="col d-table" id="orderDisplay">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
 
-<div class="row">
-    <div class="col my-sm-2">
-        <div class="btn-toolbar" role="toolbar">
-            <div class="input-group mr-2">
-                <div class="input-group-prepend">
-                    @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
+    <div class="row">
+        <div class="col my-sm-2">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="input-group mr-2">
+                    <div class="input-group-prepend">
+                        @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
+                    </div>
+                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { id = "DraftSeasonID", @class = "form-control" })
                 </div>
-                @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { id = "DraftSeasonID", @class = "form-control" })
-            </div>
-            <div class="btn-group mr-2">
-                <button id="orderDraft" type="button" class="btn btn-primary " data-toggle="modal" data-target="#orderModal" aria-label="Left Align">
-                    <i class="material-icons" aria-hidden="true">sort</i>
-                    <span class="d-none d-md-inline-block">Set Order</span>
-                </button>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary" onclick="addRound()">
-                    <i class="material-icons" aria-hidden="true">add</i>
-                    <span class="d-none d-md-inline-block">Add Round</span>
-                </button>
-                <button type="button" class="btn btn-outline-danger" onclick="deleteRound()">
-                    <i class="material-icons" aria-hidden="true">remove</i>
-                    <span class="d-none d-md-inline-block">Delete Round</span>
-                </button>
+                @if (Model.IsAdmin)
+                {
+                    <div class="btn-group mr-2">
+                        <button id="orderDraft" type="button" class="btn btn-primary " data-toggle="modal" data-target="#orderModal" aria-label="Left Align">
+                            <i class="material-icons" aria-hidden="true">sort</i>
+                            <span class="d-none d-md-inline-block">Set Order</span>
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" onclick="addRound()">
+                            <i class="material-icons" aria-hidden="true">add</i>
+                            <span class="d-none d-md-inline-block">Add Round</span>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" onclick="deleteRound()">
+                            <i class="material-icons" aria-hidden="true">remove</i>
+                            <span class="d-none d-md-inline-block">Delete Round</span>
+                        </button>
+                    </div>
+                }
             </div>
         </div>
     </div>
-</div>
-<div id="picks" class="row"></div>
+    <div id="picks" class="row"></div>
 
 
-<script type="text/plain" id="tmpl_picks">
-    {{~it.DraftPicks: Round}}
-    <div class="col-sm-12 col-md-6 col-lg-auto">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <td colspan="4">Round {{=Round.Round}}</td>
-                </tr>
-                <tr>
-                    <td class="fit text-center">Pick</td>
-                    <td class="fit text-center">Team</td>
-                    <td>Player</td>
-                </tr>
-            </thead>
-            <tbody>
-                {{~Round.Picks: Pick}}
-                <tr id="Pick{{=Pick.Id}}">
-                    <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.PickOrder}}</span></td>
-                    <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.OwnerName}}</span></td>
-                    <td>
-                        <div class="input-group collapse multi-collapse{{=Pick.Id}} {{?Pick.LastName}} show {{?}}" id="pickDisplay{{=Pick.Id}}">
-                            <label type="text" class="form-control">
-                                <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}} ({{=Pick.NHLTeamCode}},#{{=Pick.PlayerNo}}){{?}}</a>
-                            </label>
-                            <div class="input-group-append {{?!(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}}d-none{{?}}">
-                                <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}">
-                                    <i class="material-icons">edit</i>
-                                </button>
+    <script type="text/plain" id="tmpl_picks">
+        {{~it.DraftPicks: Round}}
+        <div class="col-sm-12 col-md-6 col-lg-auto">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td colspan="4">Round {{=Round.Round}}</td>
+                    </tr>
+                    <tr>
+                        <td class="fit text-center">Pick</td>
+                        <td class="fit text-center">Team</td>
+                        <td>Player</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{~Round.Picks: Pick}}
+                    <tr id="Pick{{=Pick.Id}}">
+                        <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.PickOrder}}</span></td>
+                        <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.OwnerName}}</span></td>
+                        <td>
+                            <div class="input-group collapse multi-collapse{{=Pick.Id}} {{?Pick.LastName}} show {{?}}" id="pickDisplay{{=Pick.Id}}">
+                                <label type="text" class="form-control">
+                                    <a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{?Pick.LastName}}{{=Pick.LastName}}, {{=Pick.FirstName}} ({{=Pick.NHLTeamCode}},#{{=Pick.PlayerNo}}){{?}}</a>
+                                </label>
+                                <div class="input-group-append {{?!(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}}d-none{{?}}">
+                                    <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?!Pick.LastName}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="" {{?!(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}} readonly{{?}}>
-
-                    </td>
-                </tr>
-                {{~}}
-            </tbody>
-        </table>
-    </div>
-    {{~}}
-</script>
-
-<script type="text/plain" id="tmpl_pickDisplay">
-    <a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{?it.LastName}}{{=it.LastName}}, {{=it.FirstName}}{{?}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
-</script>
-
-<script type="text/plain" id="tmpl_order">
-    <ul class="list-group d-table-cell w-25 text-center">
-        {{~it : Order}}
-        <li class="list-group-item list-group-item-primary">{{=Order.PickOrder}}</li>
+                            <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?!Pick.LastName}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="" {{?!(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}} readonly{{?}}>
+                        </td>
+                    </tr>
+                    {{~}}
+                </tbody>
+            </table>
+        </div>
         {{~}}
-    </ul>
-    <ul id="orderlist" class="list-group d-table-cell">
-        {{~it : Order}}
-        <li class="list-group-item list-group-item" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
-        {{~}}
-    </ul>
-</script>
+    </script>
+
+    <script type="text/plain" id="tmpl_pickDisplay">
+        <a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{?it.LastName}}{{=it.LastName}}, {{=it.FirstName}}{{?}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
+    </script>
+
+    <script type="text/plain" id="tmpl_order">
+        <ul class="list-group d-table-cell w-25 text-center">
+            {{~it : Order}}
+            <li class="list-group-item list-group-item-primary">{{=Order.PickOrder}}</li>
+            {{~}}
+        </ul>
+        <ul id="orderlist" class="list-group d-table-cell">
+            {{~it : Order}}
+            <li class="list-group-item list-group-item" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
+            {{~}}
+        </ul>
+    </script>

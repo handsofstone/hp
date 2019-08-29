@@ -10,13 +10,14 @@ using System.Web.Mvc;
 namespace HP.Models
 {
 
-    public class StandingsViewModel
+    public class PoolViewModel
     {
         public int SelectedPoolID { get; set; }
         [Display(Name="Season")]
         public int SelectedSeasonID { get; set; }
         public IList<SelectListItem> Seasons { get; set; }
         public List<StandingRow> StandingRows { get; set; }
+        public bool IsAdmin { get; set; }
     }
 
     public class TeamSeasonStanding

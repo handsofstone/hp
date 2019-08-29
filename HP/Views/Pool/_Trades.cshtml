@@ -1,37 +1,60 @@
-﻿@model HP.Models.StandingsViewModel
+﻿@model HP.Models.PoolViewModel
 
 <div class="row">
-    <div class="col">
-        <div class="card my-sm-2">
-            <div class="card-header">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
-                    </div>
-                    @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { @class = "form-control" })
+    <div class="col my-sm-2">
+        <div class="btn-toolbar ">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => Model.SelectedSeasonID, new { @class = "input-group-text d-none d-sm-block" })
                 </div>
+                @Html.DropDownListFor(model => Model.SelectedSeasonID, Model.Seasons, new { id = "TradeSeasonID", @class = "form-control" })
             </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <table id="tradesTable" class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
+        <table class="table table-bordered table-condensed table-responsive-sm table-striped" data-toggle="table">
             <thead>
                 <tr>
-                    <th rowspan="2">Date</th>
+                    <th class="fit" rowspan="2">Date</th>
                     <th class="text-center" colspan="2">From</th>
-                    <th class="text-center" colspan="2">To</th>                                        
+                    <th class="text-center" colspan="2">To</th>
                     <th rowspan="2">Notes</th>
                 </tr>
                 <tr>
-                    <th>Team</th>
-                    <th>Receives</th>
-                    <th>Team</th>
-                    <th>Receives</th>
+                    <th class="fit">Team</th>
+                    <th class="fit">Receives</th>
+                    <th class="fit">Team</th>
+                    <th class="fit">Receives</th>
                 </tr>
             </thead>
-            <tbody class="scroll-tbody"></tbody>
+            <tbody id="tradesTable" class="scroll-tbody"></tbody>
         </table>
     </div>
 </div>
+
+<script type="text/plain" id="tmpl_trades">
+    {{~it.Trades: Trade}}
+    <tr>
+        <td class="text-nowrap">{{=Trade.StatusDate}}</td>
+        <td>{{=Trade.From}}</td>
+        <td>
+            <ul class="list-group">
+                {{~Trade.Sending: Asset}}
+                <li class="list-group-item text-nowrap">{{=Asset.AssetName}}</li>
+                {{~}}
+            </ul>
+        </td>
+        <td>{{=Trade.To}}</td>
+        <td>
+            <ul class="list-group">
+                {{~Trade.Receiving: Asset}}
+                <li class="list-group-item text-nowrap">{{=Asset.AssetName}}</li>
+                {{~}}
+            </ul>
+        </td>
+        <td>{{=Trade.Comments}}</td>
+    </tr>
+    {{~}}
+</script>

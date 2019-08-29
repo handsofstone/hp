@@ -31,7 +31,7 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var model = new StandingsViewModel();
+                var model = new PoolViewModel();
 
                 if (ModelState.IsValid)
                 {
@@ -41,6 +41,7 @@ namespace HP.Controllers
                     model.Seasons = new SelectList(context.Seasons, "Id", "Name").ToList();
                     model.SelectedSeasonID = currentSeason.Id;
                     model.StandingRows = new List<StandingRow>();
+                    model.IsAdmin = User.IsInRole("admin");
                 }
 
                 return View(model);
@@ -51,7 +52,7 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var model = new StandingsViewModel();
+                var model = new PoolViewModel();
 
                 if (ModelState.IsValid)
                 {
@@ -123,6 +124,14 @@ namespace HP.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var assets = context.Assets(null, poolId);
+                return Content(assets, "application/json");
+            }
+        }
+        public ContentResult Trades(int poolId, int seasonId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var assets = context.Trades(poolId,seasonId);
                 return Content(assets, "application/json");
             }
         }
