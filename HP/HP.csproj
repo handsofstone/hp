@@ -620,6 +620,7 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerInterval.cs" />
     <Compile Include="Models\Pool.cs" />
+    <Compile Include="Models\PoolSeason.cs" />
     <Compile Include="Models\RosterPlayer.cs" />
     <Compile Include="Models\Season.cs" />
     <Compile Include="Models\Team.cs" />

@@ -13,7 +13,7 @@ namespace HP.Models
         public Pool()
         {
             Teams = new HashSet<Team>();
-            Seasons = new HashSet<Season>();
+            PoolSeasons = new HashSet<PoolSeason>();
         }
 
         public int Id { get; set; }
@@ -25,6 +25,6 @@ namespace HP.Models
         public virtual ICollection<Team> Teams { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Season> Seasons { get; set; }
+        public virtual ICollection<PoolSeason> PoolSeasons { get; set; }
     }
 }

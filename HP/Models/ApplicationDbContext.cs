@@ -50,6 +50,7 @@ namespace HP.Models
         public virtual DbSet<NHLPlayer> Players { get; set; }
         public virtual DbSet<Pool> Pools { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
+        public virtual DbSet<PoolSeason> PoolSeasons { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<RosterPlayer> RosterPlayers { get; set; }
         public virtual DbSet<TeamAsset> TeamAssets { get; set; }
@@ -93,10 +94,10 @@ namespace HP.Models
                 .HasForeignKey(e => e.PoolId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Pool>()
-                .HasMany(e => e.Seasons)
-                .WithMany(e => e.Pools)
-                .Map(m => m.ToTable("PoolSeason", "nlpool").MapLeftKey("PoolId").MapRightKey("SeasonId"));
+            //modelBuilder.Entity<Pool>()
+            //    .HasMany(e => e.Seasons)
+            //    .WithMany(e => e.Pools)
+            //    .Map(m => m.ToTable("PoolSeason", "nlpool").MapLeftKey("PoolId").MapRightKey("SeasonId"));
 
             modelBuilder.Entity<Season>()
                 .HasMany(e => e.Intervals)

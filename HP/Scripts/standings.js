@@ -76,6 +76,10 @@ $(document).ready(function () {
     $("#DraftSeasonID").change(function () {
         draftDashboard();
     });
+    $("#autoRefresh").click(function () {
+        $(this).button('toggle');
+        toggleRefresh();
+    })
 
 });
 
@@ -285,6 +289,19 @@ function deleteRound() {
         }
     });
 
+}
+var refreshTimerId;
+function toggleRefresh() {
+    var shouldRefresh = $('#autoRefresh').hasClass('active');
+
+    if (shouldRefresh) {
+        clearInterval(refreshTimerId);
+        refreshTimerId = setInterval(function () {
+            draftDashboard();
+        }, 15000);
+    }
+    else
+        clearInterval(refreshTimerId);
 }
 // End of Draft Dashboard functionatliy
 
