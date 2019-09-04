@@ -127,7 +127,7 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var assets = context.Trades(poolId,seasonId);
+                var assets = context.Trades(poolId, seasonId);
                 return Content(assets, "application/json");
             }
         }
@@ -138,13 +138,13 @@ namespace HP.Controllers
                 var picks = context.DraftDashboard(poolId, seasonId);
                 var dashboard = JObject.Parse(picks);
                 dashboard.Add("isAdmin", User.IsInRole("admin"));
-                
+
                 var user = UserManager.FindById(User.Identity.GetUserId());
                 var teams = from t in user.Teams
                             where t.Team.PoolId == poolId
                             select t.TeamId;
                 dashboard.Add("teamIds", new JArray(teams));
-                var serializer = new JsonSerializer {ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                var serializer = new JsonSerializer { ContractResolver = new CamelCasePropertyNamesContractResolver() };
                 var json = JObject.FromObject(dashboard, serializer).ToString();
                 return Content(json, "application/json");
             }
@@ -164,13 +164,11 @@ namespace HP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                if (User.IsInRole("admin"))
-                {
-                    var result = context.DraftPlayer(pickId, player);
 
-                    return Json(result == 0);
-                }
-                return new HttpStatusCodeResult(401, "Unauthorised user.");
+                var result = context.DraftPlayer(pickId, player);
+
+                return Json(result == 0);
+
             }
         }
 
@@ -193,7 +191,7 @@ namespace HP.Controllers
             {
                 if (User.IsInRole("admin"))
                 {
-                    var result = context.ResetOrder(poolId,seasonId);
+                    var result = context.ResetOrder(poolId, seasonId);
 
                     return Json(result == 0);
                 }
