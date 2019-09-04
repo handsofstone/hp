@@ -1,5 +1,5 @@
 ﻿@model HP.Models.MenuViewModel
-<script>
+@*<script>
     $(document).ready(function () {
         //Dropdownlist Selectedchange event
         $("#SelectedPoolId").change(function () {
@@ -46,7 +46,7 @@
                 </li>
                     <li class="nav-item">@Html.ActionLink("Pool", "Index", "Pool", new { id = Model.SelectedPoolId }, new { @class = "nav-link" })</li>
             }
-        </ul>
+        </ul>*@
         @*@if (Request.IsAuthenticated)
             {
 
@@ -64,5 +64,71 @@
                     }
                 </ul>
             }*@
+    @*</div>
+</nav>*@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand abs" href="/Home"><img class="mx-2" src="~/Content/images/hos.svg" width="30" height="30" alt="">handsofstone</a>
+    @*@Html.ActionLink("handsofstone", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "navbar-brand" })*@
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navbarMain">
+        @if (Request.IsAuthenticated)
+        {
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="teamsDropDown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @Html.DisplayNameFor(model => Model.SelectedTeam) <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="teamsDropDown">
+                        @foreach (HP.Models.Team t in Model.Teams)
+                        {
+                            @Html.ActionLink(t.Name, "Index", "Team", new { id = t.Id }, new { @class = "dropdown-item" })
+                        }
+                    </div>
+                </li>
+                <li class="nav-item">@Html.ActionLink("Pool", "Index", "Pool", new { id = Model.SelectedPoolId }, new { @class = "nav-link" })</li>
+            </ul>
+        }
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline" }))
+                    {
+                        var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+                        var claim = claimsIdentity.FindFirst("Name");
+                        var name = User.Identity.Name;
+                        if (claim != null)
+                        {
+                            name = claim.Value;
+                        }
+                        <i class="material-icons" aria-hidden="true">account_circle</i>
+                        @Html.ActionLink(name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage", @class = "mr-sm-2" })
+                        <button type="submit" class="btn btn-success my-2 my-sm-0" title="Sign Out">
+                            <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
+                        </button>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "loginForm", @class = "form-inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.TextBoxFor(u => u.Email, new { placeHolder = "Email", @class = "form-control m-sm-1" })
+
+
+                        @Html.PasswordFor(u => u.Password, new { placeHolder = "Password", @class = "form-control m-sm-1" })
+
+                        <button type="submit" class="btn btn-success m-sm-1" title="Sign In">
+                            <span class="fas fa-sign-in-alt" aria-hidden="true"></span>
+                        </button>
+                    }
+                }
+            </li>
+
+        </ul>
     </div>
 </nav>

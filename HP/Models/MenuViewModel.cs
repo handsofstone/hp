@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace HP.Models
 {
-    public class MenuViewModel
+    public class MenuViewModel : LoginViewModel
     {
         public MenuViewModel()
         {
