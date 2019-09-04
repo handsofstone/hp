@@ -41,7 +41,7 @@
         <td>{{=Trade.From}}</td>
         <td>
             <ul class="list-group">
-                {{~Trade.Sending: Asset}}
+                {{~Trade.Receiving: Asset}}
                 <li class="list-group-item text-nowrap">{{=Asset.AssetName}}</li>
                 {{~}}
             </ul>
@@ -49,7 +49,7 @@
         <td>{{=Trade.To}}</td>
         <td>
             <ul class="list-group">
-                {{~Trade.Receiving: Asset}}
+                {{~Trade.Sending: Asset}}
                 <li class="list-group-item text-nowrap">{{=Asset.AssetName}}</li>
                 {{~}}
             </ul>
