@@ -6,16 +6,18 @@
     <div class="card-header with-nav-tabs bg-primary">
         <ul class="nav nav-tabs" id="poolTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="standings-tab" , href="#tabStandings" data-toggle="tab" aria-controls="tagStandings" aria-selected="true">Standings</a>
+                <a class="nav-link active" id="standings-tab" , href="#tabStandings" data-toggle="tab" aria-controls="tagStandings" aria-selected="true"><span id="standingsLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Standings</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="rosters-tab" href="#tabRosters" data-toggle="tab" aria-controls="tagRosters" aria-selected="false">Rosters</a>
+                <a class="nav-link" id="rosters-tab" href="#tabRosters" data-toggle="tab" aria-controls="tagRosters" aria-selected="false"><span id="rostersLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Rosters</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="trades-tab" href="#tabTrades" data-toggle="tab" aria-controls="tagTrades" aria-selected="false">Trades</a>
+                <a class="nav-link" id="trades-tab" href="#tabTrades" data-toggle="tab" aria-controls="tagTrades" aria-selected="false"><span id="tradesLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Trades</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" id="draft-tab" href="#tabDraft" data-toggle="tab" aria-controls="tagDraft" aria-selected="false">Draft</a>
+            <li class="nav-item">                
+                <a class="nav-link" id="draft-tab" href="#tabDraft" data-toggle="tab" aria-controls="tagDraft" aria-selected="false">
+                    <span id="draftLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Draft
+                </a>
             </li>
         </ul>
     </div>

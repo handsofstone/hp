@@ -34,6 +34,7 @@ function getPoolId() {
 }
 
 $(document).ready(function () {
+    $('.spinner-border').hide();
 
     //Dropdownlist Selectedchange event
     $("#SelectedSeasonID").change(function () {
@@ -42,12 +43,18 @@ $(document).ready(function () {
             type: 'GET',
             url: '/Pool/StandingRows', // we are calling json method
             dataType: 'json',
-            data: { poolId: getPoolId(), seasonId: $("#SelectedSeasonID").val() },
+            data: { poolId: getPoolId(), seasonId: $("#SelectedSeasonID").val() },            
             success: function (standings) {
                 populateStandings(standings);
             },
             error: function (ex) {
                 alert('Failed to retrieve start time.' + ex);
+            },
+            beforeSend: function () {
+                $('#standingsLoading').show();
+            },
+            complete: function () {
+                $('#standingsLoading').hide();
             }
         });
         return false;
@@ -95,11 +102,15 @@ function rosters() {
         success: function (data) {
             $('#rosters').html(roster_tmpl(data));
         },
-        complete: function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        },
         error: function (ex) {
             alert('Failed to retrieve Pool Rosters.' + ex);
+        },
+        beforeSend: function () {
+            $('#rostersLoading').show();
+        },
+        complete: function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#rostersLoading').hide();
         }
     });
 }
@@ -114,11 +125,16 @@ function tradeDashboard() {
         dataType: 'json',
         data: { poolId: getPoolId(), seasonId: $('#TradeSeasonID').val() },
         success: function (data) {
-            $('#tradesTable').html(trade_tmpl(data));
-            //offers(data.Trades);
+            $('#tradesTable').html(trade_tmpl(data));            
         },
         error: function (ex) {
             alert('Failed to retrieve Trades.' + ex);
+        },
+        beforeSend: function () {
+            $('#tradesLoading').show();
+        },
+        complete: function () {            
+            $('#tradesLoading').hide();
         }
     });
 }
@@ -165,13 +181,16 @@ function draftDashboard() {
         url: '/Pool/DraftDashboard', // we are calling json method
         dataType: 'json',
         data: { poolId: getPoolId(), seasonId: $("#DraftSeasonID").val() },
+        beforeSend: function () {
+            $('#draftLoading').show();
+        },
         success: function (data) {
             $('#picks').html(picks_tmpl(data));
             $('#orderDisplay').html(order_tmpl(data.PickOrder));
             data.DraftPicks.forEach(function (round) {
                 round.Picks.forEach(function (pick) {
                     $('#Pick' + pick.Id).data('pick', pick);
-                })
+                });
             });
             data.PickOrder.forEach(function (order) {
                 $('#order' + order.TeamId).data('order', order);;
@@ -182,8 +201,8 @@ function draftDashboard() {
         error: function (ex) {
             alert('Failed to retrieve Draft Dashboard.' + ex);
         },
-        complete: function (data) {
-
+        complete: function () {
+            $('#draftLoading').hide();
         }
     });
 }
@@ -209,12 +228,13 @@ function addAutoComplete() {
             var pickRow = $(this).closest("tr");
             var pickDisp = pickRow.find("td div"); // get the pick row
             var pickId = this.id.substr(10); // get id after 'pickSelect' prefix
-            pickDisp.find('label').html(pick_tmpl(ui.item.value)); // update the player
+            pickDisp.find('label').replaceWith(pick_tmpl(ui.item.value)); // update the player
             pickDisp.collapse('toggle'); // show the button
 
             // draft the player
             draftPlayer(pickId, ui.item.value);
-        }
+        },
+        minLength: 2
     });
 
     function draftPlayer(pickId, player) {
@@ -264,7 +284,7 @@ function addRound() {
             draftDashboard();
         },
         error: function (ex) {
-            alert('Failed to draft player.' + ex);
+            alert('Failed to add round.' + ex);
         }
     });
 }
@@ -285,7 +305,7 @@ function deleteRound() {
             draftDashboard();
         },
         error: function (ex) {
-            alert('Failed to draft player.' + ex);
+            alert('Failed to delete round.' + ex);
         }
     });
 
@@ -307,13 +327,16 @@ function toggleRefresh() {
 
 // Common functionality
 function labelAndValues(data) {
-    return $.map(data, function (item) {
+    var result = $.map(data, function (item) {
         var player = new Player(item.Player);
         return {
             label: player.LastName + ", " + player.FirstName,
             value: player
         };
     });
+    // Add an option for no selection at the beginning
+    result.unshift({ label: "No Selection", value: { PlayerId: 0, PlayerNo: "", TeamCode: "N/A" } });
+    return result;
 }
 
 function Player(delimitedString) {

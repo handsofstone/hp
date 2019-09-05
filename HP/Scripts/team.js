@@ -1,4 +1,10 @@
-﻿// Javascript to enable link to tab
+﻿$body = $("body");
+
+$(document).on({
+    ajaxStart: function () { $body.addClass("loading"); },
+    ajaxStop: function () { $body.removeClass("loading"); }
+});
+// Javascript to enable link to tab
 //var hash = document.location.hash;
 //var prefix = "tab_";
 //if (hash) {
