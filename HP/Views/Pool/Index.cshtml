@@ -21,18 +21,20 @@
             </li>
         </ul>
     </div>
-    <div class="tab-content" id="poolTabContent">
-        <div class="tab-pane fade show active px-sm-2" id="tabStandings">
-            @Html.Partial("_Standings", Model)
-        </div>
-        <div class="tab-pane fade px-sm-2" id="tabRosters">
-            @Html.Partial("_Rosters")
-        </div>
-        <div class="tab-pane fade px-sm-2" id="tabTrades">
-            @Html.Partial("_Trades", Model)
-        </div>
-        <div class="tab-pane fade px-sm-2" id="tabDraft">
-            @Html.Partial("_Draft", Model)
+    <div class="card-body">
+        <div class="tab-content" id="poolTabContent">
+            <div class="tab-pane fade show active px-sm-2" id="tabStandings">
+                @Html.Partial("_Standings", Model)
+            </div>
+            <div class="tab-pane fade px-sm-2" id="tabRosters">
+                @Html.Partial("_Rosters")
+            </div>
+            <div class="tab-pane fade px-sm-2" id="tabTrades">
+                @Html.Partial("_Trades", Model)
+            </div>
+            <div class="tab-pane fade px-sm-2" id="tabDraft">
+                @Html.Partial("_Draft", Model)
+            </div>
         </div>
     </div>
 </div>

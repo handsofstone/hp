@@ -79,7 +79,7 @@
 
 <script type="text/plain" id="tmpl_picks">
     {{~it.DraftPicks: Round}}
-    <div class="col-sm-12 col-md-6 col-lg-auto">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -98,7 +98,7 @@
                     <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.OwnerName}}</span></td>
                     <td>
                         <div class="input-group collapse multi-collapse{{=Pick.Id}} {{?Pick.Selection!=undefined}} show {{?}}" id="pickDisplay{{=Pick.Id}}">
-                            <label type="text" class="form-control text-nowrap{{?Pick.Selection==0}} bg-dark text-light">No Selection
+                            <label type="text" class="form-control overflow-auto {{?Pick.Selection==0}} bg-dark text-light">No Selection
                                 {{??}}
                                 "><a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{=Pick.LastName}}, {{=Pick.FirstName}} ({{=Pick.NHLTeamCode}},#{{=Pick.PlayerNo}})</a>
                                 {{?}}
@@ -124,7 +124,7 @@
 </script>
 
 <script type="text/plain" id="tmpl_pickDisplay">
-    <label type="text" class="form-control text-nowrap{{?it.PlayerId==0}} bg-dark text-light">No Selection
+    <label type="text" class="form-control overflow-auto{{?it.PlayerId==0}} bg-dark text-light">No Selection
         {{??}}
         "><a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{=it.LastName}}, {{=it.FirstName}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
         {{?}}
