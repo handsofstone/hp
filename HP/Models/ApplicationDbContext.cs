@@ -271,7 +271,10 @@ namespace HP.Models
         {
             get
             {
-                return GetCurrentInterval.Season;
+                var today = DateTime.Now.Date;
+                var poolSeasons = PoolSeasons.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
+
+                return poolSeasons.First().Season;                
             }
         }
 
