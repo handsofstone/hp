@@ -95,12 +95,15 @@
                     <td class="fit"><span class="form-control-plaintext text-center">{{=Pick.OwnerName}}</span></td>
                     <td>
                         <div class="input-group collapse multi-collapse{{=Pick.Id}} {{?Pick.Selection!=undefined}} show {{?}}" id="pickDisplay{{=Pick.Id}}">
-                            <label type="text" class="form-control overflow-auto {{?Pick.Selection==0}} bg-dark text-light">No Selection
+                            <label type="text" class="form-control overflow-auto {{?Pick.Selection==0}} bg-dark text-light">
+                                No Selection
                                 {{??}}
                                 "><a target="_blank" href="https://www.nhl.com/player/{{=Pick.Selection}}">{{=Pick.LastName}}, {{=Pick.FirstName}} ({{=Pick.NHLTeamCode}},#{{=Pick.PlayerNo}})</a>
                                 {{?}}
                             </label>
-                        {{?(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}}
+                            {{?it.isAdmin}}
+                            @*This is the normal draft edit check
+                            {{?(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}}*@
                             <div class="input-group-append {{?Pick.Selection!=undefined}}show{{?}}">
                                 <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}">
                                     <i class="material-icons">edit</i>
