@@ -21,6 +21,7 @@ namespace HP.Models
         public bool CanSave { get; set; }
         public bool CanTrade { get; set; }
         public string SelectedStartTime { get; set; }
+        public bool IsAdmin { get; set; }
     }
     public class AddPlayersViewModel
     {

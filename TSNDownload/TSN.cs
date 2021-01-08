@@ -15,6 +15,8 @@ namespace TSN
         static public String Referer { get; set; }
         static public Stream GetResponseStream(string html)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string PROXY_SERVER = ConfigurationManager.AppSettings["PROXY_HOST"];
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(html);
 

@@ -18,43 +18,49 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="row propose-top">
-                            <div class="col-lg-12">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="material-icons input-group-text">search</span>
+                    @if (Model.IsAdmin)
+                    {
+                        <div class="col-lg-6">
+                            <div class="row propose-top">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="material-icons input-group-text">search</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
                                     </div>
-                                    <input type="text" class="form-control" id="searchTerm" autocomplete="off" autocorrect="off" autocapitalization="off" placeholder="Search players" style="visibility: visible;" onkeyup="searchNHLPlayer(this.value)">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody">
+                                    <strong>RESULTS</strong><br />
+                                </div>
+                            </div>
+                            <div class="row propose-middle">
+                                <div class="col-lg-12">
+                                    <ul id="searchResults" class="droppable" data-list-swap-group="addPlayer">
+                                        <li><div class="loading-modal"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
+                                    <strong>ADDITIONS</strong>
+                                </div>
+                            </div>
+                            <div class="row propose-bottom">
+                                <div class="col-lg-12">
+                                    <ul id="rosterAdditions" class="droppable" data-list-swap-group="addPlayer"></ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div valign=top align=left bgcolor=#f4f1e8 class="col-lg-12 colorNote tableBody">
-                                <strong>RESULTS</strong><br />
-                            </div>
-                        </div>
-                        <div class="row propose-middle">
-                            <div class="col-lg-12">
-                                <ul id="searchResults" class="droppable" data-list-swap-group="addPlayer">
-                                    <li><div class="loading-modal"></div></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
-                                <strong>ADDITIONS</strong>
-                            </div>
-                        </div>
-                        <div class="row propose-bottom">
-                            <div class="col-lg-12">
-                                <ul id="rosterAdditions" class="droppable" data-list-swap-group="addPlayer"></ul>
-                            </div>
-                        </div>
-                    </div>
+                    }
                     <div class="col-lg-6">
+                        @if (Model.IsAdmin)
+                        {
                         <div class="row hidden-xs hidden-sm hidden-md propose-top">
                         </div>
+                        }
                         <div class="row">
                             <div class="col-lg-12 colorNote tableBody" bgcolor=#f4f1e8>
                                 <strong>ROSTER</strong>

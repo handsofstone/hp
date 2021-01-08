@@ -263,7 +263,11 @@ function refreshLineup() {
         dataType: 'json',
         data: { teamId: $('#TeamId').val(), intervalId: $("#SelectedIntervalId").val() },
         success: function (data) {
-            $('#intervalStart').text(data.IntervalStartTime.replace(/\"/g, ""));
+            var starttime = new Date(data.IntervalStartTime)
+            var timeoptions = { timeStyle: "short" };
+            var dateoptions = { month: "numeric", day: "2-digit" };
+            var startstring = starttime.toLocaleString("en-US", dateoptions) + ' ' + starttime.toLocaleString("en-US",timeoptions)
+            $('#intervalStart').text(startstring);
             lineupRow(data.Lineup);
             postLineupUpdate();
             enableButtons(data.CanSubmitLineup);
@@ -372,9 +376,10 @@ function ScheduleCell(games) {
         var r = new Array(), j = -1;
         r[++j] = '<ul class="list-inline">';
         for (var i = 0, size = games.length; i < size; i++) {
+            var options = { weekday: "short", month: "short", day: "2-digit" };
             var gameDate = new Date(games[i].StartDate);
             r[++j] = '<li class="list-inline-item"><span data-toggle="tooltip" data-placement="bottom" title="';
-            r[++j] = gameDate.toDateString();
+            r[++j] = gameDate.toLocaleDateString("en-US",options);
             r[++j] = '"><a  target="_blank" href="https://www.nhl.com/gamecenter/';
             r[++j] = games[i].GameId;
             r[++j] = '">'

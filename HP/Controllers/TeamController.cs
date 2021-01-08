@@ -53,7 +53,8 @@ namespace HP.Controllers
                 model.CanSave = GetCanSave(model.TeamId);
                 model.CanSubmit = GetCanSubmit(model.TeamId, model.SelectedIntervalId);
                 model.CanTrade = GetCanTrade(model.TeamId);
-                model.SelectedStartTime = GetIntervalStartTime(model.SelectedIntervalId).ToString();
+                //model.SelectedStartTime = GetIntervalStartTime(model.SelectedIntervalId).ToString();
+                model.IsAdmin = User.IsInRole("admin");
             }
             return View(model);
         }
@@ -326,7 +327,7 @@ namespace HP.Controllers
             return Json(GetCanSubmit(teamId, intervalId), JsonRequestBehavior.AllowGet);
         }
 
-        public DateTime? GetIntervalStartTime(int intervalId)
+        public DateTimeOffset? GetIntervalStartTime(int intervalId)
         {
             using (var context = new ApplicationDbContext())
             {

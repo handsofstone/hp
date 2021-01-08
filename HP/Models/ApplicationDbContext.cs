@@ -278,7 +278,7 @@ namespace HP.Models
             }
         }
 
-        public DateTime GetCurrentSeasonStartTime
+        public DateTimeOffset GetCurrentSeasonStartTime
         {
             get
             {
@@ -287,7 +287,7 @@ namespace HP.Models
                             where g.StartTime >= seasonStart
                             orderby g.StartTime
                             select g.StartTime;
-                return (DateTime)query.First<DateTime?>();
+                return (DateTimeOffset)query.First<DateTimeOffset?>();
             }
         }
         public RosterPlayer GetRosterPlayer(int teamId, int playerId)

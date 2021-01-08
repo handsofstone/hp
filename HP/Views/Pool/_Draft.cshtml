@@ -103,43 +103,43 @@
                             </label>
                             {{?it.isAdmin}}
                             @*This is the normal draft edit check
-                            {{?(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}}*@
-                            <div class="input-group-append {{?Pick.Selection!=undefined}}show{{?}}">
-                                <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}">
-                                    <i class="material-icons">edit</i>
-                                </button>
-                            </div>
-                        </div>
-                        <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?Pick.Selection==undefined}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="" >
-                        {{??}}
-                        </div>
-                        {{?}}
-                    </td>
-                </tr>
+                                {{?(it.isAdmin||(Pick.Owner&&it.teamIds.indexOf(Pick.Owner)>=0)||(!Pick.Owner&&it.teamIds.indexOf(Pick.TeamId)>=0))}}*@
+                                    <div class="input-group-append {{?Pick.Selection!=undefined}}show{{?}}">
+                                        <button type="button" class="editpick btn btn-info btn-xs-text" data-toggle="collapse" data-target=".multi-collapse{{=Pick.Id}}" aria-expanded="false" aria-controls="pickSelect{{=Pick.Id}} pickDisplay{{=Pick.Id}}">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <input type="text" class="autocomplete form-control nhlsearch collapse multi-collapse{{=Pick.Id}} {{?Pick.Selection==undefined}} show {{?}}" id="pickSelect{{=Pick.Id}}" placeholder="Select" data-toggle="" >
+                                {{??}}
+                                </div>
+                                {{?}}
+                            </td>
+                        </tr>
+                        {{~}}
+                    </tbody>
+                </table>
+            </div>
+            {{~}}
+        </script>
+
+        <script type="text/plain" id="tmpl_pickDisplay">
+            <label type="text" class="form-control overflow-auto{{?it.PlayerId==0}} bg-dark text-light">No Selection
+                {{??}}
+                "><a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{=it.LastName}}, {{=it.FirstName}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
+                {{?}}
+            </label>
+        </script>
+
+        <script type="text/plain" id="tmpl_order">
+            <ul class="list-group d-table-cell w-25 text-center">
+                {{~it : Order}}
+                <li class="list-group-item list-group-item-primary">{{=Order.PickOrder}}</li>
                 {{~}}
-            </tbody>
-        </table>
-    </div>
-    {{~}}
-</script>
-
-<script type="text/plain" id="tmpl_pickDisplay">
-    <label type="text" class="form-control overflow-auto{{?it.PlayerId==0}} bg-dark text-light">No Selection
-        {{??}}
-        "><a target="_blank" href="https://www.nhl.com/player/{{=it.PlayerId}}">{{=it.LastName}}, {{=it.FirstName}} ({{=it.TeamCode}},#{{=it.PlayerNo}})</a>
-        {{?}}
-    </label>
-</script>
-
-<script type="text/plain" id="tmpl_order">
-    <ul class="list-group d-table-cell w-25 text-center">
-        {{~it : Order}}
-        <li class="list-group-item list-group-item-primary">{{=Order.PickOrder}}</li>
-        {{~}}
-    </ul>
-    <ul id="orderlist" class="list-group d-table-cell">
-        {{~it : Order}}
-        <li class="list-group-item list-group-item" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
-        {{~}}
-    </ul>
-</script>
+            </ul>
+            <ul id="orderlist" class="list-group d-table-cell">
+                {{~it : Order}}
+                <li class="list-group-item list-group-item" id="order{{=Order.TeamId}}">{{=Order.Name}}</li>
+                {{~}}
+            </ul>
+        </script>
