@@ -253,7 +253,7 @@ namespace HP.Models
         {
             get
             {
-                var today = DateTime.Now.Date;
+                var today = DateTime.Now;
                 var current_intervals = Intervals.Where(i => (i.StartDate <= today) && (today <= i.EndDate));
                 var future_intervals = Intervals.Where(i => (today <= i.StartDate)).OrderBy(i => i.StartDate);
                 var interval = Intervals.OrderByDescending(i => i.EndDate).First(); //latest interval
